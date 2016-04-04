@@ -1,8 +1,8 @@
-SET AUT=C:\Instrument\Dev\Client\ibex_gui\base\uk.ac.stfc.isis.ibex.client.product\target\products\ibex.product\win32\win32\x86_64
-SET RUNNER=C:\Instrument\Dev\System_Test\runner
-SET PROJECT=C:\Instrument\Dev\System_Test\IBEX_System_Tests
+SET AUT=%WORKSPACE%\Client
+SET RUNNER=C:\Jenkins\RCPTT_Runner
+SET PROJECT=%WORKSPACE%
 
-SET RESULTS=C:\Instrument\Dev\System_Test\Results
+SET RESULTS=%WORKSPACE%\Results
 
 IF NOT EXIST %RESULTS% GOTO NORESULTS
 RMDIR /S /Q %RESULTS%
