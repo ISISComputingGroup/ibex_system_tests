@@ -1,0 +1,28 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CreateSimpleSynoptic
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Rq2D4PpcEeWdEd9B02gwIw
+Runtime-Version: 2.0.2.201511100828
+Save-Time: 4/4/16 3:29 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-menu "Synoptic/New" | click
+with [get-window "New Synoptic"] {
+    get-button "Add Component" | click
+    get-button "Save as ..." | click
+    with [get-window "Save Synoptic As"] {
+        get-editbox -after [get-label "Name:"] | set-text Test
+        get-button OK | click
+    }
+}
+wait 2000
+get-view "Synoptic navigator" | get-group "Synoptic Selection" | get-combo | select Test
+get-view "New synoptic" | get-label "New Component" | get-property caption | equals "New Component" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
