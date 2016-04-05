@@ -9,7 +9,7 @@ XCOPY "\\isis\inst$\Kits$\CompGroup\ICP\EPICS\EPICS_CLEAN_win7_x64\BUILD-1101" E
 
 cd EPICS
 call start_inst.bat
-TIMEOUT 120
+ping 127.0.0.1 -n 120 > nul
 cd ../
 
 md ibex_gui
@@ -18,4 +18,4 @@ XCOPY "\\isis\inst$\Kits$\CompGroup\ICP\Client\BUILD402\Client" ibex_gui /C /S /
 call runner.cmd
 
 call stop_inst.bat
-TIMEOUT 120
+ping 127.0.0.1 -n 6 > nul
