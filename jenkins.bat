@@ -16,7 +16,7 @@ ping 127.0.0.1 -n 120 > nul
 cd ../
 
 md ibex_gui
-XCOPY "\\isis\inst$\Kits$\CompGroup\ICP\Client\BUILD402\Client" ibex_gui /C /S /D /Y /I
+XCOPY "C:\Users\builder\Desktop\ibex.product-win32.win32.x86_64" ibex_gui /C /S /D /Y /I
 
 call runner.cmd
 
