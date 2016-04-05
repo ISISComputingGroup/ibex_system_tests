@@ -8,7 +8,7 @@ net use p: \\isis\inst$ /user:isis\builder %BUILDERPW%
 XCOPY "\\isis\inst$\Kits$\CompGroup\ICP\EPICS\EPICS_CLEAN_win7_x64\BUILD-1101" EPICS /C /S /D /Y /I
 
 REM Delete old configuration directory
-RMDIR /S /Q "C:\Instrument\Settings\config\NDWRENO"
+RMDIR "C:\Instrument\Settings\config\NDWRENO" /S /Q
 
 cd EPICS
 call start_inst.bat
