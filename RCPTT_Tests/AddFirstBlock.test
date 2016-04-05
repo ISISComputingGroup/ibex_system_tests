@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _iWPmIPZqEeWUB6ttFEmy4Q
 Runtime-Version: 2.0.2.201511100828
-Save-Time: 4/4/16 3:28 PM
+Save-Time: 4/5/16 4:46 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -28,6 +28,6 @@ with [get-window "Edit Configuration"] {
         get-button OK | click
     }
 }
-wait 2000
+wait 5000
 get-view Blocks | get-label "NEW_BLOCK:" | get-property "toString()" | equals "Label {NEW_BLOCK: }" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
