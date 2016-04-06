@@ -26,7 +26,7 @@ with [get-window "New Synoptic"] {
 
 // Switch to synoptic view
 get-label "Synoptic" | click
-wait 3000
+wait 10000
 
 // Switch to synoptic and check the component is named as expected, and has an image
 get-view "Synoptic navigator" | get-group "Synoptic Selection" | get-combo | select "test_synoptic"
