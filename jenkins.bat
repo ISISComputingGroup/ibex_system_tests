@@ -7,6 +7,7 @@ XCOPY "\\isis\inst$\Kits$\CompGroup\ICP\EPICS\EPICS_CLEAN_win7_x64\BUILD-1101" "
 
 REM Delete old configuration directory
 rd /S /Q "C:\Instrument\Settings\"
+rd /S /Q "C:\Instrument\Var\"
 
 call "C:\Instrument\Apps\EPICS\start_inst.bat"
 
