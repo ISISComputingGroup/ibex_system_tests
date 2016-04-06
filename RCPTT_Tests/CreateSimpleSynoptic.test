@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _Rq2D4PpcEeWdEd9B02gwIw
 Runtime-Version: 2.0.2.201511100828
-Save-Time: 4/6/16 9:34 AM
+Save-Time: 4/6/16 10:14 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -30,7 +30,7 @@ wait 1000
 
 // Switch to synoptic and check the component is named as expected, and has an image
 get-view "Synoptic navigator" | get-group "Synoptic Selection" | get-combo | select "test_synoptic"
-wait 1000
+wait 2000
 with [get-view "New synoptic"] {
     get-label "New Component" | get-property caption | equals "New Component" | verify-true
     get-label "" | get-property "getImage().getClassName()" | equals "org.eclipse.swt.graphics.Image" | verify-true
