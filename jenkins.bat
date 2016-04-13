@@ -3,6 +3,10 @@ REM we map this early as some other stuff (e.g. CSS, DAE DLLs) is copied from \\
 net use p: /d
 net use p: \\isis\inst$ /user:isis\builder %BUILDERPW%
 
+rd "C:\Instrument\Apps\Python\"
+call "\\isis\inst$\Kits$\CompGroup\ICP\Client\genie_python\genie_python_install.bat"
+
+
 XCOPY "\\isis\inst$\Kits$\CompGroup\ICP\EPICS\EPICS_CLEAN_win7_x64\BUILD-1101" "C:\Instrument\Apps\EPICS" /C /S /D /Y /I
 
 REM Delete old configuration directory
@@ -23,4 +27,4 @@ cd EPICS
 call "C:\Instrument\Apps\EPICS\stop_inst.bat"
 
 REM Sleep for 120 s while shut downs finalise
-ping 127.0.0.1 -n 6 > nul
+ping 127.0.0.1 -n 120 > nul
