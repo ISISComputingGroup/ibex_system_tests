@@ -9,6 +9,7 @@ call "\\isis\inst$\Kits$\CompGroup\ICP\Client\genie_python\genie_python_install.
 cd %WORKSPACE%
 
 REM Copy over most recent EPICS build
+rd /S /Q "C:\Instrument\Apps\EPICS\"
 XCOPY "\\isis\inst$\Kits$\CompGroup\ICP\EPICS\EPICS_win7_x64\BUILD_LATEST" "C:\Instrument\Apps\EPICS" /C /S /D /Y /I
 
 REM Delete old configuration directory
@@ -22,6 +23,7 @@ REM Sleep for 120 s while start ups finalise
 ping 127.0.0.1 -n 120 > nul
 
 REM Copy accross the most recent version of the GUI
+rd /S /Q "ibex_gui"
 md ibex_gui
 XCOPY "\\isis\inst$\Kits$\CompGroup\ICP\Client\BUILD_LATEST\Client" ibex_gui /C /S /D /Y /I
 
