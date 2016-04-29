@@ -1,4 +1,4 @@
-SET AUT=%WORKSPACE%\ibex_gui
+SET AUT=%WORKSPACE%\ibex_gui\Client
 SET RUNNER=C:\Jenkins\RCPTT_Runner
 SET PROJECT=%WORKSPACE%
 
