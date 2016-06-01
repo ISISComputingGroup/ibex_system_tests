@@ -6,15 +6,22 @@ Element-Version: 3.0
 External-Reference: 
 Id: _n_V-kCfsEeaXTOU1uHI8IA
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/1/16 1:35 PM
+Save-Time: 6/1/16 2:03 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view Dashboard] {
-    get-control Any -index 1 | get-property "getChildren().Control[0].getText()" | contains "is   SETUP" 
-        | verify-true
+get-menu "Configuration/Configurations/Load" | click
+with [get-window "Load Configuration"] {
+    get-list | select default
+    get-button OK | click
 }
+
+// Can take a while for the instrument to update, wait 30s (sorry!)
+wait 30000
+
+get-view Dashboard | get-control Any -index 1 | get-property "getChildren().Control[0].getText()" 
+    | contains "is   SETUP" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
