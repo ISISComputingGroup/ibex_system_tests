@@ -6,12 +6,13 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 5/24/16 2:10 PM
+Save-Time: 6/1/16 2:58 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
 Entry-Name: testcase-items
 
+_n_V-kCfsEeaXTOU1uHI8IA	// kind: 'test' name: 'Startup instrument is initially set up' path: 'Startup instrument is initially set up.test'
 _iWPmIPZqEeWUB6ttFEmy4Q	// kind: 'test' name: 'AddFirstBlock' path: 'AddFirstBlock.test'
 _Rq2D4PpcEeWdEd9B02gwIw	// kind: 'test' name: 'CreateSimpleSynoptic' path: 'CreateSimpleSynoptic.test'
 _YxmLoBE7EeaK56OpzmNTzg	// kind: 'test' name: 'AddingManyGroupsDoesNotCrashGui' path: 'AddingManyGroupsDoesNotCrashGui.test'
