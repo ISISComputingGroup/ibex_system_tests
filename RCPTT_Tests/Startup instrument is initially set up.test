@@ -38,8 +38,8 @@ with [get-window "Load Configuration"] {
     get-button OK | click
 }
 
-// Can take a while for the instrument to update, wait 30s (sorry!)
-wait 30000
+// Can take a while for the instrument to update, wait 3 mins (sorry!)
+wait 180000
 
 assert_instrument_is_setup
 
