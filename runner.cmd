@@ -18,5 +18,6 @@ java -jar %RUNNER%/plugins/org.eclipse.equinox.launcher_1.3.100.v20150511-1540.j
  -autConsolePrefix %RESULTS%/aut-output ^
  -htmlReport %RESULTS%/report.html ^
  -junitReport %RESULTS%/report.xml ^
- -import %PROJECT%
+ -import %PROJECT% ^
+ -suites AllTests
   
