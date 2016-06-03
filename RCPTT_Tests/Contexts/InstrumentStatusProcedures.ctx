@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _u7zXkB5uEeaqQYS4M76Ebw
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/3/16 11:28 AM
+Save-Time: 6/3/16 11:30 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -32,7 +32,7 @@ proc "begin_run" {
 	}
 	
 	// Wait for run to start
-	wait 180000
+	wait 2000
 	
 	assert_instrument_is_running
 }
@@ -47,7 +47,7 @@ proc "end_run" {
 	}
 	
 	// Wait for the run to stop
-	wait 180000
+	wait 5000
 }
 
 
