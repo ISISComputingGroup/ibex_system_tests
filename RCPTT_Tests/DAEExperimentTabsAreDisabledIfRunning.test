@@ -7,7 +7,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _jvMZYB5nEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/2/16 3:40 PM
+Save-Time: 6/3/16 3:44 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -16,12 +16,12 @@ Entry-Name: .content
 
 assert_instrument_is_setup
 begin_run
-  
-// Assert that Time Channels tab can be clicked but it's not enabled
+
 with [get-view "DAE Control Program"] {
     get-tab-folder | get-tab-item "Experiment Setup" | click
     get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Time Channels" | click
 }
+
 get-view "DAE Control Program" | get-control Any -after [get-label "DAE Control Program"] -index 14 
     | get-property enablement | equals false | verify-true
     
