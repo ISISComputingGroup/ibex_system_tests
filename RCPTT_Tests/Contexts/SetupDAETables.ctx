@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _Paa1cB5jEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/3/16 4:02 PM
+Save-Time: 6/6/16 11:21 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -52,5 +52,5 @@ with [get-view "DAE Control Program"] {
 }
 
 // Wait for changes to be applied
-wait 120000
+wait 30000
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
