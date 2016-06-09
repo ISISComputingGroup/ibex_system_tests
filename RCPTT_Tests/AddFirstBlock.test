@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _iWPmIPZqEeWUB6ttFEmy4Q
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/9/16 4:01 PM
+Save-Time: 6/9/16 4:36 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -17,7 +17,14 @@ get-menu "Configuration/Edit Current Configuration..." | click
 with [get-window "Edit Configuration"] {
     get-tab-folder | get-tab-item Blocks | click
     get-button "Add Block" | click
-    get-window "Block Configuration" | get-button OK | click
+    with [get-window "Block Configuration"] {
+        get-group "Selected block" | get-button "Select PV" | click
+        with [get-window -class PvSelectorDialog] {
+            get-group "PV Selector" | get-table | select ".*INSTNAME"
+            get-button OK | click
+        }
+        get-button OK | click
+    }
     get-tab-folder | get-tab-item Summary | click
     get-group Summary | get-editbox -after [get-label "Description:"] | set-text default
     get-button "Save as ..." | click
