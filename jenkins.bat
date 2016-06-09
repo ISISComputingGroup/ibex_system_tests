@@ -6,10 +6,8 @@ net use p: /d
 net use p: \\isis\inst$ /user:isis\builder %BUILDERPW%
 
 REM Delete simulated instrument
-del C:\data
-echo Y
-del C:\data\log
-echo Y
+rd /S /Q "C:\data"
+mkdir "C:\data"
 
 REM Install genie_python, deleting the old one first, and going back to the workspace that the installer moves from
 rd /S /Q "C:\Instrument\Apps\Python\"
