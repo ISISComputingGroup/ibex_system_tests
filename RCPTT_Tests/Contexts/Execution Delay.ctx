@@ -5,8 +5,8 @@ Element-Name: Execution Delay
 Element-Type: context
 Element-Version: 2.0
 Id: _dwXfYACrEean-631qMZhqw
-Runtime-Version: 2.0.2.201511100828
-Save-Time: 4/12/16 3:00 PM
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/9/16 2:37 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -15,7 +15,7 @@ Entry-Name: .ecl.context
 // 200 ms between commands
 set-q7-option eclExecutionDelay 200
 
-// 5 s between tests
-wait 5000
+// 1 s between tests. Previously 5 s. Not needed?
+wait 1000
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
