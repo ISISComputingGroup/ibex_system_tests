@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _Paa1cB5jEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/9/16 2:12 PM
+Save-Time: 6/9/16 2:27 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -57,7 +57,7 @@ with [get-view "DAE Control Program"] {
 }
 
 // Wait for changes to be applied
-try  -times 20 -delay 9000 -command {
+try  -times 200 -delay 900 -command {
 	get-tab-folder | get-tab-item "Experiment Setup" | click
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
