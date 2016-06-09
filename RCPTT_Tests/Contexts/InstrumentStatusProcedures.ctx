@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _u7zXkB5uEeaqQYS4M76Ebw
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/3/16 3:40 PM
+Save-Time: 6/9/16 2:17 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -26,15 +26,16 @@ proc "begin_run" {
 	switch_to_dae_view
 	
 	// Begin run
-	with [get-view "DAE Control Program"] {
-	    get-tab-folder | get-tab-item "Run Summary" | click
-	    get-button "BEGIN RUN" | click
+	try -times 10 -delay 2000 -command {
+		with [get-view "DAE Control Program"] {
+		    get-tab-folder | get-tab-item "Run Summary" | click
+		    get-button "BEGIN RUN" | click
+		}
 	}
 	
-	// Wait for run to start
-	wait 5000
-	
-	assert_instrument_is_running
+	try -times 10 -delay 2000 -command {
+		assert_instrument_is_running
+	}
 }
 
 proc "end_run" {
@@ -46,8 +47,9 @@ proc "end_run" {
 	    get-button "END RUN" | click
 	}
 	
-	// Wait for the run to stop
-	wait 5000
+	try -times 10 -delay 2000 -command {
+		assert_instrument_is_setup
+	}
 }
 
 
