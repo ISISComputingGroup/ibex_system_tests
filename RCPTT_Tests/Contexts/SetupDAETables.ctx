@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _Paa1cB5jEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 5/20/16 10:33 AM
+Save-Time: 6/9/16 2:27 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -16,6 +16,7 @@ Entry-Name: .ecl.context
 get-label "DAE" | click
 
 with [get-view "DAE Control Program"] {
+
     get-tab-folder | get-tab-item "Experiment Setup" | click
     get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Data Acquisition" | click
     
@@ -27,9 +28,36 @@ with [get-view "DAE Control Program"] {
         get-combo -after [get-label "Spectra Table:"] 
             | set-text "C:\\Instrument\\Settings\\RCPTT_test_files\\tables\\RCPTT_spectra128.dat"
     }
-    get-button "Send Changes" | click
+    // Send changes can take time to initialize
+    try -times 100 -delay 1800 -command {
+    	get-button "Send Changes" | click
+    }
+
+	// Need to wait for instrument to be updated
+	try -times 100 -delay 1800 -command {
+  		with [get-tab-folder -after [get-label "DAE Control Program"] -index 1] {
+    	   	get-tab-item "Data Acquisition" | click
+    	    get-tab-item "Time Channels" | click
+   		}
+   		with [get-group "Time Regimes" | get-table] {
+       		select "0.0" | activate-cell-edit
+       		get-editbox | set-text 10
+       		apply-cell-edit -deactivate
+       		select "10.0" | activate-cell-edit -column 1
+       		get-editbox | set-text 1000
+       		apply-cell-edit -deactivate
+       		select "10.0" | activate-cell-edit -column 2
+       		get-editbox | set-text 100
+	    	apply-cell-edit -deactivate
+       		select "10.0" | activate-cell-edit -column 3
+	    	get-combo | select "dT = C"
+	    }
+   	}
+   	get-button "Send Changes" | click
 }
 
 // Wait for changes to be applied
-wait 5000
+try  -times 200 -delay 900 -command {
+	get-tab-folder | get-tab-item "Experiment Setup" | click
+}
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
