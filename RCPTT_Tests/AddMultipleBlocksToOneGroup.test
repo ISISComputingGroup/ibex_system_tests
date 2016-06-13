@@ -1,0 +1,94 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: AddMultipleBlocksToOneGroup
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Kym24DFpEeaWJe_H2uySSQ
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/13/16 3:25 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-menu "Configuration/Edit Current Configuration..." | click
+with [get-window "Edit Configuration"] {
+    get-tab-folder | get-tab-item Blocks | click
+    get-button "Add Block" | click
+    with [get-window "Block Configuration"] {
+        with [get-group "Selected block"] {
+            with [get-editbox -after [get-label "Name:"]] {
+                set-text "NEW_BLOCK_01"
+            }
+            with [get-editbox -after [get-label "PV address:"]] {
+                set-text "NEW_PV_01"
+            }
+        }
+        get-button OK | click
+    }
+    get-button "Add Block" | click
+    with [get-window "Block Configuration"] {
+        with [get-group "Selected block"] {
+            with [get-editbox -after [get-label "Name:"]] {
+                set-text "NEW_BLOCK_02"
+            }
+            with [get-editbox -after [get-label "PV address:"]] {
+                set-text "NEW_PV_02"
+            }
+        }
+        get-button OK | click
+    }
+    get-button "Add Block" | click
+    with [get-window "Block Configuration"] {
+        with [get-group "Selected block"] {
+            with [get-editbox -after [get-label "Name:"]] {
+                set-text "NEW_BLOCK_03"
+            }
+            with [get-editbox -after [get-label "PV address:"]] {
+                set-text "NEW_PV_03"
+            }
+        }
+        get-button OK | click
+    }
+    get-button "Add Block" | click
+    with [get-window "Block Configuration"] {
+        with [get-group "Selected block"] {
+            with [get-editbox -after [get-label "Name:"]] {
+                set-text "NEW_BLOCK_04"
+            }
+            with [get-editbox -after [get-label "PV address:"]] {
+                set-text "NEW_PV_04"
+            }
+        }
+        get-button OK | click
+    }
+    get-button "Add Block" | click
+    with [get-window "Block Configuration"] {
+        with [get-group "Selected block"] {
+            with [get-editbox -after [get-label "Name:"]] {
+                set-text "NEW_BLOCK_05"
+            }
+            get-button Visible | key-type "TRAVERSE_TAB_NEXT"
+            with [get-editbox -after [get-label "PV address:"]] {
+                click-text
+                set-text "NEW_PV_05"
+            }
+        }
+        get-button OK | click
+    }
+    get-tab-folder | get-tab-item Groups | click
+    with [get-group Groups] {
+        get-button Add | click
+        get-list | select "NEW_GROUP"
+    }
+    with [get-group "Selected group" | get-group Blocks] {
+        get-list | select "NEW_BLOCK_05" "NEW_BLOCK_04" "NEW_BLOCK_03" "NEW_BLOCK_02" "NEW_BLOCK_01"
+        get-button | click
+    }
+    get-button Save | click
+}
+
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
