@@ -6,48 +6,52 @@ Element-Type: context
 Element-Version: 2.0
 Id: _u7zXkB5uEeaqQYS4M76Ebw
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/3/16 11:30 AM
+Save-Time: 6/13/16 4:30 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
-proc "assert_instrument_is_setup" {
+proc "assert_instrument_is"[val text] {
 	get-view Dashboard | get-control Any -index 1 | get-property "getChildren().Control[0].getText()" 
-	    | contains "SETUP" | verify-true
+	    | contains $text | verify-true
+}
+
+proc "assert_instrument_is_setup" {
+	assert_instrument_is "SETUP"
 }
 
 proc "assert_instrument_is_running" {
-	get-view Dashboard | get-control Any -index 1 | get-property "getChildren().Control[0].getText()" 
-	    | contains "RUNNING" | verify-true
+	assert_instrument_is "RUNNING"
+}
+
+proc "assert_instrument_is_unknown" {
+	assert_instrument_is "UNKNOWN"
+}
+
+proc "click_DAE_run_control" [val button_text] {
+	switch_to_dae_view
+	
+	with [get-view "DAE Control Program"] {
+	    get-tab-folder | get-tab-item "Run Summary" | click
+	    get-button $button_text | click
+	}
+	
 }
 
 proc "begin_run" {
-	switch_to_dae_view
-	
-	// Begin run
-	with [get-view "DAE Control Program"] {
-	    get-tab-folder | get-tab-item "Run Summary" | click
-	    get-button "BEGIN RUN" | click
+    click_DAE_run_control "BEGIN RUN"
+    
+    try -times 10 -delay 200 -command {
+		assert_instrument_is_running
 	}
-	
-	// Wait for run to start
-	wait 2000
-	
-	assert_instrument_is_running
 }
 
 proc "end_run" {
-	switch_to_dae_view
-	
-	// Stop the instrument
-	with [get-view "DAE Control Program"] {
-	    get-tab-folder | get-tab-item "Run Summary" | click
-	    get-button "END RUN" | click
+	click_DAE_run_control "END RUN"
+	try -times 10 -delay 200 -command {
+		assert_instrument_is_setup
 	}
-	
-	// Wait for the run to stop
-	wait 5000
 }
 
 

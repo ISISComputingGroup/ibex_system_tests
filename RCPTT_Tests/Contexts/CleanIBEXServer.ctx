@@ -1,0 +1,43 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: CleanIBEXServer
+Element-Type: context
+Element-Version: 2.0
+Id: _nbUl0C4eEea6L74Op-Ffbg
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/13/16 4:52 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Run a python script to clear up stateful information created by the GUI.  
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+
+/**
+Add prefix for configurations, synoptics etc which need to be deleted
+*/
+proc "test_prefix"[val text] {
+  concat "rcptt" text 
+}
+
+log "Running clean Ibex Server ... " -severity "error"
+exec-process "python" -args "C:\\\Instrument\\Dev\\ibex_system_tests\\RCPTT_Tests\\cleanIBEXServer.py" -ignoreExitCode true | log -severity "info"
+log ".. finsihed"
+
+try -times 10 -delay 200 -command {
+	assert_instrument_is_unknown
+}
+
+try -times 20 -delay 200 -command {
+	assert_instrument_is_setup
+}
+
+wait 500
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
