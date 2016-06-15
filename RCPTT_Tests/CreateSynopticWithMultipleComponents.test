@@ -1,0 +1,36 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CreateSynopticWithMultipleComponents
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _xD3SkDLuEeaaer6ihff4wQ
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/15/16 2:14 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-menu "Synoptic/New" | click
+
+proc add_synoptic [val component_name] {
+	with [get-window "New Synoptic"] {
+	    get-button "Add Component" | click
+	    get-combo -after [get-label Type] | select component_name
+	    get-editbox -after [get-label Name] | set-text component_name
+	}
+}
+
+add_synoptic "BEAMSTOP"
+add_synoptic "CHOPPER"
+add_synoptic "DAE"
+add_synoptic "JULABO"
+add_synoptic "KEPCO"
+add_synoptic "MOVINGMONITOR"
+add_synoptic "POLARISER"
+add_synoptic "TDK_LAMBDA_GENESYS"
+
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
