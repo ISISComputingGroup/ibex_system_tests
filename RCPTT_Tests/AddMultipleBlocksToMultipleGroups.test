@@ -6,14 +6,14 @@ Element-Version: 3.0
 External-Reference: 
 Id: _PBkwsDF0EeaWJe_H2uySSQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/14/16 8:38 PM
+Save-Time: 6/15/16 10:14 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-// Create twelve new blocks
+// Create five new blocks
 get-menu "Configuration/Edit Current Configuration..." | click
 with [get-window "Edit Configuration"] {
     get-tab-folder | get-tab-item Blocks | click
@@ -38,6 +38,67 @@ with [get-window "Edit Configuration"] {
     add_block "NEW_BLOCK_01" "NEW_PV_01"
     add_block "NEW_BLOCK_02" "NEW_PV_02"
     add_block "NEW_BLOCK_03" "NEW_PV_03"
-    add_block "NEW_BLOCK_04" "NEW_PV_04"
-    add_block "NEW_BLOCK_05" "NEW_PV_05"
+    
+	// Add new group
+    get-tab-folder | get-tab-item Groups | click
+    with [get-group Groups] {
+        get-button Add | click
+        get-button Add | click
+        get-button Add | click
+        get-list | select "NEW_GROUP"
+    }
+    // Transfer three blocks to the first group
+    with [get-group "Selected group" | get-group Blocks] {
+        get-list | select "NEW_BLOCK_01"
+        get-button | click
+    }
+    // Transfer three blocks to the second group
+    with [get-group Groups] {
+		get-list | select "NEW_GROUP_1"
+	}
+	with [get-group "Selected group" | get-group Blocks] {
+		get-list | select "NEW_BLOCK_02"
+		        get-button | click
+	}
+	// Transfer three blocks to the third group
+	with [get-group Groups] {
+		get-list | select "NEW_GROUP_2"
+	}
+	with [get-group "Selected group" | get-group Blocks] {
+		get-list | select "NEW_BLOCK_03"
+		        get-button | click
+	}
+    
+    get-button Save | click
+}
+
+
+
+
+    
+with [get-view Blocks] {
+	// Check for existence of first group and three blocks
+	get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
+    get-label "NEW_BLOCK_01:" | get-property caption | equals "NEW_BLOCK_01:" | verify-true
+    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
+    get-label "NEW_BLOCK_02:" | get-property caption | equals "NEW_BLOCK_02:" | verify-true
+    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
+    get-label "NEW_BLOCK_03:" | get-property caption | equals "NEW_BLOCK_03:" | verify-true
+    
+    // Check for existence of second group and three blocks
+    get-label "NEW_GROUP_1" | get-property caption | equals "NEW_GROUP_1" | verify-true
+    get-label "NEW_BLOCK_04:" | get-property caption | equals "NEW_BLOCK_04:" | verify-true
+    get-label "NEW_GROUP_1" | get-property caption | equals "NEW_GROUP_1" | verify-true
+    get-label "NEW_BLOCK_05:" | get-property caption | equals "NEW_BLOCK_05:" | verify-true
+    get-label "NEW_GROUP_1" | get-property caption | equals "NEW_GROUP_1" | verify-true
+    get-label "NEW_BLOCK_06:" | get-property caption | equals "NEW_BLOCK_06:" | verify-true
+    
+    // Check for existence of third group and three blocks 
+    get-label "NEW_GROUP_2" | get-property caption | equals "NEW_GROUP_2" | verify-true
+    get-label "NEW_BLOCK_07:" | get-property caption | equals "NEW_BLOCK_07:" | verify-true
+    get-label "NEW_GROUP_2" | get-property caption | equals "NEW_GROUP_2" | verify-true
+    get-label "NEW_BLOCK_08:" | get-property caption | equals "NEW_BLOCK_08:" | verify-true
+    get-label "NEW_GROUP_2" | get-property caption | equals "NEW_GROUP_2" | verify-true
+    get-label "NEW_BLOCK_09:" | get-property caption | equals "NEW_BLOCK_09:" | verify-true
+}
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
