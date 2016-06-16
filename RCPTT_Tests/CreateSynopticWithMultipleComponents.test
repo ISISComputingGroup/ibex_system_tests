@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _xD3SkDLuEeaaer6ihff4wQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/15/16 4:55 PM
+Save-Time: 6/16/16 9:32 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -34,21 +34,22 @@ add_synoptic "MOVINGMONITOR"
 add_synoptic "POLARISER"
 add_synoptic "TDK_LAMBDA_GENESYS"
 
-//
-//// Save and name the synoptic 
-//with [get-window "New Synoptic"] {
-//    get-button "Save as ..." | click
-//    with [get-window "Save Synoptic As"] {
-//        with [get-editbox -after [get-label "Name:"]] {
-//            set-text synoptic01
-//        }
-//        get-button OK | click
-//    }
-//}
-//
-//// Select the synoptic from the drop-down list
-//get-view "Synoptic navigator" | get-group "Synoptic Selection" | get-combo | select synoptic01
-//
+
+// Save and name the synoptic 
+with [get-window "New Synoptic"] {
+    get-button "Save as ..." | click
+    with [get-window "Save Synoptic As"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            set-text synoptic01
+        }
+        get-button OK | click
+    }
+}
+
+// Select the synoptic from the drop-down list
+switch_to_synoptic_view
+get-view "Synoptic navigator" | get-group "Synoptic Selection" | get-combo | select synoptic01
+
 //// Make assertions
 //with [get-view "New synoptic"] {
 //	// Check there is a beamline container
@@ -64,17 +65,22 @@ add_synoptic "TDK_LAMBDA_GENESYS"
 //    get-label POLARISER | get-property caption | equals POLARISER | verify-true
 //    get-label TDK_LAMBDA_GENESYS | get-property caption | equals TDK_LAMBDA_GENESYS | verify-true
 //}
-with [get-window "New Synoptic"] {
-    get-button "Save as ..." | click
-    with [get-window "Save Synoptic As"] {
-        with [get-editbox -after [get-label "Name:"]] {
-            set-text synopti
-            set-text synoptic
-            set-text synoptic0
-            set-text synoptic01
-        }
-        get-button OK | click
-    }
+
+// Assertions
+with [get-view "New synoptic"] {
+	// Check there is a beamline container
+    get-control Any -index 3 | get-property className 
+        | equals "uk.ac.stfc.isis.ibex.ui.synoptic.beamline.BeamlineCompositeContainer" | verify-true
+    // Check for an image above a corresponding label
+    get-label "" -after [get-label BEAMSTOP] | get-property className | equals "org.eclipse.swt.widgets.Label" 
+        | verify-true
+    get-label "" -after [get-label CHOPPER] | get-property className | equals "org.eclipse.swt.widgets.Label" 
+        | verify-true
+    get-label "" -after [get-label DAE] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+    get-label "" -after [get-label EUROTHERM] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+    get-label "" -after [get-label KEPCO] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+    get-label "" -after [get-label MOVINGMONITOR] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+    get-label "" -after [get-label POLARISER] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+    get-label "" -after [get-label TDK_LAMBDA_GENESYS] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
 }
-get-view "Synoptic navigator" | get-group "Synoptic Selection" | get-combo | select synoptic01
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
