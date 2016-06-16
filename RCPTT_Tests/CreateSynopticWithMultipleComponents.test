@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _xD3SkDLuEeaaer6ihff4wQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/16/16 9:32 AM
+Save-Time: 6/16/16 11:45 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -50,37 +50,44 @@ with [get-window "New Synoptic"] {
 switch_to_synoptic_view
 get-view "Synoptic navigator" | get-group "Synoptic Selection" | get-combo | select synoptic01
 
-//// Make assertions
-//with [get-view "New synoptic"] {
-//	// Check there is a beamline container
-//    get-control Any -index 3 | get-property className 
-//        | equals "uk.ac.stfc.isis.ibex.ui.synoptic.beamline.BeamlineCompositeContainer" | verify-true
-//    // Check for each of the components previously added    
-//    get-label BEAMSTOP | get-property caption | equals BEAMSTOP | verify-true
-//    get-label CHOPPER | get-property caption | equals CHOPPER | verify-true
-//    get-label DAE | get-property caption | equals DAE | verify-true
-//    get-label EUROTHERM | get-property caption | equals EUROTHERM | verify-true
-//    get-label KEPCO | get-property caption | equals KEPCO | verify-true
-//    get-label MOVINGMONITOR | get-property caption | equals MOVINGMONITOR | verify-true
-//    get-label POLARISER | get-property caption | equals POLARISER | verify-true
-//    get-label TDK_LAMBDA_GENESYS | get-property caption | equals TDK_LAMBDA_GENESYS | verify-true
-//}
-
-// Assertions
+// Assert that a component's image and label exist
 with [get-view "New synoptic"] {
-	// Check there is a beamline container
-    get-control Any -index 3 | get-property className 
-        | equals "uk.ac.stfc.isis.ibex.ui.synoptic.beamline.BeamlineCompositeContainer" | verify-true
-    // Check for an image above a corresponding label
-    get-label "" -after [get-label BEAMSTOP] | get-property className | equals "org.eclipse.swt.widgets.Label" 
-        | verify-true
-    get-label "" -after [get-label CHOPPER] | get-property className | equals "org.eclipse.swt.widgets.Label" 
-        | verify-true
-    get-label "" -after [get-label DAE] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-    get-label "" -after [get-label EUROTHERM] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-    get-label "" -after [get-label KEPCO] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-    get-label "" -after [get-label MOVINGMONITOR] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-    get-label "" -after [get-label POLARISER] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-    get-label "" -after [get-label TDK_LAMBDA_GENESYS] | get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+    with [get-label ""] {
+        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+        get-property "getToolTipText()" | equals BEAMSTOP | verify-true
+    }
+    with [get-label "" -after [get-label BEAMSTOP]] {
+        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+        get-property "getToolTipText()" | equals CHOPPER | verify-true
+    }
+    with [get-label "" -after [get-label CHOPPER]] {
+        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+        get-property "getToolTipText()" | equals DAE | verify-true
+    }
+    with [get-label "" -after [get-label DAE]] {
+        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+        get-property "getToolTipText()" | equals EUROTHERM | verify-true
+    }
+    with [get-label "" -after [get-label EUROTHERM]] {
+        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+        get-property "getToolTipText()" | equals KEPCO | verify-true
+    }
+    with [get-label "" -after [get-label KEPCO]] {
+        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+        get-property "getToolTipText()" | equals MOVINGMONITOR | verify-true
+    }
+    with [get-label "" -after [get-label MOVINGMONITOR]] {
+        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+        get-property "getToolTipText()" | equals POLARISER | verify-true
+    }
+    with [get-label "" -after [get-label POLARISER]] {
+        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
+        get-property "getToolTipText()" | equals "TDK_LAMBDA_GENESYS" | verify-true
+    }
+}
+get-menu "Synoptic/Delete" | click
+with [get-window "Delete Synoptic"] {
+    get-list | select synoptic01
+    get-button OK | click
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
