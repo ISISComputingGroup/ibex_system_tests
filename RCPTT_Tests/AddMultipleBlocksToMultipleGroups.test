@@ -79,8 +79,8 @@ with [get-window "Edit Configuration"] {
 
 try -times 500 -delay 200 -command {
 	with [get-view Blocks] {
-		// Check for existence of first group and three blocks
-		get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
+	    // Check for existence of first group and three blocks
+	    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
 	    get-label "NEW_BLOCK_01:" | get-property caption | equals "NEW_BLOCK_01:" | verify-true
 	    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
 	    get-label "NEW_BLOCK_02:" | get-property caption | equals "NEW_BLOCK_02:" | verify-true
