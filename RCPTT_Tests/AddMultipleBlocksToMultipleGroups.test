@@ -13,7 +13,7 @@ Testcase-Type: ecl
 Content-Type: text/ecl
 Entry-Name: .content
 
-// Create five new blocks
+// Create nine new blocks
 get-menu "Configuration/Edit Current Configuration..." | click
 with [get-window "Edit Configuration"] {
     get-tab-folder | get-tab-item Blocks | click
