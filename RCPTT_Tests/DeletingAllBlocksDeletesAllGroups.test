@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _THj0wDSMEea17PdyItjtbg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/17/16 4:23 PM
+Save-Time: 6/21/16 9:26 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -45,7 +45,7 @@ with [get-window "Edit Configuration"] {
     add_block "NEW_BLOCK_08" "NEW_PV_08"
     add_block "NEW_BLOCK_09" "NEW_PV_09"
     
-	// Add new group
+	// Add three new groups
     get-tab-folder | get-tab-item Groups | click
     with [get-group Groups] {
         get-button Add | click
@@ -79,7 +79,7 @@ with [get-window "Edit Configuration"] {
 
 try -times 500 -delay 200 -command {
 	with [get-view Blocks] {
-	    // Check for existence of first group and three blocks
+	    // Check for existence of first group and its three blocks
 	    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
 	    get-label "NEW_BLOCK_01:" | get-property caption | equals "NEW_BLOCK_01:" | verify-true
 	    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
@@ -87,7 +87,7 @@ try -times 500 -delay 200 -command {
 	    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
 	    get-label "NEW_BLOCK_03:" | get-property caption | equals "NEW_BLOCK_03:" | verify-true
 	    
-	    // Check for existence of second group and three blocks
+	    // Check for existence of second group and its three blocks
 	    get-label "NEW_GROUP_1" | get-property caption | equals "NEW_GROUP_1" | verify-true
 	    get-label "NEW_BLOCK_04:" | get-property caption | equals "NEW_BLOCK_04:" | verify-true
 	    get-label "NEW_GROUP_1" | get-property caption | equals "NEW_GROUP_1" | verify-true
@@ -95,7 +95,7 @@ try -times 500 -delay 200 -command {
 	    get-label "NEW_GROUP_1" | get-property caption | equals "NEW_GROUP_1" | verify-true
 	    get-label "NEW_BLOCK_06:" | get-property caption | equals "NEW_BLOCK_06:" | verify-true
 	    
-	    // Check for existence of third group and three blocks 
+	    // Check for existence of third group and its three blocks 
 	    get-label "NEW_GROUP_2" | get-property caption | equals "NEW_GROUP_2" | verify-true
 	    get-label "NEW_BLOCK_07:" | get-property caption | equals "NEW_BLOCK_07:" | verify-true
 	    get-label "NEW_GROUP_2" | get-property caption | equals "NEW_GROUP_2" | verify-true
