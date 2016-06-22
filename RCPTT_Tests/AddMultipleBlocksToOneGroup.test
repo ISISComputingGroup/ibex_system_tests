@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _Kym24DFpEeaWJe_H2uySSQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/15/16 2:45 PM
+Save-Time: 6/22/16 1:17 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -18,7 +18,7 @@ get-menu "Configuration/Edit Current Configuration..." | click
 with [get-window "Edit Configuration"] {
     get-tab-folder | get-tab-item Blocks | click
     
-    // procedure to add a new block
+    // Procedure to add a new block
     proc "add_block"[val block_name] [val pv_name] {
     	get-button "Add Block" | click
     	with [get-window "Block Configuration"] {
@@ -34,20 +34,20 @@ with [get-window "Edit Configuration"] {
     }
     }
     
-    // Add blocks
+    // Add five blocks
     add_block "NEW_BLOCK_01" "NEW_PV_01"
     add_block "NEW_BLOCK_02" "NEW_PV_02"
     add_block "NEW_BLOCK_03" "NEW_PV_03"
     add_block "NEW_BLOCK_04" "NEW_PV_04"
     add_block "NEW_BLOCK_05" "NEW_PV_05"
     
-	// Add new group
+	// Add a new group
     get-tab-folder | get-tab-item Groups | click
     with [get-group Groups] {
         get-button Add | click
         get-list | select "NEW_GROUP"
     }
-    // Transfer all five blocks to new group
+    // Transfer all five blocks to the new group
     with [get-group "Selected group" | get-group Blocks] {
         get-list | select "NEW_BLOCK_05" "NEW_BLOCK_04" "NEW_BLOCK_03" "NEW_BLOCK_02" "NEW_BLOCK_01"
         get-button | click
@@ -55,7 +55,7 @@ with [get-window "Edit Configuration"] {
     get-button Save | click
 }
 
-// Check that the blocks and group exists
+// Assert that the blocks and group exists
 try -times 500 -delay 200 -command {
 	with [get-view Blocks] {
 	    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
