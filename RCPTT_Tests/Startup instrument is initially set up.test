@@ -1,0 +1,46 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: Startup instrument is initially set up
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _n_V-kCfsEeaXTOU1uHI8IA
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/9/16 2:05 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Create a new configuration
+
+get-menu "Configuration/Configurations/New" | click
+with [get-window "New configuration"] {
+    get-tab-folder | get-tab-item Summary | click
+    with [get-group Summary | get-editbox -after [get-label "Description:"]] {
+        set-text "startup_config"
+    }
+    get-button "Save as ..." | click
+    with [get-window "Save Configuration As"] {
+        with [get-editbox -after [get-label "Name:"]] {
+            set-text startup
+        }
+        get-button OK | click
+    }
+}
+
+// Load the new configuration
+
+get-menu "Configuration/Configurations/Load" | click
+with [get-window "Load Configuration"] {
+    get-list | select startup
+    get-button OK | click
+}
+
+// Can take a while for the instrument to update, wait 3 mins (sorry!)
+try -times 100 -delay 1800 -command {
+	assert_instrument_is_setup
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
