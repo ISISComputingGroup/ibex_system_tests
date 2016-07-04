@@ -28,6 +28,10 @@ REM Get the latest versions via a Python script
 c:\Python27\python.exe get_latest_builds.py
 if %errorlevel% neq 0 exit /b %errorlevel%
 
+call "C:\Instrument\Apps\EPICS\create_icp_binaries"
+runas.exe /user:administrator c:\Instrument\Apps\EPICS\ICP_Binaries\isisdae\x64\Release\isisicp.exe /RegServer
+runas.exe /user:administrator c:\Instrument\Apps\EPICS\ICP_Binaries\isisdae\x64\Release\isisdatasvr.exe /RegServer
+
 REM Start the instrument
 call "C:\Instrument\Apps\EPICS\start_inst.bat"
 
