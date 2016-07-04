@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _nbUl0C4eEea6L74Op-Ffbg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/1/16 5:47 PM
+Save-Time: 7/4/16 2:18 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -27,7 +27,7 @@ proc "test_prefix"[val text] {
 }
 
 log "Running clean Ibex Server ... " -severity "error"
-exec-process "c:\\Instrument\\Apps\\Python\\python" -args "C:\\\Instrument\\Dev\\ibex_system_tests\\RCPTT_Tests\\cleanIBEXServer\\cleanIBEXServer.py" -ignoreExitCode false | log -severity "error"
+exec-process "c:\\Instrument\\Apps\\Python\\python" -args "C:\\Instrument\\CleanIBEXServerFiles\\cleanIBEXServer\\cleanIBEXServer.py" -ignoreExitCode false | log -severity "error"
 log ".. finished"
 
 try -times 400 -delay 200 -command {
