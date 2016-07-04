@@ -6,18 +6,20 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/1/16 4:41 PM
+Save-Time: 5/10/16 10:46 AM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
 Entry-Name: testcase-items
 
-_n_V-kCfsEeaXTOU1uHI8IA	//
-_iWPmIPZqEeWUB6ttFEmy4Q	//
-_Rq2D4PpcEeWdEd9B02gwIw	//
-_YxmLoBE7EeaK56OpzmNTzg	//
-_W1lpsB5nEeaAYI1qYj9bEg	//
-_jvMZYB5nEeaAYI1qYj9bEg	//
-_6ljosCF-EeaVDbdGJtxYOQ	//
+_n_V-kCfsEeaXTOU1uHI8IA	// kind: 'test' name: 'Startup instrument is initially set up' path: 'Startup instrument is initially set up.test'
+_iWPmIPZqEeWUB6ttFEmy4Q	// kind: 'test' name: 'AddFirstBlock' path: 'AddFirstBlock.test'
+_Rq2D4PpcEeWdEd9B02gwIw	// kind: 'test' name: 'CreateSimpleSynoptic' path: 'CreateSimpleSynoptic.test'
+_YxmLoBE7EeaK56OpzmNTzg	// kind: 'test' name: 'AddingManyGroupsDoesNotCrashGui' path: 'AddingManyGroupsDoesNotCrashGui.test'
+_lrojgBX5EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameCannotBeEmpty' path: 'NewSynopticNameCannotBeEmpty.test'
+_aFqJcBX6EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameLengthCannotExceedMax' path: 'NewSynopticNameLengthCannotExceedMax.test'
+_W1lpsB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreEnabledIfNotRunning' path: 'DAEExperimentTabsAreEnabledIfNotRunning.test'
+_jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAEExperimentTabsAreDisabledIfRunning.test'
+_6ljosCF-EeaVDbdGJtxYOQ	// kind: 'test' name: 'Default synoptic appears in edit config' path: 'Default synoptic appears in edit config.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
