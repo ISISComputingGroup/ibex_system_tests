@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _W1lpsB5nEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 5/20/16 11:39 AM
+Save-Time: 6/30/16 5:05 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -35,4 +35,7 @@ get-view "DAE Control Program" | get-tab-folder -after [get-label "DAE Control P
     | get-tab-item Periods | click
 get-view "DAE Control Program" | get-control Any -after [get-label "DAE Control Program"] -index 14 
     | get-property enablement | equals true | verify-true
+
+// Make sure we leave things as we found them    
+assert_instrument_is_setup
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

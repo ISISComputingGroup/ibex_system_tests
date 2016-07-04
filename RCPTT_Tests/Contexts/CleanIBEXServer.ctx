@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _nbUl0C4eEea6L74Op-Ffbg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/13/16 4:52 PM
+Save-Time: 7/1/16 5:47 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -23,21 +23,17 @@ Entry-Name: .ecl.context
 Add prefix for configurations, synoptics etc which need to be deleted
 */
 proc "test_prefix"[val text] {
-  concat "rcptt" text 
+  concat "rcptt_" $text 
 }
 
 log "Running clean Ibex Server ... " -severity "error"
-exec-process "python" -args "C:\\\Instrument\\Dev\\ibex_system_tests\\RCPTT_Tests\\cleanIBEXServer.py" -ignoreExitCode true | log -severity "info"
-log ".. finsihed"
+exec-process "c:\\Instrument\\Apps\\Python\\python" -args "C:\\\Instrument\\Dev\\ibex_system_tests\\RCPTT_Tests\\cleanIBEXServer\\cleanIBEXServer.py" -ignoreExitCode false | log -severity "error"
+log ".. finished"
 
-try -times 10 -delay 200 -command {
-	assert_instrument_is_unknown
+try -times 400 -delay 200 -command {
+  assert_instrument_is_setup
+  get-menu "Configuration/Edit Current Configuration..." | is-disabled | verify-false
+  get-label [concat "Current configuration: rcptt_blank"]
 }
-
-try -times 20 -delay 200 -command {
-	assert_instrument_is_setup
-}
-
-wait 500
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
