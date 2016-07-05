@@ -14,7 +14,7 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 
-try -times 9000 -delay 200 -command {
+try -times 600 -delay 500 -command {
 	assert_instrument_is_setup
 }
 
