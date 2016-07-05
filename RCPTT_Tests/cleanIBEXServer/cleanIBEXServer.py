@@ -37,6 +37,9 @@ LAST_CONFIG_FILE = "last_config.txt"
 # name of the blank config
 BLANK_CONFIG_DIR = "rcptt_blank"
 
+# log file for exception logging
+LOG_FILE = os.path.join(CLEAN_IBEX_DIR, "cleanIBEXServer.log")
+
 
 def remove_test_dir_and_files(root_path):
     """
@@ -159,7 +162,7 @@ def _log_and_exit(error, exit_code):
     :param exit_code: error number to exit with
     :return:
     """
-    with file("C:\\Instrument\\Dev\\ibex_system_tests\\cleanIBEXServer.log", mode="a") as f:
+    with file(LOG_FILE, mode="a") as f:
         f.write("Error {0}: {1}\n".format(exit_code, error))
     print error
     exit(exit_code)
