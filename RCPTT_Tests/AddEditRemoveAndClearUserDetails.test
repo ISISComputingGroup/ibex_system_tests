@@ -1,0 +1,84 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: AddEditRemoveAndClearUserDetails
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _G9wcgEUCEea3c7YIX-7B3A
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 7/8/16 2:27 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+assert_instrument_is_setup
+switch_to_experiment_details_view
+
+//Add new user
+with [get-view "My View"] {
+    get-button Clear | click
+    get-button Add | click
+    get-button Set -after [get-label "Experiment Team"] | click
+}
+get-view Dashboard | get-label "DEFAULT_USER" | get-property caption | equals "DEFAULT_USER" | verify-true
+get-view "My View" | get-table | get-item "DEFAULT_USER" | get-property caption | equals "DEFAULT_USER" | verify-true
+
+//Edit user name
+with [get-view "My View"] {
+    with [get-table] {
+        select "DEFAULT_USER" | activate-cell-edit
+        with [get-editbox] {
+            set-text TEST
+            key-type Enter
+        }
+        apply-cell-edit -deactivate
+    }
+    get-button Set -after [get-label "Experiment Team"] | click
+}
+get-view Dashboard | get-label TEST | get-property caption | equals TEST | verify-true
+
+//Add second user
+get-view "My View" | get-button Add | click
+get-view Dashboard | get-label "TEST and DEFAULT_USER" | get-property caption | equals "TEST and DEFAULT_USER" 
+    | verify-true
+
+//Add more users
+with [get-view "My View"] {
+    with [get-table] {
+        select "DEFAULT_USER" | activate-cell-edit
+        with [get-editbox] {
+            set-text TEST2
+        }
+        apply-cell-edit -deactivate
+    }
+    get-button Add | click
+    with [get-table] {
+        select "DEFAULT_USER" | activate-cell-edit
+        with [get-editbox] {
+            set-text TEST3
+            key-type Enter
+        }
+        apply-cell-edit -deactivate
+    }
+}
+get-view "My View" | get-button Set -after [get-label "Experiment Team"] | click
+get-view Dashboard | get-label "TEST2, TEST and TEST3" | get-property caption | equals "TEST2, TEST and TEST3" 
+    | verify-true
+    
+//Remove user
+with [get-view "My View"] {
+    with [get-table] {
+        select TEST2 | activate-cell-edit -column 2
+        apply-cell-edit -deactivate
+    }
+    get-button Remove | click
+}
+get-view Dashboard | get-label "TEST3 and TEST" | get-property caption | equals "TEST3 and TEST" | verify-true
+get-view "My View" | get-button Clear | click
+get-view "My View" | get-button Set -after [get-label "Experiment Team"] | click
+
+// Make sure we leave things as we found them    
+assert_instrument_is_setup
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

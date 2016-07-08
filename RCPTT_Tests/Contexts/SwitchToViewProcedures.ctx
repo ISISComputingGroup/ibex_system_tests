@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _BgnBcB5tEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 5/20/16 11:35 AM
+Save-Time: 7/8/16 2:25 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -20,5 +20,10 @@ proc "switch_to_dae_view" {
 proc "switch_to_synoptic_view" {
 	// Switch to synoptic view
 	get-label "Synoptic" | click
+}
+
+proc "switch_to_experiment_details_view" {
+	// Switch to experiment details view
+	get-label "Experiment Details" | click
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
