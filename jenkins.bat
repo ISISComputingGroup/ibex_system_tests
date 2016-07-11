@@ -28,6 +28,9 @@ REM Get the latest versions via a Python script
 c:\Python27\python.exe get_latest_builds.py
 if %errorlevel% neq 0 exit /b %errorlevel%
 
+REM Get the icp binaries so that the DAE can run
+call "C:\Instrument\Apps\EPICS\create_icp_binaries"
+
 REM Start the instrument
 call "C:\Instrument\Apps\EPICS\start_inst.bat"
 
