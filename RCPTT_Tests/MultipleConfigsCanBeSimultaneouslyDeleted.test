@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _cB6ckEQiEear0fgUd5_sYQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/12/16 10:44 AM
+Save-Time: 7/12/16 3:44 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -47,7 +47,19 @@ try -times 500 -delay 200 -command {
 wait 5000
 
 // Assert that the three previous configurations cannot be edited (because they don't exist)
-
 get-menu "Configuration/Configurations/Edit" | click
-get-property "getItems()" | contains test | verify-true 
+
+// Loop through the number of configs in the edit configuration list and assert that none of the previously made configurations exist
+with [get-window "Edit Configuration" | get-list] {
+	let [val item_count [get-property -raw true -name "getItemCount()"]] {	
+		loop [val index [int 0]] {
+			if [ $index | lt $item_count] {
+			   get-window "Edit Configuration" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_config01" | verify-false
+			   get-window "Edit Configuration" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_config02" | verify-false
+			   get-window "Edit Configuration" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_config03" | verify-false
+			   recur [ $index | plus 1 ]
+			}
+		}
+	}
+}
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
