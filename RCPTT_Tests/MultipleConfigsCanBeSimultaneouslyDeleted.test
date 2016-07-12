@@ -1,0 +1,53 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: MultipleConfigsCanBeSimultaneouslyDeleted
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _cB6ckEQiEear0fgUd5_sYQ
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 7/12/16 10:44 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Create a first configuration
+let [val config01 [test_prefix "config01"]] {
+	new_config_window
+	set_config_description $config01
+	save_and_name_config $config01
+}
+
+// Create a second configuration
+let [val config02 [test_prefix "config02"]] {
+	new_config_window
+	set_config_description $config02
+	save_and_name_config $config02
+}
+
+// Create a third configuration
+let [val config03 [test_prefix "config03"]] {
+	new_config_window
+	set_config_description $config03
+	save_and_name_config $config03
+}
+
+// Delete the three configurations together
+try -times 500 -delay 200 -command {
+	get-menu "Configuration/Configurations/Delete" | click
+	with [get-window "Delete Configurations"] {
+	    get-list | select "rcptt_config01" "rcptt_config02" "rcptt_config03"
+	    get-button OK | click
+	}
+}
+
+// Wait has to be put in because the edit configuration window doesn't update immediately
+wait 5000
+
+// Assert that the three previous configurations cannot be edited (because they don't exist)
+
+get-menu "Configuration/Configurations/Edit" | click
+get-property "getItems()" | contains test | verify-true 
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

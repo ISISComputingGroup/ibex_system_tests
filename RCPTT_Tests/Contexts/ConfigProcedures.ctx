@@ -1,0 +1,43 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: ConfigProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _oJdLMEdZEeakK_49We-6tQ
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 7/12/16 9:33 AM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+proc "new_config_window" {
+	try -times 500 -delay 200 -command {
+		get-menu "Configuration/Configurations/New" | click
+	}
+}
+
+proc "set_config_description" [val description]{
+	try -times 500 -delay 200 -command {
+		with [get-window "New configuration"] {
+	        	get-tab-folder | get-tab-item Summary | click
+	    		get-group Summary | get-editbox -after [get-label "Description:"] | set-text $description
+	   	}
+	}
+}
+
+proc "save_and_name_config" [val name]{
+	try -times 500 -delay 200 -command {
+	 	with [get-window "New configuration"] {
+	    		get-button "Save as ..." | click
+	    	}
+	}
+	try -times 500 -delay 200 -command {
+	    with [get-window "Save Configuration As"] {
+	        get-editbox -after [get-label "Name:"] | set-text $name
+	        get-button OK | click
+	    }
+	}
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
