@@ -62,4 +62,3 @@ with [get-window "Edit Configuration" | get-list] {
 		}
 	}
 }
-------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

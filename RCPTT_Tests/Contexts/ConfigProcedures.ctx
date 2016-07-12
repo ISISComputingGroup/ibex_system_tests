@@ -6,7 +6,11 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
+<<<<<<< HEAD
 Save-Time: 7/12/16 4:35 PM
+=======
+Save-Time: 7/12/16 4:07 PM
+>>>>>>> f3103a3776dafb0c82c322affad59322efe6a602
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
