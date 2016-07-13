@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _ZpYe8EQiEear0fgUd5_sYQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/12/16 4:48 PM
+Save-Time: 7/13/16 9:45 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -29,5 +29,36 @@ let [val synoptic02 [test_prefix "synoptic02"]] {
 let [val synoptic03 [test_prefix "synoptic03"]] {
 	new_synoptic_window
 	save_synoptic $synoptic03
+}
+
+// Wait has to be put in because the delete synoptic window will appear but not always be fully updated yet
+wait 5000
+
+// Delete the three synoptics together
+try -times 500 -delay 200 -command {
+	get-menu "Synoptic/Delete" | click
+	with [get-window "Delete Synoptic"] {
+	    get-list | select "rcptt_synoptic01" "rcptt_synoptic02" "rcptt_synoptic03"
+	    get-button OK | click
+	}
+}
+
+// Wait has to be put in because the edit synoptic window will appear but not always be fully updated yet
+wait 5000
+
+// Assert that the three previous synoptics do not appear in the edit configuration window
+get-menu "Synoptic/Edit" | click
+// Loop through the number of synoptics in the edit synoptic list and assert that none of the names are equal to any of the previously created synoptics
+with [get-window "Edit Synoptic" | get-list] {
+	let [val item_count [get-property -raw true -name "getItemCount()"]] {	
+		loop [val index [int 0]] {
+			if [ $index | lt $item_count] {
+			   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_synoptic01" | verify-false
+			   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_synoptic02" | verify-false
+			   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_synoptic03" | verify-false
+			   recur [ $index | plus 1 ]
+			}
+		}
+	}
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

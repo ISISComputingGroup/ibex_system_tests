@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _cB6ckEQiEear0fgUd5_sYQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/12/16 4:41 PM
+Save-Time: 7/13/16 9:50 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -34,6 +34,9 @@ let [val config03 [test_prefix "config03"]] {
 	save_and_name_config $config03
 }
 
+// Wait has to be put in because the delete configuration window will appear but not always be fully updated yet
+wait 10000
+
 // Delete the three configurations together
 try -times 500 -delay 200 -command {
 	get-menu "Configuration/Configurations/Delete" | click
@@ -43,13 +46,12 @@ try -times 500 -delay 200 -command {
 	}
 }
 
-// Wait has to be put in because the edit configuration window doesn't update immediately
+// Wait has to be put in because the edit configuration window will appear but not always be fully updated yet
 wait 5000
 
-// Assert that the three previous configurations cannot be edited (because they don't exist)
+// Assert that the three previous configurations do not appear in the edit configuration window
 get-menu "Configuration/Configurations/Edit" | click
-
-// Loop through the number of configs in the edit configuration list and assert that none of the previously made configurations exist
+// Loop through the number of configs in the edit configuration list and assert that none of the names are equal to any of the previously created configs
 with [get-window "Edit Configuration" | get-list] {
 	let [val item_count [get-property -raw true -name "getItemCount()"]] {	
 		loop [val index [int 0]] {
@@ -62,3 +64,4 @@ with [get-window "Edit Configuration" | get-list] {
 		}
 	}
 }
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
