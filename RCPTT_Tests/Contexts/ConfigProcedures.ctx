@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/13/16 12:01 PM
+Save-Time: 7/14/16 1:28 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -41,30 +41,6 @@ proc "save_and_name_config" [val name] {
 	        get-editbox -after [get-label "Name:"] | set-text $name
 	        get-button OK | click
 	    }
-	}
-}
-
-// Open the "New synoptic" window
-proc "new_synoptic_window" {
-	try -times 500 -delay 200 -command {
-		get-menu "Synoptic/New" | click
-	}
-}
-
-// Save a synoptic, naming it in the process
-proc "save_synoptic" [val name] {
-	try -times 500 -delay 200 -command {
-		with [get-window "New Synoptic"] {
-	    	get-button "Save as ..." | click
-	    	try -times 500 -delay 200 -command {
-		    	with [get-window "Save Synoptic As"] {
-		        	with [get-editbox -after [get-label "Name:"]] {
-		            	set-text $name
-		        	}
-		        	get-button OK | click
-		    	}
-		    }
-		}
 	}
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
