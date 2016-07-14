@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _ZpYe8EQiEear0fgUd5_sYQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/13/16 4:58 PM
+Save-Time: 7/14/16 9:26 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -17,7 +17,6 @@ let [val synoptic01 [test_prefix "synoptic01"]] [val synoptic02 [test_prefix "sy
 	// Create a first synoptic
 	new_synoptic_window
 	save_synoptic $synoptic01
-
 
 	// Create a second synoptic
 	new_synoptic_window
@@ -34,7 +33,7 @@ let [val synoptic01 [test_prefix "synoptic01"]] [val synoptic02 [test_prefix "sy
 	try -times 500 -delay 200 -command {
 		get-menu "Synoptic/Delete" | click
 		with [get-window "Delete Synoptic"] {
-		    get-list | select "rcptt_synoptic01" "rcptt_synoptic02" "rcptt_synoptic03"
+		    get-list | select $synoptic01 $synoptic02 $synoptic03
 		    get-button OK | click
 		}
 	}
@@ -51,9 +50,9 @@ let [val synoptic01 [test_prefix "synoptic01"]] [val synoptic02 [test_prefix "sy
 		let [val item_count [get-property -raw true -name "getItemCount()"]] {	
 			loop [val index [int 0]] {
 				if [ $index | lt $item_count] {
-				   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_synoptic01" | verify-false
-				   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_synoptic02" | verify-false
-				   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq "rcptt_synoptic03" | verify-false
+				   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $synoptic01 | verify-false
+				   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $synoptic02 | verify-false
+				   get-window "Edit Synoptic" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $synoptic03 | verify-false
 				   recur [ $index | plus 1 ]
 				}
 			}
