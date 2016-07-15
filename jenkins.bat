@@ -37,9 +37,9 @@ call "C:\Instrument\Apps\EPICS\start_inst.bat"
 REM Sleep for 120 s while start ups finalise
 ping 127.0.0.1 -n 120 > nul
 
+cd %~dp0
 call runner.cmd
 
-cd EPICS
 call "C:\Instrument\Apps\EPICS\stop_inst.bat"
 
 REM Sleep for 120 s while shut downs finalise
