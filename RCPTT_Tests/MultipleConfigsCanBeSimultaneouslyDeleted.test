@@ -6,46 +6,48 @@ Element-Version: 3.0
 External-Reference: 
 Id: _cB6ckEQiEear0fgUd5_sYQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/15/16 4:36 PM
+Save-Time: 7/19/16 11:08 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-// Create three global configuration variables
+// Create three global configuration name variables
 global [val config01 [test_prefix "config01"]] [val config02 [test_prefix "config02"]] [val config03 [test_prefix "config03"]]
 
 // Create a first configuration
-
 with [new_config_window] {
 	set_config_description $config01
 	save_and_name_config $config01 
 }
 
-
-
 // Create a second configuration
-new_config_window
-set_config_description $config02
-save_and_name_config $config02
+with [new_config_window] {
+	set_config_description $config02
+	save_and_name_config $config02
+}
 
 // Create a third configuration
-new_config_window
-set_config_description $config03
-save_and_name_config $config03
+with [new_config_window] {
+	set_config_description $config03
+	save_and_name_config $config03
+}
 
 // Wait has to be put in because the delete configuration window will appear but not always be fully updated
 wait 5000
 
 // Delete the three configurations together
-try -times 500 -delay 200 -command {
-	get-menu "Configuration/Configurations/Delete" | click
-	with [get-window "Delete Configurations"] {
-	    get-list | select $config01 $config02 $config03
-	    get-button OK | click
-	}
-}
+//try -times 500 -delay 200 -command {
+//	get-menu "Configuration/Configurations/Delete" | click
+//	with [get-window "Delete Configurations"] {
+//	    get-list | select $config01 $config02 $config03
+//	    get-button OK | click
+//	}
+//}
+delete_configuration $config01
+delete_configuration $config02
+delete_configuration $config03
 
 // Wait has to be put in because the edit configuration window will appear but not always be fully updated
 wait 5000
