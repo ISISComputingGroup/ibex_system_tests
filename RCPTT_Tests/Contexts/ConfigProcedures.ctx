@@ -6,14 +6,14 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/19/16 11:09 AM
+Save-Time: 7/19/16 1:31 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
 // Open the "New configuration" window
-proc "new_config_window"{
+proc "new_config_window" {
 	try -times 500 -delay 200 -command {
 		get-menu "Configuration/Configurations/New" | click
 	} 
@@ -21,7 +21,7 @@ proc "new_config_window"{
 }
 
 // Open the "Edit configuration" window
-proc "edit_config_window"{
+proc "edit_config_window" {
 	try -times 500 -delay 200 -command {
 		get-menu "Configuration/Configurations/Edit" | click
 	} 
@@ -38,36 +38,38 @@ proc "set_config_description" [val description] [val window -input true ] {
 	}
 }
 
-// Save a configuration (using the "save" dialog")
-proc "save_configuration" [val window -input true] {
+// Save a configuration (using the "save" dialog on an edited configuration)
+proc "save_configuration" {
 	try -times 500 -delay 200 -command {
-		with $window {
+		with [get-window "Edit Configuration"] {
 			get-button Save | click
 		}
 	}
 }
 
-// Save a new configuration, naming it in the process (using the "save as" dialog)
-proc "save_and_name_config" [val name]  [val window -input true ]{
+// Save a new configuration, naming it in the process (using the "save as" dialog on a new OR edited configuration)
+proc "save_and_name_configuration" [val name]  [val window -input true ] {
 	try -times 500 -delay 200 -command {
-	 	with [get-window "New configuration"] {
-	    		get-button "Save as ..." | click
+		with $window {
+	    	get-button "Save as ..." | click
+	    }
+    	try -times 500 -delay 200 -command {
+	    	with [get-window "Save Configuration As"] {
+	        	with [get-editbox -after [get-label "Name:"]] {
+	            	set-text $name
+	        	}
+	        	get-button OK | click
 	    	}
-	}
-	try -times 500 -delay 200 -command {
-	    with [get-window "Save Configuration As"] {
-	        get-editbox -after [get-label "Name:"] | set-text $name
-	        get-button OK | click
 	    }
 	}
 }
 
 // Delete a configuration
-proc delete_configuration [val config_name] {
+proc "delete_configuration" [val name] {
 	try -times 500 -delay 200 -command {
 		get-menu "Configuration/Configurations/Delete" | click
 		with [get-window "Delete Configurations"] {
-		    get-list | select $config_name
+		    get-list | select $name
 		    get-button OK | click
 		}
 	}
