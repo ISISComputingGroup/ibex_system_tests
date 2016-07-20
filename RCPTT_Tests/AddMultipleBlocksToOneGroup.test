@@ -6,64 +6,50 @@ Element-Version: 3.0
 External-Reference: 
 Id: _Kym24DFpEeaWJe_H2uySSQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/15/16 1:32 PM
+Save-Time: 7/20/16 4:13 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-// Create five new blocks
-get-menu "Configuration/Edit Current Configuration..." | click
-with [get-window "Edit Configuration"] {
-    get-tab-folder | get-tab-item Blocks | click
-    
-    // Procedure to add a new block
-    proc "add_block"[val block_name] [val pv_name] {
-    	get-button "Add Block" | click
-    	with [get-window "Block Configuration"] {
-        with [get-group "Selected block"] {
-            with [get-editbox -after [get-label "Name:"]] {
-                set-text $block_name
-            }
-            with [get-editbox -after [get-label "PV address:"]] {
-                set-text $pv_name
-            }
-        }
-        get-button OK | click
-    }
-    }
-    
-    // Add five blocks
-    add_block "NEW_BLOCK_01" "NEW_PV_01"
-    add_block "NEW_BLOCK_02" "NEW_PV_02"
-    add_block "NEW_BLOCK_03" "NEW_PV_03"
-    add_block "NEW_BLOCK_04" "NEW_PV_04"
-    add_block "NEW_BLOCK_05" "NEW_PV_05"
-    
-	// Add a new group
-    get-tab-folder | get-tab-item Groups | click
-    with [get-group Groups] {
-        get-button Add | click
-        get-list | select "NEW_GROUP"
-    }
-    // Transfer all five blocks to the new group
-    with [get-group "Selected group" | get-group Blocks] {
-        get-list | select "NEW_BLOCK_05" "NEW_BLOCK_04" "NEW_BLOCK_03" "NEW_BLOCK_02" "NEW_BLOCK_01"
-        get-button | click
-    }
-    get-button Save | click
-}
+// Create variables for one config, six blocks and six PV addresses
+let [val config01 [test_prefix "config01"]] 
+	[val block01 "block01"] [val block02 "block02"] [val block03 "block03"] [val block04 "block04"] [val block05 "block05"] [val block06 "block06"]
+	[val pv01 "pv01"] [val pv02 "pv02"] [val pv03 "pv03"] [val pv04 "pv04"] [val pv05 "pv05"] [val pv06 "pv06"] {
 
-// Assert that the blocks and group exists
-try -times 500 -delay 200 -command {
-	with [get-view Blocks] {
-	    get-label "NEW_GROUP" | get-property caption | equals "NEW_GROUP" | verify-true
-	    get-label "NEW_BLOCK_01:" | get-property caption | equals "NEW_BLOCK_01:" | verify-true
-	    get-label "NEW_BLOCK_02:" | get-property caption | equals "NEW_BLOCK_02:" | verify-true
-	    get-label "NEW_BLOCK_03:" | get-property caption | equals "NEW_BLOCK_03:" | verify-true
-	    get-label "NEW_BLOCK_04:" | get-property caption | equals "NEW_BLOCK_04:" | verify-true
-	    get-label "NEW_BLOCK_05:" | get-property caption | equals "NEW_BLOCK_05:" | verify-true
+	// In a new configuration...
+	with [new_config] {
+		// Add six blocks
+		add_block $block01 $pv01
+		add_block $block02 $pv02
+		add_block $block03 $pv03
+		add_block $block04 $pv04
+		add_block $block05 $pv05
+		add_block $block06 $pv06
+		
+		// Create a new group
+		add_group 
+		
+		// Move all six blocks into the group
+		add_block_to_group "NEW_GROUP" $block01
+		add_block_to_group "NEW_GROUP" $block02
+		add_block_to_group "NEW_GROUP" $block03
+		add_block_to_group "NEW_GROUP" $block04
+		add_block_to_group "NEW_GROUP" $block05
+		add_block_to_group "NEW_GROUP" $block06
+		
+		// Assert that the new group ("NEW_GROUP") contains all blocks
+		get-window "New configuration" | get-group Groups | get-list | select "NEW_GROUP"
+		with [get-window "New configuration" | get-group "Selected group" | get-group Blocks | get-list 
+    		-after [get-label "Selected:"] -index 1] {
+    		get-property "getItems().String[0]" | equals $block01 | verify-true
+    		get-property "getItems().String[1]" | equals $block02 | verify-true
+    		get-property "getItems().String[2]" | equals $block03 | verify-true
+    		get-property "getItems().String[3]" | equals $block04 | verify-true
+    		get-property "getItems().String[4]" | equals $block05 | verify-true
+    		get-property "getItems().String[5]" | equals $block06 | verify-true
+		}
 	}
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
