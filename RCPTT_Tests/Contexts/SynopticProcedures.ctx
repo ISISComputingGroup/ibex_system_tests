@@ -6,14 +6,15 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/19/16 1:26 PM
+Save-Time: 7/21/16 11:20 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
+
 // Open the "New synoptic" window
-proc "new_synoptic_window" {
+proc "new_synoptic" {
 	try -times 500 -delay 200 -command {
 		get-menu "Synoptic/New" | click
 	}
@@ -21,7 +22,7 @@ proc "new_synoptic_window" {
 }
 
 // Open the "Edit Synoptic" window
-proc "edit_synoptic_window" {
+proc "edit_synoptic" {
 	try -times 500 -delay 200 -command {
 		get-menu "Synoptic/Edit" | click
 	}
@@ -65,4 +66,22 @@ proc "delete_synoptic" [val name] {
 	}
 }
 
+// Add a component to a synoptic, e.g. "BEAMSTOP", "CHOPPER", "DAE", etc.
+proc "add_component" [val component_name] [val window -input true ] {
+	with $window {
+	    get-button "Add Component" | click
+	    get-combo -after [get-label Type] | select $component_name
+	    get-editbox -after [get-label Name] | set-text $component_name
+	}
+}
+
+// Open a synoptic (in the "Synoptic" tab)
+proc "view_synoptic" [val synoptic] {
+	try -times 500 -delay 200 -command {
+		switch_to_synoptic_view
+		with [get-view "Synoptic navigator"] {
+    		get-group "Synoptic Selection" | get-combo | select $synoptic
+    	}
+	}
+}
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
