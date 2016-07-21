@@ -6,12 +6,11 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/21/16 11:20 AM
+Save-Time: 7/21/16 2:11 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
-
 
 // Open the "New synoptic" window
 proc "new_synoptic" {
@@ -66,7 +65,7 @@ proc "delete_synoptic" [val name] {
 	}
 }
 
-// Add a component to a synoptic, e.g. "BEAMSTOP", "CHOPPER", "DAE", etc.
+// Add a component to a synoptic (e.g. "BEAMSTOP", "CHOPPER", "DAE", etc.)
 proc "add_component" [val component_name] [val window -input true ] {
 	with $window {
 	    get-button "Add Component" | click
@@ -75,7 +74,7 @@ proc "add_component" [val component_name] [val window -input true ] {
 	}
 }
 
-// Open a synoptic (in the "Synoptic" tab)
+// Open a synoptic to view (in the "Synoptic" perspective)
 proc "view_synoptic" [val synoptic] {
 	try -times 500 -delay 200 -command {
 		switch_to_synoptic_view

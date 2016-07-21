@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/20/16 3:37 PM
+Save-Time: 7/21/16 2:10 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -36,7 +36,7 @@ proc "edit_current_config" {
 	get-window "Edit Configuration"
 }
 	
-// Set a description name for a configuration (in the new configuration window)
+// Set a description name for a configuration (in the new OR edit configuration window)
 proc "set_config_description" [val description] [val window -input true ] {
 	try -times 500 -delay 200 -command {
 		with $window {
@@ -94,7 +94,7 @@ proc "delete_config" [val name] {
 	}
 }
 
-// Add a block to a new OR edited configuration
+// Add a block (to a new OR edited configuration)
 proc "add_block"[val block_name] [val pv_name] [val window -input true ] {
 	try -times 500 -delay 200 -command {
 		with $window {
@@ -117,7 +117,6 @@ proc "add_block"[val block_name] [val pv_name] [val window -input true ] {
 
 // Delete all blocks?
 
-
 // Add a group
 proc "add_group" [val window -input true ] {
 	try -times 500 -delay 200 -command {
@@ -129,7 +128,7 @@ proc "add_group" [val window -input true ] {
 }
 
 // Transfer a block to a group
-proc "add_block_to_group" [val group_name] [val block_name] [val window -input true ]{
+proc "add_block_to_group" [val group_name] [val block_name] [val window -input true ] {
 	try -times 500 -delay 200 -command {
 		with $window {
 			get-tab-folder | get-tab-item Groups | click
