@@ -6,82 +6,47 @@ Element-Version: 3.0
 External-Reference: 
 Id: _xD3SkDLuEeaaer6ihff4wQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/15/16 1:33 PM
+Save-Time: 7/21/16 11:44 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-menu "Synoptic/New" | click
+// Create variables for one configuration, one synoptic and eight components
+let [val synoptic01 [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val chopper "CHOPPER"] [val dae "DAE"] [val eurotherm "EUROTHERM"] 
+	[val kepco "KEPCO"] [val movingmonitor "MOVINGMONITOR"] [val polariser "POLARISER"] [val tdklambda "TDK_LAMBDA_GENESYS"] {
 
-// Procedure to add a component to a synoptic
-proc add_synoptic [val component_name] {
-	with [get-window "New Synoptic"] {
-	    get-button "Add Component" | click
-	    get-combo -after [get-label Type] | select $component_name
-	    get-editbox -after [get-label Name] | set-text $component_name
+	with [new_synoptic] {
+		// Add eight sample components
+		add_component $beamstop
+		add_component $chopper
+		add_component $dae
+		add_component $eurotherm
+		add_component $kepco
+		add_component $movingmonitor
+		add_component $polariser
+		add_component $tdklambda
+
+		// Save and name the synoptic 
+		save_and_name_synoptic $synoptic01
+	}
+		
+	// View the synoptic
+	view_synoptic $synoptic01
+
+	// Assert that a component's image and label exist
+	with [get-view "Synoptic navigator" | get-group "Synoptic Navigation" | get-combo] {
+    get-property "getItems().String[0]" | equals $beamstop | verify-true
+    get-property "getItems().String[1]" | equals $chopper | verify-true
+    get-property "getItems().String[2]" | equals $dae | verify-true
+    get-property "getItems().String[3]" | equals $eurotherm | verify-true
+    get-property "getItems().String[4]" | equals $kepco | verify-true
+    get-property "getItems().String[5]" | equals $movingmonitor | verify-true
+    get-property "getItems().String[6]" | equals $polariser | verify-true
+    get-property "getItems().String[7]" | equals $tdklambda | verify-true
 	}
 }
 
-// Add eight sample components
-add_synoptic "BEAMSTOP"
-add_synoptic "CHOPPER"
-add_synoptic "DAE"
-add_synoptic "EUROTHERM"
-add_synoptic "KEPCO"
-add_synoptic "MOVINGMONITOR"
-add_synoptic "POLARISER"
-add_synoptic "TDK_LAMBDA_GENESYS"
 
-// Save and name the synoptic 
-with [get-window "New Synoptic"] {
-    get-button "Save as ..." | click
-    with [get-window "Save Synoptic As"] {
-        with [get-editbox -after [get-label "Name:"]] {
-            set-text synoptic01
-        }
-        get-button OK | click
-    }
-}
-
-// Select the synoptic from the drop-down list
-switch_to_synoptic_view
-get-view "Synoptic navigator" | get-group "Synoptic Selection" | get-combo | select synoptic01
-
-// Assert that a component's image and label exist
-with [get-view "New synoptic"] {
-    with [get-label ""] {
-        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-        get-property "getToolTipText()" | equals BEAMSTOP | verify-true
-    }
-    with [get-label "" -after [get-label BEAMSTOP]] {
-        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-        get-property "getToolTipText()" | equals CHOPPER | verify-true
-    }
-    with [get-label "" -after [get-label CHOPPER]] {
-        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-        get-property "getToolTipText()" | equals DAE | verify-true
-    }
-    with [get-label "" -after [get-label DAE]] {
-        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-        get-property "getToolTipText()" | equals EUROTHERM | verify-true
-    }
-    with [get-label "" -after [get-label EUROTHERM]] {
-        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-        get-property "getToolTipText()" | equals KEPCO | verify-true
-    }
-    with [get-label "" -after [get-label KEPCO]] {
-        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-        get-property "getToolTipText()" | equals MOVINGMONITOR | verify-true
-    }
-    with [get-label "" -after [get-label MOVINGMONITOR]] {
-        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-        get-property "getToolTipText()" | equals POLARISER | verify-true
-    }
-    with [get-label "" -after [get-label POLARISER]] {
-        get-property className | equals "org.eclipse.swt.widgets.Label" | verify-true
-        get-property "getToolTipText()" | equals "TDK_LAMBDA_GENESYS" | verify-true
-    }
-}
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
