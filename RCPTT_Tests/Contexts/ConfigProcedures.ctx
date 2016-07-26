@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/21/16 2:10 PM
+Save-Time: 7/26/16 2:21 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -141,6 +141,31 @@ proc "add_block_to_group" [val group_name] [val block_name] [val window -input t
 			}
 		}
 	}
+}
+
+//Create a configuration with nothing but a description
+proc "create_empty_config" [val config_name] {
+	with [new_config] {
+		set_config_description $config_name
+		save_and_name_config $config_name
+	}
+}
+
+//Create a configuration with one block
+proc "create_simple_config_and_load" [val config_name] [val block_name] [val pv] {
+	// In a new configuration...
+	with [new_config] {
+		// Add a block, set a description and save the configuration
+		add_block $block_name $pv
+		set_config_description $config_name
+		save_and_name_config $config_name
+	}
+	
+	// Wait is needed to ensure that the load configuration dialog is fully updated
+	wait 10000
+	
+	// Load the configuration previously saved
+	load_config $config_name
 }
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

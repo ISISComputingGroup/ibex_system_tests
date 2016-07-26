@@ -1,0 +1,38 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: EmptyLogPlotterGivesMessage
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _75-K8FMjEeaXbYm3HBnm7g
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 7/26/16 2:04 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+//Assert that the empty log plotter shows a label
+switch_to_log_plotter_view
+get-view "Empty Log Plotter" | get-label "Log Plotter View" | get-property "getText()" | equals "Log Plotter View" | verify-true
+
+	
+let [val config01 [test_prefix "config01"]] [val block01 "block01"] [val pv01 "pv01"] {
+	create_simple_config_and_load $config01 $block01 $pv01
+	
+	//Create a plot
+	try -times 500 -delay 200 -command {
+		get-view Blocks | get-label disconnected | get-menu "Display block history" | click
+	}
+	
+	//Assert plot appears (also tests that the perspective is switched to)
+	get-editor "<Not saved to file>" | get-canvas | get-property className | equals "org.eclipse.swt.widgets.Canvas" | verify-true
+	
+	//Close the plot, assert that the label reappears
+	get-editor "<Not saved to file>" | close
+	get-window "Save Resource" | get-button No | click
+	get-view "Empty Log Plotter" | get-label "Log Plotter View" | get-property "getText()" | equals "Log Plotter View" | verify-true
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
