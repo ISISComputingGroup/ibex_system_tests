@@ -6,21 +6,27 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/8/16 2:23 PM
+Save-Time: 7/21/16 11:50 AM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
 Entry-Name: testcase-items
 
 _n_V-kCfsEeaXTOU1uHI8IA	// kind: 'test' name: 'Startup instrument is initially set up' path: 'Startup instrument is initially set up.test'
+_Sar0oDE_EeaWJe_H2uySSQ	// kind: 'test' name: 'AddABlockToAGroup' path: 'AddABlockToAGroup.test'
 _iWPmIPZqEeWUB6ttFEmy4Q	// kind: 'test' name: 'AddEditAndRemoveBlock' path: 'AddEditAndRemoveBlock.test'
 _Rq2D4PpcEeWdEd9B02gwIw	// kind: 'test' name: 'CreateSimpleSynoptic' path: 'CreateSimpleSynoptic.test'
 _YxmLoBE7EeaK56OpzmNTzg	// kind: 'test' name: 'AddingManyGroupsDoesNotCrashGui' path: 'AddingManyGroupsDoesNotCrashGui.test'
-_lrojgBX5EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameCannotBeEmpty' path: 'NewSynopticNameCannotBeEmpty.test'
 _aFqJcBX6EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameLengthCannotExceedMax' path: 'NewSynopticNameLengthCannotExceedMax.test'
+_lrojgBX5EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameCannotBeEmpty' path: 'NewSynopticNameCannotBeEmpty.test'
 _W1lpsB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreEnabledIfNotRunning' path: 'DAEExperimentTabsAreEnabledIfNotRunning.test'
 _jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAEExperimentTabsAreDisabledIfRunning.test'
 _6ljosCF-EeaVDbdGJtxYOQ	// kind: 'test' name: 'Default synoptic appears in edit config' path: 'Default synoptic appears in edit config.test'
-_G9wcgEUCEea3c7YIX-7B3A	// kind: 'test' name: 'AddEditRemoveAndClearUserDetails' path: 'AddEditRemoveAndClearUserDetails.test'
+_cB6ckEQiEear0fgUd5_sYQ	// kind: 'test' name: 'MultipleConfigsCanBeSimultaneouslyDeleted' path: 'MultipleConfigsCanBeSimultaneouslyDeleted.test'
+_ZpYe8EQiEear0fgUd5_sYQ	// kind: 'test' name: 'MultipleSynopticsCanBeSimultaneouslyDeleted' path: 'MultipleSynopticsCanBeSimultaneouslyDeleted.test'
+_PBkwsDF0EeaWJe_H2uySSQ	// kind: 'test' name: 'AddMultipleBlocksToMultipleGroups' path: 'AddMultipleBlocksToMultipleGroups.test'
+_xD3SkDLuEeaaer6ihff4wQ	// kind: 'test' name: 'CreateSynopticWithMultipleComponents' path: 'CreateSynopticWithMultipleComponents.test'
+_Kym24DFpEeaWJe_H2uySSQ	// kind: 'test' name: 'AddMultipleBlocksToOneGroup' path: 'AddMultipleBlocksToOneGroup.test'
+_GHwdwDLcEeaaer6ihff4wQ	// kind: 'test' name: 'BlockWithoutGroupGoesIntoOther' path: 'BlockWithoutGroupGoesIntoOther.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
