@@ -1,5 +1,9 @@
 """
 Script to clean up files in the IBEX server between tests
+
+**** WARNING ******
+This file to not run from the system tests it is a copy within the CleanIbexFiles contect. After editing update that
+file context by removing the old directory and adding this directory back in.
 """
 
 import os

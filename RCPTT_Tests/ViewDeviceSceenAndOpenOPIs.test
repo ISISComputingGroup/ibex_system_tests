@@ -1,0 +1,85 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: ViewDeviceSceenAndOpenOPIs
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _JeuG4EhDEeaHPakyWgT7zg
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 7/13/16 12:21 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+switch_to_device_screens_view
+
+let [val dev1 "MyDevice"] [val dev2 "My Linkam 95"] [val dev3 "ErrorNoOPI"] {
+  with [get-view "Device Screens"] {
+    get-editbox | set-text [ concat "<?xml version=\"1.0\" ?>\n"
+        + "<devices xmlns=\"http://epics.isis.rl.ac.uk/schema/screens/1.0/\">\n"
+        + "  <device>\n"
+        + "    <name>" $dev1 "</name>\n"
+        + "    <key>Eurotherm</key>\n"
+        + "    <type>OPI</type>\n"
+        + "    <properties>\n"
+        + "      <property>\n"
+        + "        <key>Property1</key>\n"
+        + "        <value>Value1</value>\n"
+        + "      </property>\n"
+        + "      <property>\n"        
+        + "        <key>Property2</key>\n"
+        + "        <value>Value2</value>\n"
+        + "      </property>\n"
+        + "    </properties>\n"
+        + "  </device>\n"
+        + "  <device>\n"
+        + "    <name>" $dev2 "</name>\n"
+        + "      <key>Linkam 95</key>\n"
+        + "      <type>OPI</type>\n"
+        + "      <properties>\n"
+        + "        <property>\n"
+        + "          <key>Property1</key>\n"
+        + "          <value>Value1</value>\n"
+        + "        </property>\n"
+        + "        <property>\n"        
+        + "          <key>Property2</key>\n"
+        + "          <value>Value2</value>\n"
+        + "        </property>\n"
+        + "    </properties>\n"
+        + "  </device>\n"
+        + "  <device>\n"
+        + "    <name>" $dev3 "</name>\n"
+        + "      <key>MyDeviceKey</key>\n"
+        + "      <type>COMPONENT</type>\n"
+        + "      <properties>\n"
+        + "        <property>\n"
+        + "          <key>Property1</key>\n"
+        + "          <value>Value1</value>\n"
+        + "        </property>\n"
+        + "        <property>\n"        
+        + "          <key>Property2</key>\n"
+        + "          <value>Value2</value>\n"
+        + "        </property>\n"
+        + "    </properties>\n"
+        + "  </device>\n"
+        + "</devices>\n"]
+
+	get-table | get-item $dev1 -column Name | get-property "values['Name']"  | equals $dev1 | verify-true
+    get-table | select $dev1 -column Name        
+  }
+
+  get-tab-folder | get-property activePage | equals MyDevice | verify-true
+        
+  get-view "Device Screens" | get-table | select $dev2 -column Name
+  get-tab-folder | get-property activePage | equals "linkam95.opi" | verify-true
+    
+  get-view "Device Screens" | get-table | select $dev3 -column Name   
+    
+  get-window "Error displaying OPI" | get-label "OPI key or path can not be found." | get-property caption 
+    | equals "OPI key or path can not be found." | verify-true
+  get-window "Error displaying OPI" | get-button OK | click
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
