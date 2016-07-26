@@ -122,9 +122,13 @@ def reset_ibex_backend():
     try:
         # reboot the dae then immediately move the data directory
         for proc in psutil.process_iter():
-            if proc.name() == "isisicp.exe":
-                proc.kill()
-                break
+            try:
+                if proc.name() == "isisicp.exe":
+                    proc.kill()
+                    break
+            except psutil.AccessDenied:
+                pass
+
         restart_ioc_in_console("ISISDAE_01")
     except Exception as ex:
         _log_and_exit(ex, 9)
@@ -166,6 +170,7 @@ def _log_and_exit(error, exit_code):
     with file(LOG_FILE, mode="a") as f:
         f.write("Error {0}: {1}\n".format(exit_code, error))
     print error
+	
     exit(exit_code)
 
 

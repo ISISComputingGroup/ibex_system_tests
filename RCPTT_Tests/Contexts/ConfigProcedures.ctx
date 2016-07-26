@@ -6,41 +6,141 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/14/16 1:28 PM
+Save-Time: 7/21/16 2:10 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
 // Open the "New configuration" window
-proc "new_config_window" {
+proc "new_config" {
 	try -times 500 -delay 200 -command {
 		get-menu "Configuration/Configurations/New" | click
-	}
+	} 
+	get-window "New configuration"
 }
 
-// Set a description name for a configuration (in the new configuration window)
-proc "set_config_description" [val description] {
+// Open the "Edit configuration" window
+proc "edit_config" [val config_name] {
 	try -times 500 -delay 200 -command {
-		with [get-window "New configuration"] {
+		get-menu "Configuration/Configurations/Edit" | click
+	} 
+	get-window "Edit Configuration"
+}
+
+// Open the "Edit current configuration" window
+proc "edit_current_config" {
+	try -times 500 -delay 200 -command {
+		get-menu "Configuration/Edit Current Configuration..." | click
+	} 
+	get-window "Edit Configuration"
+}
+	
+// Set a description name for a configuration (in the new OR edit configuration window)
+proc "set_config_description" [val description] [val window -input true ] {
+	try -times 500 -delay 200 -command {
+		with $window {
 	        	get-tab-folder | get-tab-item Summary | click
 	    		get-group Summary | get-editbox -after [get-label "Description:"] | set-text $description
 	   	}
 	}
 }
 
-// Save a configuration, naming it in the process
-proc "save_and_name_config" [val name] {
+// Save a configuration (using the "save" dialog on an edited configuration)
+proc "save_config" {
 	try -times 500 -delay 200 -command {
-	 	with [get-window "New configuration"] {
-	    		get-button "Save as ..." | click
-	    	}
+		with [get-window "Edit Configuration"] {
+			get-button Save | click
+		}
 	}
+}
+
+// Save a new configuration, naming it in the process (using the "save as" dialog on a new OR edited configuration)
+proc "save_and_name_config" [val name]  [val window -input true ] {
 	try -times 500 -delay 200 -command {
-	    with [get-window "Save Configuration As"] {
-	        get-editbox -after [get-label "Name:"] | set-text $name
-	        get-button OK | click
+		with $window {
+	    	get-button "Save as ..." | click
+	    }
+		try -times 500 -delay 200 -command {
+	    	with [get-window "Save Configuration As"] {
+	        	with [get-editbox -after [get-label "Name:"]] {
+	            	set-text $name
+	        	}
+	        	get-button OK | click
+	    	}
 	    }
 	}
 }
+
+// Load a configuration
+proc "load_config" [val name] {
+	try -times 500 -delay 200 -command {
+		get-menu "Configuration/Configurations/Load" | click
+		with [get-window "Load Configuration"] {
+	    	get-list | select $name
+	    	get-button OK | click
+		}
+	}
+}
+
+// Delete a configuration
+proc "delete_config" [val name] {
+	try -times 500 -delay 200 -command {
+		get-menu "Configuration/Configurations/Delete" | click
+		with [get-window "Delete Configurations"] {
+		    get-list | select $name
+		    get-button OK | click
+		}
+	}
+}
+
+// Add a block (to a new OR edited configuration)
+proc "add_block"[val block_name] [val pv_name] [val window -input true ] {
+	try -times 500 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Blocks | click
+			get-button "Add Block" | click
+			with [get-window "Block Configuration"] {
+		    with [get-group "Selected block"] {
+		        with [get-editbox -after [get-label "Name:"]] {
+		            set-text $block_name
+		        }
+		        with [get-editbox -after [get-label "PV address:"]] {
+		            set-text $pv_name
+		        }
+		    }
+		    get-button OK | click
+			}
+		}
+	}
+}
+
+// Delete all blocks?
+
+// Add a group
+proc "add_group" [val window -input true ] {
+	try -times 500 -delay 200 -command {
+		with $window {
+				get-tab-folder | get-tab-item Groups | click
+		    	get-group Groups | get-button Add | click
+		}
+	}
+}
+
+// Transfer a block to a group
+proc "add_block_to_group" [val group_name] [val block_name] [val window -input true ] {
+	try -times 500 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Groups | click
+			with [get-group Groups] {
+				get-list | select $group_name
+			}
+			with [get-group "Selected group" | get-group Blocks] {
+				get-list | select $block_name
+				get-button | click
+			}
+		}
+	}
+}
+
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
