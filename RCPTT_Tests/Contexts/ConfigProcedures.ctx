@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/21/16 2:10 PM
+Save-Time: 7/27/16 4:40 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -21,7 +21,7 @@ proc "new_config" {
 }
 
 // Open the "Edit configuration" window
-proc "edit_config" [val config_name] {
+proc "edit_config" {
 	try -times 500 -delay 200 -command {
 		get-menu "Configuration/Configurations/Edit" | click
 	} 
