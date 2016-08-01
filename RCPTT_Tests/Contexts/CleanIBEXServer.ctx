@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _nbUl0C4eEea6L74Op-Ffbg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/4/16 2:18 PM
+Save-Time: 8/1/16 1:11 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -35,5 +35,4 @@ try -times 400 -delay 200 -command {
   get-menu "Configuration/Edit Current Configuration..." | is-disabled | verify-false
   get-label [concat "Current configuration: rcptt_blank"]
 }
-
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
