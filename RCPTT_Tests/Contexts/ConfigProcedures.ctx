@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/26/16 2:21 PM
+Save-Time: 8/4/16 1:48 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -110,6 +110,28 @@ proc "add_block"[val block_name] [val pv_name] [val window -input true ] {
 		        }
 		    }
 		    get-button OK | click
+			}
+		}
+	}
+}
+
+proc "add_block_any_pv"[val block_name] {
+	try -times 500 -delay 200 -command {
+		with [get-window "Edit Configuration"] {
+			get-tab-folder | get-tab-item Blocks | click
+			get-button "Add Block" | click
+			with [get-window "Block Configuration"] {
+		    	with [get-group "Selected block"] {
+		        	with [get-editbox -after [get-label "Name:"]] {
+		            	set-text $block_name
+		        	}
+		    		get-button "Select PV" | click
+					with [get-window -class PvSelectorDialog] {
+						get-group "PV Selector" | get-table | select ".*INSTNAME"
+						get-button OK | click
+					}
+		    	}
+		    	get-button OK | click
 			}
 		}
 	}

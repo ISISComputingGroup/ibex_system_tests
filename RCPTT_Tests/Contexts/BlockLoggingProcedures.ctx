@@ -1,0 +1,48 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: BlockLoggingProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _yx-k8FokEeaPOv-En4y-qA
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 8/4/16 3:39 PM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+proc "edit_block_log_config" [val label_text][val new_value] {
+	get-window "Edit Configuration" | get-window "Block Configuration" | get-group "Logging Settings" | get-editbox 
+    	-after [get-label $label_text] | set-text $new_value
+}
+
+proc "verify_block_log_config" [val label_text][val expected_value] {
+	get-window "Edit Configuration" | get-window "Block Configuration" | get-editbox -after [get-label $label_text] 
+    	| get-property text | equals $expected_value | verify-true
+}
+
+proc "verify_block_log_enabled" [val expected_value] {
+    get-window "Edit Configuration" | get-window "Block Configuration" | get-group "Logging Settings" | get-button Enabled 
+        | get-property selected | equals $expected_value | verify-true
+}
+
+proc "block_logging_setup" {
+	edit_current_config
+	add_block_any_pv "NEW_BLOCK_01"
+	get-window "Edit Configuration" | get-button "Save" | click
+
+	try -times 30 -delay 1000 -command {
+		edit_current_config
+		with [get-window "Edit Configuration"] {
+			get-tab-folder | get-tab-item Blocks | click
+			get-table | get-cell 0 0 | click
+		}
+	} -catch {
+		try -times 100 -command {
+			get-window "Edit Configuration" | get-button Cancel | Click
+		}
+	}
+	get-window "Edit Configuration" | get-button "Edit Block" | click
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
