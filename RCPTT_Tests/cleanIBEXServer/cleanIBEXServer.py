@@ -77,13 +77,30 @@ def set_default_config(config_path):
     shutil.copyfile(os.path.join(CLEAN_IBEX_DIR, LAST_CONFIG_FILE),
                     os.path.join(PATH_TO_ICPCONFIGROOT, LAST_CONFIG_FILE))
 
+def check_dir_exists(path):
+    """
+    Check a directory exists, and create it if it does not
+    :param path: the directory path
+    :return:
+    """
+    if not os.path.exists(path):
+        os.makedirs(path)
 
 def copy_dae_tables():
-	table_source = os.path.join(CLEAN_IBEX_DIR, "Tables")
-	shutil.copyfile(os.path.join(table_source, WIRING_TABLE), os.path.join(PATH_TO_ICPCONFIGROOT, "tables", WIRING_TABLE))
-	shutil.copyfile(os.path.join(table_source, SPECTRA_TABLE), os.path.join(PATH_TO_ICPCONFIGROOT, "tables", SPECTRA_TABLE))
-	shutil.copyfile(os.path.join(table_source, DETECTOR_TABLE), os.path.join(PATH_TO_ICPCONFIGROOT, "tables", DETECTOR_TABLE))
-					
+    """
+    Copy DAE tables from system test folder to a predefined 
+    location on the machine
+    :return:
+    """
+    table_source = os.path.join(CLEAN_IBEX_DIR, "Tables")
+    
+    table_dest = os.path.join(PATH_TO_ICPCONFIGROOT, "tables")
+    check_dir_exists(table_dest)
+    
+    shutil.copyfile(os.path.join(table_source, WIRING_TABLE), os.path.join(table_dest, WIRING_TABLE))
+    shutil.copyfile(os.path.join(table_source, SPECTRA_TABLE), os.path.join(table_dest, SPECTRA_TABLE))
+    shutil.copyfile(os.path.join(table_source, DETECTOR_TABLE), os.path.join(table_dest, DETECTOR_TABLE))
+
 def reset_ibex_backend():
     """
     reset the ibex backend
