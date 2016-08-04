@@ -106,7 +106,7 @@ def reset_ibex_backend():
             sleep(6)
             set_default_config(configurations_path)
     except Exception as ex:
-        _log_and_exit(ex, 10)
+        _log_and_exit(ex, 7)
 
     try:
         _delete_data_del_dir()
@@ -122,26 +122,31 @@ def reset_ibex_backend():
     try:
         # reboot the dae then immediately move the data directory
         for proc in psutil.process_iter():
-            if proc.name() == "isisicp.exe":
-                proc.kill()
-                break
+            try:
+                if proc.name() == "isisicp.exe":
+                    proc.kill()
+                    break
+            except psutil.AccessDenied:
+                pass
+
         restart_ioc_in_console("ISISDAE_01")
     except Exception as ex:
         _log_and_exit(ex, 9)
 
     try:
         # delete dae experiments file
-        success = False
-        for i in range(2000):
-            try:
-                os.rename(PATH_TO_DAE_DATA, PATH_TO_DAE_DATA + "del")
-                print "Data dir moved to datadel"
-                success = True
-                break
-            except OSError:
-                sleep(0.01)
+        path_exists = os.path.exists(PATH_TO_DAE_DATA)
+        if path_exists:
+	        for i in range(2000):
+	            try:
+	                os.rename(PATH_TO_DAE_DATA, PATH_TO_DAE_DATA + "del")
+	                print "Data dir moved to datadel"
+	                path_exists = False
+	                break
+	            except OSError:
+	                sleep(0.01)
 
-        if not success:
+        if path_exists:
             print "Can not delete data dir!"
             _log_and_exit("Can not delete data dir!", 10)
     except Exception as ex:
@@ -165,6 +170,7 @@ def _log_and_exit(error, exit_code):
     with file(LOG_FILE, mode="a") as f:
         f.write("Error {0}: {1}\n".format(exit_code, error))
     print error
+	
     exit(exit_code)
 
 
