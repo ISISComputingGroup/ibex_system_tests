@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _yx-k8FokEeaPOv-En4y-qA
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 8/4/16 3:39 PM
+Save-Time: 8/8/16 5:05 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -29,20 +29,26 @@ proc "verify_block_log_enabled" [val expected_value] {
 
 proc "block_logging_setup" {
 	edit_current_config
-	add_block_any_pv "NEW_BLOCK_01"
-	get-window "Edit Configuration" | get-button "Save" | click
-
-	try -times 30 -delay 1000 -command {
-		edit_current_config
-		with [get-window "Edit Configuration"] {
-			get-tab-folder | get-tab-item Blocks | click
-			get-table | get-cell 0 0 | click
-		}
-	} -catch {
-		try -times 100 -command {
+	let [val block_name "NEW_BLOCK_01"] {
+		add_block_any_pv $block_name
+		get-window "Edit Configuration" | get-button "Save" | click
+	
+		assert_wait_for_dialog_closed
+	
+		try -times 30 -delay 1000 -command {
+			with [edit_current_config] {
+				get-tab-folder | get-tab-item Blocks | click
+				with [get-table] {
+					get-property itemCount | equals 1 | verify-true
+					get-cell 0 0 | click
+					get-item $block_name | get-property selection | equals false | verify-true
+				}
+			}
+		} -catch {
 			get-window "Edit Configuration" | get-button Cancel | Click
+			verify-false
 		}
+		get-window "Edit Configuration" | get-button "Edit Block" | click
 	}
-	get-window "Edit Configuration" | get-button "Edit Block" | click
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

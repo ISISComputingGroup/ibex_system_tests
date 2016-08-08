@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _iWPmIPZqEeWUB6ttFEmy4Q
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/4/16 10:16 AM
+Save-Time: 8/8/16 5:19 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -35,7 +35,7 @@ with [get-window "Edit Configuration"] {
 	get-button Save | click
 }
 
-wait 2000
+assert_wait_for_dialog_closed
 
 // Assert the new block exists
 try -times 60 -delay 1000 -command {
@@ -63,7 +63,7 @@ with [get-window "Edit Configuration"] {
 	get-button Save | click
 }
 
-wait 2000
+assert_wait_for_dialog_closed
 
 // Block still called "NEW_BLOCK"
 try -times 60 -delay 1000 -command {
@@ -81,7 +81,7 @@ with [get-window "Edit Configuration"] {
 	get-button Save | click
 }
 
-wait 2000
+assert_wait_for_dialog_closed
 
 // Block now called "NEW_BLOCK_1"
 try -times 60 -delay 1000 -command {
@@ -99,7 +99,7 @@ with [get-window "Edit Configuration"] {
 	get-button Save | click
 }
 
-wait 2000
+assert_wait_for_dialog_closed
 
 // Block still called "NEW_BLOCK_1"
 try -times 60 -delay 1000 -command {
@@ -117,7 +117,7 @@ with [get-window "Edit Configuration"] {
 	get-button Save | click
 }
 
-wait 2000
+assert_wait_for_dialog_closed
 	
 // Block now called "NEW_BLOCK"
 try -times 60 -delay 1000 -command {
