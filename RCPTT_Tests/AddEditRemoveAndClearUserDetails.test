@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _G9wcgEUCEea3c7YIX-7B3A
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 8/5/16 11:54 AM
+Save-Time: 8/9/16 3:50 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -62,9 +62,9 @@ get-view Dashboard | get-label "DEFAULT_USER" | get-property "getText()"
 /*
 *	Edit user, set and assert dashboard
 */
-get-view "My View" | get-button Clear | click
-get-view "My View" | get-button Add | click
 with [get-view "My View"] {
+	get-button Clear | click
+	get-button Add | click
     with [get-table] {
         select "DEFAULT_USER" | activate-cell-edit
         get-editbox | set-text Test
