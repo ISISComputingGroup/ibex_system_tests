@@ -45,6 +45,12 @@ BLANK_CONFIG_DIR = "rcptt_blank"
 # log file for exception logging
 LOG_FILE = os.path.join(CLEAN_IBEX_DIR, "cleanIBEXServer.log")
 
+#ASCII character for an enquiry (i.e. CTRL+E)
+ENQ_SIGNAL = "\x05"
+
+#ASCII character for cancel (i.e. CTRL+X)
+CAN_SIGNAL = "\x18"
+
 
 def remove_test_dir_and_files(root_path):
     """
@@ -246,11 +252,11 @@ def restart_ioc_in_console(console_name):
 
     p = subprocess.Popen([PATH_TO_CONSOLE_EXE, "-M", "localhost", console_name],
                          stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    p.communicate(chr(24) + chr(5) + "c.")
+    p.communicate(CAN_SIGNAL + ENQ_SIGNAL + "c.")
     print("Restarted the {0}".format(console_name))
 
 
-def run_clean():
+def need_run_clean():
     """
     Should we run a clean, only run a clean every RUN_CLEAN_PER tests
     :return:true if clean; false otherwise
@@ -277,6 +283,6 @@ def run_clean():
         return False
 
 if __name__ == "__main__":
-    if run_clean():
+    if need_run_clean():
         reset_ibex_backend()
     _log_and_exit("success", 0)
