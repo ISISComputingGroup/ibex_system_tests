@@ -57,6 +57,13 @@ CAN_SIGNAL = "\x18"
 # Signal to exit a console
 EXIT_CONSOLE_SIGNAL = ENQ_SIGNAL + "c."
 
+# Block server process name
+BLOCKSERVER = "BLOCKSVR"
+
+# DAE process name
+DAE = "ISISDAE_01"
+
+
 
 def remove_test_dir_and_files(root_path):
     """
@@ -118,6 +125,14 @@ def reset_ibex_backend():
     reset the ibex backend
     :return:
     """
+    try:
+        # stop the block server
+        # procServ is set to autorestart the block server, so we need to toggle the autorestart flag first
+        toggle_autorestart_in_console(BLOCKSERVER)
+        stop_ioc_in_console(BLOCKSERVER)
+    except Exception as ex:
+        _log_and_exit(ex, 14)
+
     configurations_path = os.path.join(PATH_TO_ICPCONFIGROOT, "configurations")
     try:
         print "Removing test configurations in {0}".format(configurations_path)
@@ -155,7 +170,7 @@ def reset_ibex_backend():
             sleep(6)
             copy_dae_tables()
     except Exception as ex:
-        _log_and_exit(ex, 7)
+        _log_and_exit(ex, 13)
 
     try:
         _delete_data_del_dir()
@@ -163,8 +178,8 @@ def reset_ibex_backend():
         _log_and_exit(ex, 6)
 
     try:
-        # reboot the block server
-        restart_ioc_in_console("BLOCKSVR")
+        # reboot the block server by restoring the autorestart flag
+        toggle_autorestart_in_console(BLOCKSERVER)
     except Exception as ex:
         _log_and_exit(ex, 8)
 
@@ -178,7 +193,8 @@ def reset_ibex_backend():
             except psutil.AccessDenied:
                 pass
 
-        restart_ioc_in_console("ISISDAE_01")
+        # reboot the dae by stopping it (dae procServ is set to autorestart)
+        stop_ioc_in_console(DAE)
     except Exception as ex:
         _log_and_exit(ex, 9)
 
@@ -249,9 +265,9 @@ def _delete_data_del_dir():
         shutil.rmtree(path_to_dae_data_del,onerror=error_remove_readonly)
 
 
-def restart_ioc_in_console(console_name):
+def stop_ioc_in_console(console_name):
     """
-    Restart an ioc running in a console
+    Stop an ioc running in a console. ProcServ will automatically restart it if it is set to do so.
     :param console_name: name of the console
     :return:
     """
