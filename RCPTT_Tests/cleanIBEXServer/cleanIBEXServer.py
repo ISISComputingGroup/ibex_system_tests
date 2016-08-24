@@ -45,11 +45,17 @@ BLANK_CONFIG_DIR = "rcptt_blank"
 # log file for exception logging
 LOG_FILE = os.path.join(CLEAN_IBEX_DIR, "cleanIBEXServer.log")
 
-#ASCII character for an enquiry (i.e. CTRL+E)
+#ASCII character for an Enquiry (i.e. CTRL+E)
 ENQ_SIGNAL = "\x05"
 
-#ASCII character for cancel (i.e. CTRL+X)
+# ASCII character for Device Control 4 (i.e. CTRL+T)
+DC4_SIGNAL = "\x14"
+
+#ASCII character for Cancel (i.e. CTRL+X)
 CAN_SIGNAL = "\x18"
+
+# Signal to exit a console
+EXIT_CONSOLE_SIGNAL = ENQ_SIGNAL + "c."
 
 
 def remove_test_dir_and_files(root_path):
@@ -250,11 +256,31 @@ def restart_ioc_in_console(console_name):
     :return:
     """
 
-    p = subprocess.Popen([PATH_TO_CONSOLE_EXE, "-M", "localhost", console_name],
-                         stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    p.communicate(CAN_SIGNAL + ENQ_SIGNAL + "c.")
+    p = _open_console_process(console_name)
+    p.communicate(CAN_SIGNAL + EXIT_CONSOLE_SIGNAL)
     print("Restarted the {0}".format(console_name))
 
+
+def toggle_autorestart_in_console(console_name):
+    """
+    Toggle the procServ autorestart flag in a console
+    :param console_name: name of the console
+    :return:
+    """
+
+    p = _open_console_process(console_name)
+    p.communicate(DC4_SIGNAL + EXIT_CONSOLE_SIGNAL)
+
+
+def _open_console_process(console_name):
+    """
+    Open a console in a subprocess
+    :param console_name: name of the console
+    :return: the subprocess
+    """
+
+    return subprocess.Popen([PATH_TO_CONSOLE_EXE, "-M", "localhost", console_name],
+                         stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
 def need_run_clean():
     """
