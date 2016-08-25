@@ -1,16 +1,27 @@
 """
 Script to clean up files in the IBEX server between tests
 """
-
 import os
+import sys
+#
+# # Path to EPICS
+# default_epics_path = os.path.join("C:\\", "Instrument", "Apps", "EPICS")
+# EPICS = os.environ("MYDIR", default_epics_path)
+#
+# # Path to version control
+# VC_PATH = os.path.join(EPICS, "ConfigVersionControl", "master")
+# sys.path.insert(0, os.path.abspath(VC_PATH))
+
 import stat
 import subprocess
 import shutil
 from subprocess import PIPE
 from time import sleep
+# from config_version_control import ConfigVersionControl
 
 import errno
 import psutil
+
 
 # How often should be clean the directories
 RUN_CLEAN_PER = 0
