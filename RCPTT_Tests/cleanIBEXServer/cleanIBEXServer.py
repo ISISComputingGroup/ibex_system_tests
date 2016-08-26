@@ -285,7 +285,7 @@ def stop_ioc_in_console(console_name):
 
     p = _open_console_process(console_name)
     p.communicate(CAN_SIGNAL + EXIT_CONSOLE_SIGNAL)
-    print("Restarted the {0}".format(console_name))
+    print("Stopped or restarted the {0}".format(console_name))
 
 
 def toggle_autorestart_in_console(console_name):
