@@ -131,108 +131,91 @@ def copy_dae_tables():
     shutil.copyfile(os.path.join(table_source, SPECTRA_TABLE), os.path.join(table_dest, SPECTRA_TABLE))
     shutil.copyfile(os.path.join(table_source, DETECTOR_TABLE), os.path.join(table_dest, DETECTOR_TABLE))
 
+def safe_execute(function_to_execute, error_no, *args):
+    try:
+        function_to_execute(*args)
+    except Exception as ex:
+        _log_and_exit(ex, error_no)
+
+def stop_blockserver():
+    # stop the block server
+    # procServ is set to autorestart the block server, so we need to toggle the autorestart flag first
+    toggle_autorestart_in_console(BLOCKSERVER)
+    stop_ioc_in_console(BLOCKSERVER)
+
+def safe_set_default_config(configurations_path):
+    try:
+        set_default_config(configurations_path)
+    except IOError:
+        sleep(6)
+        set_default_config(configurations_path)
+
+def safe_copy_dae_tables():
+    try:
+        copy_dae_tables()
+    except IOError:
+        sleep(6)
+        copy_dae_tables()
+
+def reboot_dae():
+    # reboot the dae then immediately move the data directory
+    for proc in psutil.process_iter():
+        try:
+            if proc.name() == "isisicp.exe":
+                proc.kill()
+                break
+        except psutil.AccessDenied:
+            pass
+
+    # reboot the dae by stopping it (dae procServ is set to autorestart)
+    stop_ioc_in_console(DAE)
+
+def delete_dae_experiments_file(error_no):
+    # delete dae experiments file
+    path_exists = os.path.exists(PATH_TO_DAE_DATA)
+    if path_exists:
+        for i in range(2000):
+            try:
+                os.rename(PATH_TO_DAE_DATA, PATH_TO_DAE_DATA + "del")
+                print "Data dir moved to datadel"
+                path_exists = False
+                break
+            except OSError:
+                sleep(0.01)
+
+    if path_exists:
+        print "Can not delete data dir!"
+        _log_and_exit("Can not delete data dir!", error_no)
+
 def reset_ibex_backend():
     """
     reset the ibex backend
     :return:
     """
-    try:
-        # stop the block server
-        # procServ is set to autorestart the block server, so we need to toggle the autorestart flag first
-        toggle_autorestart_in_console(BLOCKSERVER)
-        stop_ioc_in_console(BLOCKSERVER)
-    except Exception as ex:
-        _log_and_exit(ex, 14)
+    safe_execute(stop_blockserver, 14)
 
     configurations_path = os.path.join(PATH_TO_ICPCONFIGROOT, "configurations")
-    try:
-        print "Removing test configurations in {0}".format(configurations_path)
-        remove_test_dir_and_files(configurations_path)
-    except Exception as ex:
-        _log_and_exit(ex, 3)
+    print "Removing test configurations in {0}".format(configurations_path)
+    safe_execute(remove_test_dir_and_files, 3, configurations_path)
 
-    try:
-        components_path = os.path.join(PATH_TO_ICPCONFIGROOT, "components")
-        print "Removing test components in {0}".format(components_path)
-        remove_test_dir_and_files(components_path)
-    except Exception as ex:
-        _log_and_exit(ex, 4)
+    components_path = os.path.join(PATH_TO_ICPCONFIGROOT, "components")
+    print "Removing test components in {0}".format(components_path)
+    safe_execute(remove_test_dir_and_files, 4, components_path)
 
-    try:
-        synoptics_path = os.path.join(PATH_TO_ICPCONFIGROOT, "synoptics")
-        print "Removing test synoptics in {0}".format(synoptics_path)
-        remove_test_dir_and_files(synoptics_path)
-    except Exception as ex:
-        _log_and_exit(ex, 5)
+    synoptics_path = os.path.join(PATH_TO_ICPCONFIGROOT, "synoptics")
+    print "Removing test synoptics in {0}".format(synoptics_path)
+    safe_execute(remove_test_dir_and_files, 5, synoptics_path)
 
-    try:
-        try:
-            set_default_config(configurations_path)
-        except IOError:
-            sleep(6)
-            set_default_config(configurations_path)
-    except Exception as ex:
-        _log_and_exit(ex, 7)
+    safe_execute(safe_set_default_config, 7, configurations_path)
+    safe_execute(safe_copy_dae_tables, 13)
+    safe_execute(_delete_data_del_dir, 6)
 
-    try:
-        try:
-            copy_dae_tables()
-        except IOError:
-            sleep(6)
-            copy_dae_tables()
-    except Exception as ex:
-        _log_and_exit(ex, 13)
+    # reboot the block server by restoring the autorestart flag
+    safe_execute(toggle_autorestart_in_console, 8, BLOCKSERVER)
 
-    try:
-        _delete_data_del_dir()
-    except Exception as ex:
-        _log_and_exit(ex, 6)
-
-    try:
-        # reboot the block server by restoring the autorestart flag
-        toggle_autorestart_in_console(BLOCKSERVER)
-    except Exception as ex:
-        _log_and_exit(ex, 8)
-
-    try:
-        # reboot the dae then immediately move the data directory
-        for proc in psutil.process_iter():
-            try:
-                if proc.name() == "isisicp.exe":
-                    proc.kill()
-                    break
-            except psutil.AccessDenied:
-                pass
-
-        # reboot the dae by stopping it (dae procServ is set to autorestart)
-        stop_ioc_in_console(DAE)
-    except Exception as ex:
-        _log_and_exit(ex, 9)
-
-    try:
-        # delete dae experiments file
-        path_exists = os.path.exists(PATH_TO_DAE_DATA)
-        if path_exists:
-	        for i in range(2000):
-	            try:
-	                os.rename(PATH_TO_DAE_DATA, PATH_TO_DAE_DATA + "del")
-	                print "Data dir moved to datadel"
-	                path_exists = False
-	                break
-	            except OSError:
-	                sleep(0.01)
-
-        if path_exists:
-            print "Can not delete data dir!"
-            _log_and_exit("Can not delete data dir!", 10)
-    except Exception as ex:
-        _log_and_exit("Can not delete data dir!", 11)
-
-    try:
-        _delete_data_del_dir()
-    except Exception as ex:
-        _log_and_exit("Can not delete data dir!", 12)
-
+    safe_execute(reboot_dae, 9)
+    safe_execute(delete_dae_experiments_file, 11, 10)
+    safe_execute(_delete_data_del_dir, 12)
     print "Deleted the moved data dir"
 
 
