@@ -192,30 +192,30 @@ def reset_ibex_backend():
     reset the ibex backend
     :return:
     """
-    safe_execute(stop_blockserver, 14)
+    safe_execute(stop_blockserver, 3)
 
     configurations_path = os.path.join(PATH_TO_ICPCONFIGROOT, "configurations")
     print "Removing test configurations in {0}".format(configurations_path)
-    safe_execute(remove_test_dir_and_files, 3, configurations_path)
+    safe_execute(remove_test_dir_and_files, 4, configurations_path)
 
     components_path = os.path.join(PATH_TO_ICPCONFIGROOT, "components")
     print "Removing test components in {0}".format(components_path)
-    safe_execute(remove_test_dir_and_files, 4, components_path)
+    safe_execute(remove_test_dir_and_files, 5, components_path)
 
     synoptics_path = os.path.join(PATH_TO_ICPCONFIGROOT, "synoptics")
     print "Removing test synoptics in {0}".format(synoptics_path)
-    safe_execute(remove_test_dir_and_files, 5, synoptics_path)
+    safe_execute(remove_test_dir_and_files, 6, synoptics_path)
 
     safe_execute(safe_set_default_config, 7, configurations_path)
-    safe_execute(safe_copy_dae_tables, 13)
-    safe_execute(_delete_data_del_dir, 6)
+    safe_execute(safe_copy_dae_tables, 8)
+    safe_execute(_delete_data_del_dir, 9)
 
     # reboot the block server by restoring the autorestart flag
-    safe_execute(toggle_autorestart_in_console, 8, BLOCKSERVER)
+    safe_execute(toggle_autorestart_in_console, 10, BLOCKSERVER)
 
-    safe_execute(reboot_dae, 9)
-    safe_execute(delete_dae_experiments_file, 11, 10)
-    safe_execute(_delete_data_del_dir, 12)
+    safe_execute(reboot_dae, 11)
+    safe_execute(delete_dae_experiments_file, 13, 12)
+    safe_execute(_delete_data_del_dir, 14)
     print "Deleted the moved data dir"
 
 
