@@ -34,6 +34,11 @@ CLEAN_IBEX_DIR = os.path.dirname(os.path.realpath(__file__))
 # name of the file representing the "last config" to be copied
 LAST_CONFIG_FILE = "last_config.txt"
 
+# names of DAE tables
+WIRING_TABLE = "RCPTT_wiring128.dat"
+SPECTRA_TABLE = "RCPTT_spectra128.dat"
+DETECTOR_TABLE = "RCPTT_detector128.dat"
+
 # name of the blank config
 BLANK_CONFIG_DIR = "rcptt_blank"
 
@@ -72,6 +77,29 @@ def set_default_config(config_path):
     shutil.copyfile(os.path.join(CLEAN_IBEX_DIR, LAST_CONFIG_FILE),
                     os.path.join(PATH_TO_ICPCONFIGROOT, LAST_CONFIG_FILE))
 
+def check_dir_exists(path):
+    """
+    Check a directory exists, and create it if it does not
+    :param path: the directory path
+    :return:
+    """
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+def copy_dae_tables():
+    """
+    Copy DAE tables from system test folder to a predefined 
+    location on the machine
+    :return:
+    """
+    table_source = os.path.join(CLEAN_IBEX_DIR, "Tables")
+    
+    table_dest = os.path.join(PATH_TO_ICPCONFIGROOT, "tables")
+    check_dir_exists(table_dest)
+    
+    shutil.copyfile(os.path.join(table_source, WIRING_TABLE), os.path.join(table_dest, WIRING_TABLE))
+    shutil.copyfile(os.path.join(table_source, SPECTRA_TABLE), os.path.join(table_dest, SPECTRA_TABLE))
+    shutil.copyfile(os.path.join(table_source, DETECTOR_TABLE), os.path.join(table_dest, DETECTOR_TABLE))
 
 def reset_ibex_backend():
     """
@@ -105,6 +133,15 @@ def reset_ibex_backend():
         except IOError:
             sleep(6)
             set_default_config(configurations_path)
+    except Exception as ex:
+        _log_and_exit(ex, 7)
+
+    try:
+        try:
+            copy_dae_tables()
+        except IOError:
+            sleep(6)
+            copy_dae_tables()
     except Exception as ex:
         _log_and_exit(ex, 7)
 
