@@ -17,7 +17,6 @@ import subprocess
 import shutil
 from subprocess import PIPE
 from time import sleep
-# from config_version_control import ConfigVersionControl
 
 import errno
 import psutil
