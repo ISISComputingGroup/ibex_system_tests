@@ -16,6 +16,7 @@ cd %WORKSPACE%
 
 REM Clean up the previous versions
 rd /S /Q "C:\Instrument\Apps\EPICS\"
+if exist "C:\Instrument\Apps\EPICS\" rd /S /Q "C:\Instrument\Apps\EPICS\"
 
 REM Delete old configuration directory
 rd /S /Q "C:\Instrument\Settings\"
