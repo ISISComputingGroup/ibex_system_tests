@@ -1,8 +1,8 @@
 """
 Script to clean up files in the IBEX server between tests
 """
-
 import os
+
 import stat
 import subprocess
 import shutil
@@ -11,6 +11,7 @@ from time import sleep
 
 import errno
 import psutil
+
 
 # How often should be clean the directories
 RUN_CLEAN_PER = 0
@@ -44,6 +45,25 @@ BLANK_CONFIG_DIR = "rcptt_blank"
 
 # log file for exception logging
 LOG_FILE = os.path.join(CLEAN_IBEX_DIR, "cleanIBEXServer.log")
+
+#ASCII character for an Enquiry (i.e. CTRL+E)
+ENQ_SIGNAL = "\x05"
+
+# ASCII character for Device Control 4 (i.e. CTRL+T)
+DC4_SIGNAL = "\x14"
+
+#ASCII character for Cancel (i.e. CTRL+X)
+CAN_SIGNAL = "\x18"
+
+# Signal to exit a console
+EXIT_CONSOLE_SIGNAL = ENQ_SIGNAL + "c."
+
+# Block server process name
+BLOCKSERVER = "BLOCKSVR"
+
+# DAE process name
+DAE = "ISISDAE_01"
+
 
 
 def remove_test_dir_and_files(root_path):
@@ -101,99 +121,104 @@ def copy_dae_tables():
     shutil.copyfile(os.path.join(table_source, SPECTRA_TABLE), os.path.join(table_dest, SPECTRA_TABLE))
     shutil.copyfile(os.path.join(table_source, DETECTOR_TABLE), os.path.join(table_dest, DETECTOR_TABLE))
 
+def safe_execute(function_to_execute, error_no, *args):
+    """
+    Execute input command in a try catch. Stop script in case of error.
+    :param function_to_execute: the command to execute
+    :param error_no: the error number to use when quitting the script
+    :param args: arguments to the command to execute
+    :return:
+    """
+    try:
+        function_to_execute(*args)
+    except Exception as ex:
+        _log_and_exit(ex, error_no)
+
+def safe_set_default_config(configurations_path):
+    try:
+        set_default_config(configurations_path)
+    except IOError:
+        sleep(6)
+        set_default_config(configurations_path)
+
+def safe_copy_dae_tables():
+    try:
+        copy_dae_tables()
+    except IOError:
+        sleep(6)
+        copy_dae_tables()
+
+def reboot_dae(error_no):
+    """
+    Reboot the dae then immediately move the data directory
+    :return:
+    """
+    for proc in psutil.process_iter():
+        try:
+            if proc.name() == "isisicp.exe":
+                proc.kill()
+                break
+        except psutil.AccessDenied:
+            pass
+
+    # reboot the dae by stopping it (dae procServ is set to autorestart)
+    stop_ioc(DAE, error_no)
+
+def delete_dae_experiments_file(error_no):
+    """
+    Delete dae experiments file
+    :param error_no:
+    :return:
+    """
+    path_exists = os.path.exists(PATH_TO_DAE_DATA)
+    if path_exists:
+        for i in range(2000):
+            try:
+                os.rename(PATH_TO_DAE_DATA, PATH_TO_DAE_DATA + "del")
+                print "Data dir moved to datadel"
+                path_exists = False
+                break
+            except OSError:
+                sleep(0.01)
+
+    if path_exists:
+        print "Can not delete data dir!"
+        _log_and_exit("Can not delete data dir!", error_no)
+
 def reset_ibex_backend():
     """
     reset the ibex backend
     :return:
     """
+
+    # stop the block server
+    # procServ is set to autorestart the block server, so we need to toggle the autorestart flag first
+    safe_execute(toggle_ioc_autorestart, 3, BLOCKSERVER, 4)
+    safe_execute(stop_ioc, 5, BLOCKSERVER, 6)
+
+    # delete test artefacts
     configurations_path = os.path.join(PATH_TO_ICPCONFIGROOT, "configurations")
-    try:
-        print "Removing test configurations in {0}".format(configurations_path)
-        remove_test_dir_and_files(configurations_path)
-    except Exception as ex:
-        _log_and_exit(ex, 3)
+    print "Removing test configurations in {0}".format(configurations_path)
+    safe_execute(remove_test_dir_and_files, 7, configurations_path)
 
-    try:
-        components_path = os.path.join(PATH_TO_ICPCONFIGROOT, "components")
-        print "Removing test components in {0}".format(components_path)
-        remove_test_dir_and_files(components_path)
-    except Exception as ex:
-        _log_and_exit(ex, 4)
+    components_path = os.path.join(PATH_TO_ICPCONFIGROOT, "components")
+    print "Removing test components in {0}".format(components_path)
+    safe_execute(remove_test_dir_and_files, 8, components_path)
 
-    try:
-        synoptics_path = os.path.join(PATH_TO_ICPCONFIGROOT, "synoptics")
-        print "Removing test synoptics in {0}".format(synoptics_path)
-        remove_test_dir_and_files(synoptics_path)
-    except Exception as ex:
-        _log_and_exit(ex, 5)
+    synoptics_path = os.path.join(PATH_TO_ICPCONFIGROOT, "synoptics")
+    print "Removing test synoptics in {0}".format(synoptics_path)
+    safe_execute(remove_test_dir_and_files, 9, synoptics_path)
 
-    try:
-        try:
-            set_default_config(configurations_path)
-        except IOError:
-            sleep(6)
-            set_default_config(configurations_path)
-    except Exception as ex:
-        _log_and_exit(ex, 7)
+    safe_execute(safe_set_default_config, 10, configurations_path)
+    safe_execute(safe_copy_dae_tables, 11)
+    safe_execute(_delete_data_del_dir, 12)
 
-    try:
-        try:
-            copy_dae_tables()
-        except IOError:
-            sleep(6)
-            copy_dae_tables()
-    except Exception as ex:
-        _log_and_exit(ex, 7)
+    # reboot the block server by restoring the autorestart flag
+    safe_execute(toggle_ioc_autorestart, 13, BLOCKSERVER, 14)
 
-    try:
-        _delete_data_del_dir()
-    except Exception as ex:
-        _log_and_exit(ex, 6)
-
-    try:
-        # reboot the block server
-        restart_ioc_in_console("BLOCKSVR")
-    except Exception as ex:
-        _log_and_exit(ex, 8)
-
-    try:
-        # reboot the dae then immediately move the data directory
-        for proc in psutil.process_iter():
-            try:
-                if proc.name() == "isisicp.exe":
-                    proc.kill()
-                    break
-            except psutil.AccessDenied:
-                pass
-
-        restart_ioc_in_console("ISISDAE_01")
-    except Exception as ex:
-        _log_and_exit(ex, 9)
-
-    try:
-        # delete dae experiments file
-        path_exists = os.path.exists(PATH_TO_DAE_DATA)
-        if path_exists:
-	        for i in range(2000):
-	            try:
-	                os.rename(PATH_TO_DAE_DATA, PATH_TO_DAE_DATA + "del")
-	                print "Data dir moved to datadel"
-	                path_exists = False
-	                break
-	            except OSError:
-	                sleep(0.01)
-
-        if path_exists:
-            print "Can not delete data dir!"
-            _log_and_exit("Can not delete data dir!", 10)
-    except Exception as ex:
-        _log_and_exit("Can not delete data dir!", 11)
-
-    try:
-        _delete_data_del_dir()
-    except Exception as ex:
-        _log_and_exit("Can not delete data dir!", 12)
-
+    safe_execute(reboot_dae, 15, 16)
+    safe_execute(delete_dae_experiments_file, 17, 18)
+    safe_execute(_delete_data_del_dir, 19)
     print "Deleted the moved data dir"
 
 
@@ -206,8 +231,9 @@ def _log_and_exit(error, exit_code):
     """
     with file(LOG_FILE, mode="a") as f:
         f.write("Error {0}: {1}\n".format(exit_code, error))
+
     print error
-	
+
     exit(exit_code)
 
 
@@ -237,20 +263,46 @@ def _delete_data_del_dir():
         shutil.rmtree(path_to_dae_data_del,onerror=error_remove_readonly)
 
 
-def restart_ioc_in_console(console_name):
+def stop_ioc(console_name, error_no):
     """
-    Restart an ioc running in a console
+    Stop an ioc running in a console. ProcServ will automatically restart it if it is set to do so.
     :param console_name: name of the console
     :return:
     """
+    _send_via_console(console_name, CAN_SIGNAL, error_no)
+    print("Stopped or restarted the {0}".format(console_name))
 
+
+def toggle_ioc_autorestart(console_name, error_no):
+    """
+    Toggle the procServ autorestart flag in a console
+    :param console_name: name of the console
+    :return:
+    """
+    _send_via_console(console_name, DC4_SIGNAL, error_no)
+    print("Toggled autorestart for the {0}".format(console_name))
+
+
+def _send_via_console(console_name, message, error_no):
+    """
+    Open a console in a subprocess
+    :param console_name: name of the console
+    :return: the subprocess
+    """
     p = subprocess.Popen([PATH_TO_CONSOLE_EXE, "-M", "localhost", console_name],
                          stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    p.communicate(chr(24) + chr(5) + "c.")
-    print("Restarted the {0}".format(console_name))
+    output, errors = p.communicate(message + EXIT_CONSOLE_SIGNAL)
+
+    if errors:
+        _log_and_exit(errors, error_no)
+
+    missing_console_msg = "console '" + console_name + "' not found"
+    if missing_console_msg in output:
+        _log_and_exit(output, error_no)
 
 
-def run_clean():
+
+def need_run_clean():
     """
     Should we run a clean, only run a clean every RUN_CLEAN_PER tests
     :return:true if clean; false otherwise
@@ -277,6 +329,6 @@ def run_clean():
         return False
 
 if __name__ == "__main__":
-    if run_clean():
+    if need_run_clean():
         reset_ibex_backend()
     _log_and_exit("success", 0)
