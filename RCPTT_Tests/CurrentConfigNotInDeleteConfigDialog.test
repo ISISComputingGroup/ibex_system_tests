@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _SutOYGuLEeaEl7GeJPNMVQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 9/8/16 9:21 AM
+Save-Time: 9/8/16 4:53 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -18,22 +18,19 @@ let [val test_config "rcptt_test_config"] {
 	wait 10000
 	load_config $test_config
 	wait 10000
-	try -times 10 -delay 200 -command {
+	try -times 50 -delay 200 -command {
 		get-menu "Configuration/Configurations/Delete" | click
-		with [get-window "Delete Configurations" | get-list] {
-			let [val item_count [get-property -raw true -name "getItemCount()"]] {	
-				loop [val index [int 0]] {
-					if [ $index | lt $item_count] {
-			   			get-window "Delete Configurations" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $test_config | verify-false
-			   			recur [ $index | plus 1 ]
-					}
+	}
+	with [get-window "Delete Configurations" | get-list] {
+		let [val item_count [get-property -raw true -name "getItemCount()"]] {	
+			loop [val index [int 0]] {
+				if [ $index | lt $item_count] {
+		   			get-window "Delete Configurations" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $test_config | verify-false
+		   			recur [ $index | plus 1 ]
 				}
 			}
 		}
-	} -catch {
-    	get-window "Delete Configurations" | get-button Cancel | click
-	} -finally {
-    	get-window "Delete Configurations" | get-button Cancel | click
 	}
 }
+get-window "Delete Configurations" | get-button Cancel | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
