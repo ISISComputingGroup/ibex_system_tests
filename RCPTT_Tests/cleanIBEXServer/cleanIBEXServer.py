@@ -171,6 +171,7 @@ def delete_dae_experiments_file(error_no):
     :return:
     """
     path_exists = os.path.exists(PATH_TO_DAE_DATA)
+    os_error = None
     if path_exists:
         for i in range(2000):
             try:
@@ -178,12 +179,13 @@ def delete_dae_experiments_file(error_no):
                 print "Data dir moved to datadel"
                 path_exists = False
                 break
-            except OSError:
+            except OSError as e:
+                os_error = e
                 sleep(0.01)
 
     if path_exists:
         print "Can not delete data dir!"
-        _log_and_exit("Can not delete data dir!", error_no)
+        _log_and_exit("Can not delete data dir! " + e.strerror, error_no)
 
 def reset_ibex_backend():
     """
