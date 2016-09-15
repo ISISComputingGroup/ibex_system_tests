@@ -46,13 +46,13 @@ BLANK_CONFIG_DIR = "rcptt_blank"
 # log file for exception logging
 LOG_FILE = os.path.join(CLEAN_IBEX_DIR, "cleanIBEXServer.log")
 
-#ASCII character for an Enquiry (i.e. CTRL+E)
+# ASCII character for an Enquiry (i.e. CTRL+E)
 ENQ_SIGNAL = "\x05"
 
 # ASCII character for Device Control 4 (i.e. CTRL+T)
 DC4_SIGNAL = "\x14"
 
-#ASCII character for Cancel (i.e. CTRL+X)
+# ASCII character for Cancel (i.e. CTRL+X)
 CAN_SIGNAL = "\x18"
 
 # Signal to exit a console
@@ -65,6 +65,33 @@ BLOCKSERVER = "BLOCKSVR"
 DAE = "ISISDAE_01"
 
 
+# Error codes
+class ErrNum(object):
+    BS_TOGGLE_OFF = 3,
+    BS_STOP = 4,
+    DAE_TOGGLE_OFF = 5,
+    DAE_STOP = 6,
+    DELETE_DATA = 7,
+    BS_TOGGLE_ON = 8,
+    DAE_TOGGLE_ON = 9,
+
+
+class SafeExErrNum(object):
+    BS_TOGGLE_OFF = 10,
+    BS_STOP = 11,
+    DAE_TOGGLE_OFF = 12,
+    DAE_STOP = 13,
+    REMOVE_TEST_DIR = 14,
+    REMOVE_TEST_DIR_2 = 15,
+    REMOVE_TEST_DIR_3 = 16,
+    SET_DEFAULT_CONFIG = 17,
+    COPY_DAE = 18,
+    DELETE_DATA = 19,
+    DELETE_DATA_DEL = 20,
+    DELETE_DATA_DEL_2 = 21,
+    BS_TOGGLE_ON = 22,
+    DAE_TOGGLE_ON = 23,
+   
 
 def remove_test_dir_and_files(root_path):
     """
@@ -97,6 +124,7 @@ def set_default_config(config_path):
     shutil.copyfile(os.path.join(CLEAN_IBEX_DIR, LAST_CONFIG_FILE),
                     os.path.join(PATH_TO_ICPCONFIGROOT, LAST_CONFIG_FILE))
 
+
 def check_dir_exists(path):
     """
     Check a directory exists, and create it if it does not
@@ -105,6 +133,7 @@ def check_dir_exists(path):
     """
     if not os.path.exists(path):
         os.makedirs(path)
+
 
 def copy_dae_tables():
     """
@@ -121,6 +150,7 @@ def copy_dae_tables():
     shutil.copyfile(os.path.join(table_source, SPECTRA_TABLE), os.path.join(table_dest, SPECTRA_TABLE))
     shutil.copyfile(os.path.join(table_source, DETECTOR_TABLE), os.path.join(table_dest, DETECTOR_TABLE))
 
+
 def safe_execute(function_to_execute, error_no, *args):
     """
     Execute input command in a try catch. Stop script in case of error.
@@ -134,6 +164,7 @@ def safe_execute(function_to_execute, error_no, *args):
     except Exception as ex:
         _log_and_exit(ex, error_no)
 
+
 def safe_set_default_config(configurations_path):
     try:
         set_default_config(configurations_path)
@@ -141,12 +172,14 @@ def safe_set_default_config(configurations_path):
         sleep(6)
         set_default_config(configurations_path)
 
+
 def safe_copy_dae_tables():
     try:
         copy_dae_tables()
     except IOError:
         sleep(6)
         copy_dae_tables()
+
 
 def reboot_dae(error_no):
     """
@@ -163,6 +196,7 @@ def reboot_dae(error_no):
 
     # reboot the dae by stopping it (dae procServ is set to autorestart)
     stop_ioc(DAE, error_no)
+
 
 def delete_dae_experiments_file(error_no):
     """
@@ -185,7 +219,8 @@ def delete_dae_experiments_file(error_no):
 
     if path_exists:
         print "Can not delete data dir!"
-        _log_and_exit("Can not delete data dir! " + e.strerror, error_no)
+        _log_and_exit("Can not delete data dir! " + str(os_error.strerror), error_no)
+
 
 def reset_ibex_backend():
     """
@@ -195,33 +230,35 @@ def reset_ibex_backend():
 
     # stop the block server
     # procServ is set to autorestart the block server, so we need to toggle the autorestart flag first
-    safe_execute(toggle_ioc_autorestart, 3, BLOCKSERVER, 4)
-    safe_execute(stop_ioc, 5, BLOCKSERVER, 6)
+    safe_execute(toggle_ioc_autorestart, SafeExErrNum.BS_TOGGLE_OFF, BLOCKSERVER, ErrNum.BS_TOGGLE_OFF)
+    safe_execute(stop_ioc, SafeExErrNum.BS_STOP, BLOCKSERVER, ErrNum.BS_STOP)
+    safe_execute(toggle_ioc_autorestart, SafeExErrNum.DAE_TOGGLE_OFF, DAE, ErrNum.DAE_TOGGLE_OFF)
+    safe_execute(reboot_dae, SafeExErrNum.DAE_STOP, ErrNum.DAE_STOP)
 
     # delete test artefacts
     configurations_path = os.path.join(PATH_TO_ICPCONFIGROOT, "configurations")
     print "Removing test configurations in {0}".format(configurations_path)
-    safe_execute(remove_test_dir_and_files, 7, configurations_path)
+    safe_execute(remove_test_dir_and_files, SafeExErrNum.REMOVE_TEST_DIR, configurations_path)
 
     components_path = os.path.join(PATH_TO_ICPCONFIGROOT, "components")
     print "Removing test components in {0}".format(components_path)
-    safe_execute(remove_test_dir_and_files, 8, components_path)
+    safe_execute(remove_test_dir_and_files, SafeExErrNum.REMOVE_TEST_DIR_2, components_path)
 
     synoptics_path = os.path.join(PATH_TO_ICPCONFIGROOT, "synoptics")
     print "Removing test synoptics in {0}".format(synoptics_path)
-    safe_execute(remove_test_dir_and_files, 9, synoptics_path)
+    safe_execute(remove_test_dir_and_files, SafeExErrNum.REMOVE_TEST_DIR_3, synoptics_path)
 
-    safe_execute(safe_set_default_config, 10, configurations_path)
-    safe_execute(safe_copy_dae_tables, 11)
-    safe_execute(_delete_data_del_dir, 12)
+    safe_execute(safe_set_default_config, SafeExErrNum.SET_DEFAULT_CONFIG, configurations_path)
+    safe_execute(safe_copy_dae_tables, SafeExErrNum.COPY_DAE)
+    safe_execute(_delete_data_del_dir, SafeExErrNum.DELETE_DATA_DEL)
+    
+    safe_execute(delete_dae_experiments_file, SafeExErrNum.DELETE_DATA, ErrNum.DELETE_DATA)
+    safe_execute(_delete_data_del_dir, SafeExErrNum.DELETE_DATA_DEL_2)
+    print "Deleted the moved data dir"
 
     # reboot the block server by restoring the autorestart flag
-    safe_execute(toggle_ioc_autorestart, 13, BLOCKSERVER, 14)
-
-    safe_execute(reboot_dae, 15, 16)
-    safe_execute(delete_dae_experiments_file, 17, 18)
-    safe_execute(_delete_data_del_dir, 19)
-    print "Deleted the moved data dir"
+    safe_execute(toggle_ioc_autorestart, SafeExErrNum.BS_TOGGLE_ON, BLOCKSERVER, ErrNum.BS_TOGGLE_ON)
+    safe_execute(toggle_ioc_autorestart, SafeExErrNum.DAE_TOGGLE_ON, DAE, ErrNum.DAE_TOGGLE_ON)
 
 
 def _log_and_exit(error, exit_code):
@@ -259,16 +296,17 @@ def _delete_data_del_dir():
         else:
             raise
     try:
-        shutil.rmtree(path_to_dae_data_del,onerror=error_remove_readonly)
-    except OSError as ex:
+        shutil.rmtree(path_to_dae_data_del, onerror=error_remove_readonly)
+    except OSError:
         sleep(3)
-        shutil.rmtree(path_to_dae_data_del,onerror=error_remove_readonly)
+        shutil.rmtree(path_to_dae_data_del, onerror=error_remove_readonly)
 
 
 def stop_ioc(console_name, error_no):
     """
     Stop an ioc running in a console. ProcServ will automatically restart it if it is set to do so.
     :param console_name: name of the console
+    :param error_no: number reported in case of error
     :return:
     """
     _send_via_console(console_name, CAN_SIGNAL, error_no)
@@ -279,6 +317,7 @@ def toggle_ioc_autorestart(console_name, error_no):
     """
     Toggle the procServ autorestart flag in a console
     :param console_name: name of the console
+    :param error_no: number reported in case of error
     :return:
     """
     _send_via_console(console_name, DC4_SIGNAL, error_no)
@@ -289,6 +328,7 @@ def _send_via_console(console_name, message, error_no):
     """
     Open a console in a subprocess
     :param console_name: name of the console
+    :param error_no: number reported in case of error
     :return: the subprocess
     """
     p = subprocess.Popen([PATH_TO_CONSOLE_EXE, "-M", "localhost", console_name],
@@ -301,7 +341,6 @@ def _send_via_console(console_name, message, error_no):
     missing_console_msg = "console '" + console_name + "' not found"
     if missing_console_msg in output:
         _log_and_exit(output, error_no)
-
 
 
 def need_run_clean():
