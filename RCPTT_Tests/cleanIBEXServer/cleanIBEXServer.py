@@ -270,7 +270,7 @@ def _log_and_exit(error, exit_code):
     :return:
     """
     with file(LOG_FILE, mode="a") as f:
-        f.write("Error {0}, {1}: {2}\n".format(exit_code, dt.now(), error))
+        f.write("Error {0}, {1}: {2}\n".format(exit_code, dt.now().strftime("%d/%m/%y %H:%M:%S"), error))
 
     print error
 
