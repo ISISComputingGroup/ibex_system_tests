@@ -8,6 +8,7 @@ import subprocess
 import shutil
 from subprocess import PIPE
 from time import sleep
+from datetime import datetime as dt
 
 import errno
 import psutil
@@ -269,7 +270,7 @@ def _log_and_exit(error, exit_code):
     :return:
     """
     with file(LOG_FILE, mode="a") as f:
-        f.write("Error {0}: {1}\n".format(exit_code, error))
+        f.write("Error {0}, {1}: {2}\n".format(exit_code, dt.now(), error))
 
     print error
 
