@@ -45,7 +45,7 @@ DETECTOR_TABLE = "RCPTT_detector128.dat"
 BLANK_CONFIG_DIR = "rcptt_blank"
 
 # log file for exception logging
-LOG_FILE = os.path.join(CLEAN_IBEX_DIR, "cleanIBEXServer.log")
+LOG_FILE = os.path.join(CLEAN_IBEX_DIR, "..", "cleanIBEXServer.log")
 
 # ASCII character for an Enquiry (i.e. CTRL+E)
 ENQ_SIGNAL = "\x05"
