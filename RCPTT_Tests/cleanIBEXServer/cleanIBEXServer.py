@@ -1,5 +1,8 @@
 """
 Script to clean up files in the IBEX server between tests
+
+IMPORTANT: IF YOU UPDATE THIS FILE, IT MUST BE ALSO UPDATED
+IN THE RCPTT CLEAN IBEX SERVER FILE CONTEXT
 """
 import os
 
