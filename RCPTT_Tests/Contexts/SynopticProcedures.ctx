@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 9/16/16 3:21 PM
+Save-Time: 9/16/16 5:39 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -43,13 +43,13 @@ proc "save_and_name_synoptic" [val name]  [val window -input true ] {
 		with $window {
 	    	get-button "Save as ..." | click
 	    }
-    	try -times 50 -delay 200 -command {
-	    	with [get-window "Save Synoptic As"] {
-	        	with [get-editbox -after [get-label "Name:"]] {
-	            	set-text $name
-	        	}
-	        	get-button OK | click
-	    	}
+	}
+   	try -times 50 -delay 200 -command {
+		with [get-window "Save Synoptic As"] {
+	       	with [get-editbox -after [get-label "Name:"]] {
+	           	set-text $name
+	       	}
+	       	get-button OK | click
 	    }
 	}
 }
