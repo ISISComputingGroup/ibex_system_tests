@@ -22,6 +22,8 @@ _lrojgBX5EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameCannotBeEmpty' pat
 _W1lpsB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreEnabledIfNotRunning' path: 'DAEExperimentTabsAreEnabledIfNotRunning.test'
 _jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAEExperimentTabsAreDisabledIfRunning.test'
 _6ljosCF-EeaVDbdGJtxYOQ	// kind: 'test' name: 'Default synoptic appears in edit config' path: 'Default synoptic appears in edit config.test'
+_ipLYsEUYEead5NXtjPDgQA	// kind: 'test' name: 'ModifyBlockLogSettings' path: 'ModifyBlockLogSettings.test'
+_MHafIEUcEead5NXtjPDgQA	// kind: 'test' name: 'ValidateBlockLogSettings' path: 'ValidateBlockLogSettings.test'
 _cB6ckEQiEear0fgUd5_sYQ	// kind: 'test' name: 'MultipleConfigsCanBeSimultaneouslyDeleted' path: 'MultipleConfigsCanBeSimultaneouslyDeleted.test'
 _ZpYe8EQiEear0fgUd5_sYQ	// kind: 'test' name: 'MultipleSynopticsCanBeSimultaneouslyDeleted' path: 'MultipleSynopticsCanBeSimultaneouslyDeleted.test'
 _PBkwsDF0EeaWJe_H2uySSQ	// kind: 'test' name: 'AddMultipleBlocksToMultipleGroups' path: 'AddMultipleBlocksToMultipleGroups.test'
