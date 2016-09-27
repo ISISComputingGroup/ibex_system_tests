@@ -6,27 +6,38 @@ Element-Type: context
 Element-Version: 2.0
 Id: _yx-k8FokEeaPOv-En4y-qA
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 8/8/16 5:05 PM
+Save-Time: 9/27/16 2:16 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
+// edit log configuration for a block
+//  @param label_text text for label value is after
+//  @param new_value value for box
 proc "edit_block_log_config" [val label_text][val new_value] {
 	get-window "Edit Configuration" | get-window "Block Configuration" | get-group "Logging Settings" | get-editbox 
     	-after [get-label $label_text] | set-text $new_value
 }
 
+// verify that a value is in input after label
+//  @param label_text text for label value is after
+//  @param expected_value value that should be in input
 proc "verify_block_log_config" [val label_text][val expected_value] {
 	get-window "Edit Configuration" | get-window "Block Configuration" | get-editbox -after [get-label $label_text] 
     	| get-property text | equals $expected_value | verify-true
 }
+
+// verify that a blocks logging status is as expected
+//  @param expected_value True if logging is on; otherwise false
 
 proc "verify_block_log_enabled" [val expected_value] {
     get-window "Edit Configuration" | get-window "Block Configuration" | get-group "Logging Settings" | get-button Enabled 
         | get-property selected | equals $expected_value | verify-true
 }
 
+
+// Set up block for logging
 proc "block_logging_setup" {
 	edit_current_config
 	let [val block_name "NEW_BLOCK_01"] {
