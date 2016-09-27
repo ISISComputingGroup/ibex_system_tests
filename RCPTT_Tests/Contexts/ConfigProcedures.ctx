@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 8/4/16 1:48 PM
+Save-Time: 9/16/16 5:51 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -188,6 +188,9 @@ proc "create_simple_config_and_load" [val config_name] [val block_name] [val pv]
 	
 	// Load the configuration previously saved
 	load_config $config_name
+	
+	// Always do a short wait after changing config or the next dialog can jump the instrument updating dialog
+	wait 10000
 }
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

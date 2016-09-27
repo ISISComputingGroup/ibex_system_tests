@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/21/16 2:11 PM
+Save-Time: 9/16/16 5:39 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -22,7 +22,7 @@ proc "new_synoptic" {
 
 // Open the "Edit Synoptic" window
 proc "edit_synoptic" {
-	try -times 500 -delay 200 -command {
+	try -times 50 -delay 200 -command {
 		get-menu "Synoptic/Edit" | click
 	}
 	get-window "Edit Synoptic"
@@ -30,7 +30,7 @@ proc "edit_synoptic" {
 
 // Save a synoptic (using the "save" dialog" on an edited synoptic) 
 proc "save_synoptic" {
-	try -times 500 -delay 200 -command {
+	try -times 50 -delay 200 -command {
 		with [get-window "Edit Synoptic"] {
 			get-button Save | click
 		}
@@ -39,26 +39,26 @@ proc "save_synoptic" {
 
 // Save a new synoptic, naming it in the process (using the "save as" dialog on a new OR edited synoptic)
 proc "save_and_name_synoptic" [val name]  [val window -input true ] {
-	try -times 500 -delay 200 -command {
+	try -times 50 -delay 200 -command {
 		with $window {
 	    	get-button "Save as ..." | click
 	    }
-    	try -times 500 -delay 200 -command {
-	    	with [get-window "Save Synoptic As"] {
-	        	with [get-editbox -after [get-label "Name:"]] {
-	            	set-text $name
-	        	}
-	        	get-button OK | click
-	    	}
+	}
+   	try -times 50 -delay 200 -command {
+		with [get-window "Save Synoptic As"] {
+	       	with [get-editbox -after [get-label "Name:"]] {
+	           	set-text $name
+	       	}
+	       	get-button OK | click
 	    }
 	}
 }
 
 // Delete a synoptic
 proc "delete_synoptic" [val name] {
-	try -times 500 -delay 200 -command {
+	try -times 50 -delay 200 -command {
 		get-menu "Synoptic/Delete" | click
-		with [get-window "Delete Synoptic"] {
+		with [get-window "Delete Synoptics"] {
 		    get-list | select $name
 		    get-button OK | click
 		}
@@ -76,10 +76,13 @@ proc "add_component" [val component_name] [val window -input true ] {
 
 // Open a synoptic to view (in the "Synoptic" perspective)
 proc "view_synoptic" [val synoptic] {
-	try -times 500 -delay 200 -command {
+	try -times 50 -delay 200 -command {
 		switch_to_synoptic_view
 		with [get-view "Synoptic navigator"] {
-    		get-group "Synoptic Selection" | get-combo | select $synoptic
+    		with [get-group "Synoptic Selection" | get-combo] {
+    			select $synoptic
+    			get-property selection | equals $synoptic | verify-true
+    		}
     	}
 	}
 }
