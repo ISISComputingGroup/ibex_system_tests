@@ -25,7 +25,7 @@ let [val old_block_name "block01"] [val new_block_name "block02"] [val pv01 "pv0
 		get-button Save | click
 	}
 	
-	wait 2000
+	assert_wait_for_dialog_closed
 
 	// Assert the new block exists (have to hard code names due to colon)
 	try -times 60 -delay 1000 -command {
@@ -50,7 +50,7 @@ let [val old_block_name "block01"] [val new_block_name "block02"] [val pv01 "pv0
 		get-button Save | click
 	}
 	
-	wait 2000
+	assert_wait_for_dialog_closed
 	
 	// Block still called old_block_name, rename
 	with [edit_current_config] {
@@ -66,7 +66,7 @@ let [val old_block_name "block01"] [val new_block_name "block02"] [val pv01 "pv0
 		get-button Save | click
 	}
 	
-	wait 2000
+	assert_wait_for_dialog_closed
 
 	// Block now called new_block_name
 	with [edit_current_config] {
@@ -82,7 +82,7 @@ let [val old_block_name "block01"] [val new_block_name "block02"] [val pv01 "pv0
 		get-button Save | click
 	}
 	
-	wait 2000
+	assert_wait_for_dialog_closed
 	
 	// Block now called old_block_name
 	with [edit_current_config] {

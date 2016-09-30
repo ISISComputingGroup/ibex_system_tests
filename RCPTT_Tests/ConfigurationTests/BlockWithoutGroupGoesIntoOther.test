@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _GHwdwDLcEeaaer6ihff4wQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/26/16 1:46 PM
+Save-Time: 9/16/16 5:51 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -18,7 +18,7 @@ let [val config01 [test_prefix "config01"]] [val block01 "block01"] [val pv01 "p
 	create_simple_config_and_load $config01 $block01 $pv01
 	
 	// Assert that a group called "Other" exists and that it contains the block
-	try -times 500 -delay 200 -command {
+	try -times 50 -delay 200 -command {
 		with [get-view Blocks | get-control Any -index 4] {
 	    	get-property "getChildren().Control[0].getText()" | equals Other | verify-true
 	    	get-property "getChildren().Control[3].getText()" | equals "block01:" | verify-true

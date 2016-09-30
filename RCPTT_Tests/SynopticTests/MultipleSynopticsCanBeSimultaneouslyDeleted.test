@@ -39,7 +39,7 @@ try -times 100 -delay 200 -command {
 
 // Assert that the three previous synoptics do not appear in the edit configuration window
 // Loop through the number of synoptics in the edit synoptic list and assert that none of the names are equal to any of the previously created synoptics
-try -times 100 -delay 200 -command {
+try -times 500 -delay 200 -command {
 	with [edit_synoptic | get-list] {
 		try {
 			let [val item_count [get-property -raw true -name "getItemCount()"]] {	

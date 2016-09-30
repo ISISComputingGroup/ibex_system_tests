@@ -16,7 +16,7 @@ Entry-Name: .content
 let [val synoptic_name [test_prefix "test_synoptic"]] {
 	
 	// Create a new synoptic with one new component
-	try -times 10 -delay 100 -command {
+	try -times 50 -delay 200 -command {
 		with [new_synoptic] {
 		    get-button "Add Component" | click
 			save_and_name_synoptic $synoptic_name
@@ -32,7 +32,7 @@ let [val synoptic_name [test_prefix "test_synoptic"]] {
 	}
 	
 	// Synoptic has a short delay before appearing
-	try -times 10 -delay 200 -command { 
+	try -times 50 -delay 200 -command { 
 		with [get-view "New synoptic"] {
 		    get-label "New Component" | get-property caption | equals "New Component" | verify-true
 		    get-label "" | get-property "getImage().getClassName()" | equals "org.eclipse.swt.graphics.Image" | verify-true
