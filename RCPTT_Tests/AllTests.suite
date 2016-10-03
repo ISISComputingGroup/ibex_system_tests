@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 8/26/16 3:20 PM
+Save-Time: 10/3/16 4:38 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -31,6 +31,5 @@ _xD3SkDLuEeaaer6ihff4wQ	// kind: 'test' name: 'CreateSynopticWithMultipleCompone
 _Kym24DFpEeaWJe_H2uySSQ	// kind: 'test' name: 'AddMultipleBlocksToOneGroup' path: 'AddMultipleBlocksToOneGroup.test'
 _GHwdwDLcEeaaer6ihff4wQ	// kind: 'test' name: 'BlockWithoutGroupGoesIntoOther' path: 'BlockWithoutGroupGoesIntoOther.test'
 _75-K8FMjEeaXbYm3HBnm7g	// kind: 'test' name: 'EmptyLogPlotterGivesMessage' path: 'EmptyLogPlotterGivesMessage.test'
-_SutOYGuLEeaEl7GeJPNMVQ	// kind: 'test' name: 'CurrentConfigNotInDeleteConfigDialog' path: 'CurrentConfigNotInDeleteConfigDialog.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
