@@ -1,0 +1,78 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: MultipleConfigsCanBeSimultaneouslyDeleted
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _cB6ckEQiEear0fgUd5_sYQ
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 8/1/16 1:32 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Create three global configuration name variables
+global [val config01 [test_prefix "config01"]] [val config02 [test_prefix "config02"]] [val config03 [test_prefix "config03"]]
+
+// Create a first configuration
+with [new_config] {
+	set_config_description $config01
+	save_and_name_config $config01 
+}
+
+// Create a second configuration
+with [new_config] {
+	set_config_description $config02
+	save_and_name_config $config02
+}
+
+// Create a third configuration
+with [new_config] {
+	set_config_description $config03
+	save_and_name_config $config03
+}
+
+// Delete the three configurations
+try -times 100 -delay 200 -command {
+	get-menu "Configuration/Configurations/Delete" | click
+	with [get-window "Delete Configurations"] {
+	    try {
+	    	with [get-list] {
+	    		select $config01 $config02 $config03
+	    		get-property "getSelection().length" | equals 3 | verify-true
+	    	}
+	    	get-button OK | check_button_enabled_and_click
+	    } -catch {
+	    	cancel_dialog
+	    }
+	}
+}
+
+// Assert that the three previous configurations do not appear in the edit configuration window
+try -times 100 -delay 200 -command {
+	// Loop through the number of configs in the edit configuration list and assert that none of the names are equal to any of the previously created configs
+	with [edit_config] {
+		try {
+			with [get-list] {
+				let [val item_count [get-property -raw true -name "getItemCount()"]] {	
+					loop [val index [int 0]] {
+						if [ $index | lt $item_count] {
+							with [get-window "Edit Configuration" | get-list] {
+								get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $config01 | verify-false
+							   	get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $config02 | verify-false
+							   	get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $config03 | verify-false
+							   	recur [ $index | plus 1 ]
+							}
+						}
+					}
+				}
+			}
+		} -catch {
+			cancel_dialog
+		}
+	}
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
