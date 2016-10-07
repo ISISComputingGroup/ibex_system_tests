@@ -10,7 +10,7 @@ RMDIR /S /Q %RESULTS%
 :NORESULTS
 md %RESULTS%
 
-java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_1.3.100.v20150511-1540.jar ^
+java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_1.3.200.v20160318-1642.jar ^
  -application org.eclipse.rcptt.runner.headless ^
  -data %RESULTS%\runner-workspace\ ^
  -aut %AUT% ^
@@ -19,5 +19,6 @@ java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_1.3.100.v20150511-1540.j
  -htmlReport %RESULTS%\report.html ^
  -junitReport %RESULTS%\report.xml ^
  -import %PROJECT% ^
- -suites AllTests
+ -suites AllTests ^
+ -testOptions "testExecTimeout=600"
   

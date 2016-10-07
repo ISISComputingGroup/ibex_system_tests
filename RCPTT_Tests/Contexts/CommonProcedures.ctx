@@ -1,0 +1,38 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: CommonProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _mTKdkFVzEeaXbYm3HBnm7g
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 7/29/16 3:09 PM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+// Helper method for clicking a button, ensuring it's enabled
+proc "check_button_enabled_and_click" [val button -input true ] {
+	with $button {
+		get-property enablement | equals true | verify-true
+		click
+	}
+}
+
+// Helper method for selecting something in a list
+proc "select_in_list" [val list -input true] [val select] {
+	with $list {
+		select $select
+		get-property "getSelection().String[0]" | equals $select | verify-true		    		
+	}
+}
+
+// Helper method for cancelling a dialog box and raising an error
+proc "cancel_dialog" [val window -input true] {
+	with $window {
+		get-button Cancel | click
+		verify-false
+	}
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

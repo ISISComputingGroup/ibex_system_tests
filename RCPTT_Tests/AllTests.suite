@@ -6,18 +6,33 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/1/16 2:58 PM
+Save-Time: 10/6/16 5:03 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
 Entry-Name: testcase-items
 
-_n_V-kCfsEeaXTOU1uHI8IA	// kind: 'test' name: 'Startup instrument is initially set up' path: 'Startup instrument is initially set up.test'
-_iWPmIPZqEeWUB6ttFEmy4Q	// kind: 'test' name: 'AddFirstBlock' path: 'AddFirstBlock.test'
-_Rq2D4PpcEeWdEd9B02gwIw	// kind: 'test' name: 'CreateSimpleSynoptic' path: 'CreateSimpleSynoptic.test'
-_YxmLoBE7EeaK56OpzmNTzg	// kind: 'test' name: 'AddingManyGroupsDoesNotCrashGui' path: 'AddingManyGroupsDoesNotCrashGui.test'
+_n_V-kCfsEeaXTOU1uHI8IA	// kind: 'test' name: 'StartupInstrumentIsInitiallySetUp' path: 'StartupInstrumentIsInitiallySetUp.test'
+_Sar0oDE_EeaWJe_H2uySSQ	// kind: 'test' name: 'AddABlockToAGroup' path: 'ConfigurationTests/AddABlockToAGroup.test'
+_iWPmIPZqEeWUB6ttFEmy4Q	// kind: 'test' name: 'AddEditAndRemoveBlock' path: 'ConfigurationTests/AddEditAndRemoveBlock.test'
+_Rq2D4PpcEeWdEd9B02gwIw	// kind: 'test' name: 'CreateSimpleSynoptic' path: 'SynopticTests/CreateSimpleSynoptic.test'
+_YxmLoBE7EeaK56OpzmNTzg	// kind: 'test' name: 'AddingManyGroupsDoesNotCrashGui' path: 'ConfigurationTests/AddingManyGroupsDoesNotCrashGui.test'
+_aFqJcBX6EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameLengthCannotExceedMax' path: 'SynopticTests/NewSynopticNameLengthCannotExceedMax.test'
+_lrojgBX5EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameCannotBeEmpty' path: 'SynopticTests/NewSynopticNameCannotBeEmpty.test'
 _W1lpsB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreEnabledIfNotRunning' path: 'DAEExperimentTabsAreEnabledIfNotRunning.test'
 _jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAEExperimentTabsAreDisabledIfRunning.test'
-_6ljosCF-EeaVDbdGJtxYOQ	// kind: 'test' name: 'Default synoptic appears in edit config' path: 'Default synoptic appears in edit config.test'
+_6ljosCF-EeaVDbdGJtxYOQ	// kind: 'test' name: 'DefaultSynopticAppearsInEditConfig' path: 'ConfigurationTests/DefaultSynopticAppearsInEditConfig.test'
+_ipLYsEUYEead5NXtjPDgQA	// kind: 'test' name: 'ModifyBlockLogSettings' path: 'ModifyBlockLogSettings.test'
+_MHafIEUcEead5NXtjPDgQA	// kind: 'test' name: 'ValidateBlockLogSettings' path: 'ValidateBlockLogSettings.test'
+_cB6ckEQiEear0fgUd5_sYQ	// kind: 'test' name: 'MultipleConfigsCanBeSimultaneouslyDeleted' path: 'ConfigurationTests/MultipleConfigsCanBeSimultaneouslyDeleted.test'
+_ZpYe8EQiEear0fgUd5_sYQ	// kind: 'test' name: 'MultipleSynopticsCanBeSimultaneouslyDeleted' path: 'SynopticTests/MultipleSynopticsCanBeSimultaneouslyDeleted.test'
+_PBkwsDF0EeaWJe_H2uySSQ	// kind: 'test' name: 'AddMultipleBlocksToMultipleGroups' path: 'ConfigurationTests/AddMultipleBlocksToMultipleGroups.test'
+_xD3SkDLuEeaaer6ihff4wQ	// kind: 'test' name: 'CreateSynopticWithMultipleComponents' path: 'SynopticTests/CreateSynopticWithMultipleComponents.test'
+_Kym24DFpEeaWJe_H2uySSQ	// kind: 'test' name: 'AddMultipleBlocksToOneGroup' path: 'ConfigurationTests/AddMultipleBlocksToOneGroup.test'
+_GHwdwDLcEeaaer6ihff4wQ	// kind: 'test' name: 'BlockWithoutGroupGoesIntoOther' path: 'ConfigurationTests/BlockWithoutGroupGoesIntoOther.test'
+_75-K8FMjEeaXbYm3HBnm7g	// kind: 'test' name: 'EmptyLogPlotterGivesMessage' path: 'EmptyLogPlotterGivesMessage.test'
+_SutOYGuLEeaEl7GeJPNMVQ	// kind: 'test' name: 'CurrentConfigNotInDeleteConfigDialog' path: 'CurrentConfigNotInDeleteConfigDialog.test'
+_Xt7pAE5hEeaUKeYJFOSZaA	// kind: 'test' name: 'CanEditPreviousConfigs' path: 'ConfigurationTests/CanEditPreviousConfigs.test'
+_mXPo4EdoEeatS9ozXm2xuQ	// kind: 'test' name: 'ToggleExperimentTitleVisibility' path: 'ToggleExperimentTitleVisibility.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
