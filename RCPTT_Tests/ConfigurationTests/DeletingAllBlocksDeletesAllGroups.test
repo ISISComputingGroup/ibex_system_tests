@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _THj0wDSMEea17PdyItjtbg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/21/16 9:26 PM
+Save-Time: 10/7/16 4:39 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -14,26 +14,8 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 // Create nine new blocks
-get-menu "Configuration/Edit Current Configuration..." | click
-with [get-window "Edit Configuration"] {
-    get-tab-folder | get-tab-item Blocks | click
-    
-    // procedure to add a new block
-    proc "add_block"[val block_name] [val pv_name] {
-    	get-button "Add Block" | click
-    	with [get-window "Block Configuration"] {
-        with [get-group "Selected block"] {
-            with [get-editbox -after [get-label "Name:"]] {
-                set-text $block_name
-            }
-            with [get-editbox -after [get-label "PV address:"]] {
-                set-text $pv_name
-            }
-        }
-        get-button OK | click
-    	}
-    }
-    
+with [edit_current_config] {
+   
     // Add blocks
     add_block "NEW_BLOCK_01" "NEW_PV_01"
     add_block "NEW_BLOCK_02" "NEW_PV_02"
@@ -45,37 +27,26 @@ with [get-window "Edit Configuration"] {
     add_block "NEW_BLOCK_08" "NEW_PV_08"
     add_block "NEW_BLOCK_09" "NEW_PV_09"
     
-	// Add three new groups
-    get-tab-folder | get-tab-item Groups | click
-    with [get-group Groups] {
-        get-button Add | click
-        get-button Add | click
-        get-button Add | click
-        get-list | select "NEW_GROUP"
-    }
-    // Transfer three blocks to the first group
-    with [get-group "Selected group" | get-group Blocks] {
-        get-list | select "NEW_BLOCK_03" "NEW_BLOCK_02" "NEW_BLOCK_01"
-        get-button | click
-    }
-    // Transfer three blocks to the second group
-    with [get-group Groups] {
-		get-list | select "NEW_GROUP_1"
-	}
-	with [get-group "Selected group" | get-group Blocks] {
-		get-list | select "NEW_BLOCK_06" "NEW_BLOCK_05" "NEW_BLOCK_04"
-		        get-button | click
-	}
-	// Transfer three blocks to the third group
-	with [get-group Groups] {
-		get-list | select "NEW_GROUP_2"
-	}
-	with [get-group "Selected group" | get-group Blocks] {
-		get-list | select "NEW_BLOCK_09" "NEW_BLOCK_08" "NEW_BLOCK_07"
-		        get-button | click
-	}
-    get-button Save | click
+    add_group
+    add_group
+    add_group
+
+    add_block_to_group "NEW_GROUP" "NEW_BLOCK_01"
+    add_block_to_group "NEW_GROUP" "NEW_BLOCK_02"
+    add_block_to_group "NEW_GROUP" "NEW_BLOCK_03"
+    
+    add_block_to_group "NEW_GROUP_1" "NEW_BLOCK_04"
+    add_block_to_group "NEW_GROUP_1" "NEW_BLOCK_05"
+    add_block_to_group "NEW_GROUP_1" "NEW_BLOCK_06"
+    
+    add_block_to_group "NEW_GROUP_2" "NEW_BLOCK_07"
+    add_block_to_group "NEW_GROUP_2" "NEW_BLOCK_08"
+    add_block_to_group "NEW_GROUP_2" "NEW_BLOCK_09"
+    
+    save_config
 }
+
+assert_wait_for_dialog_closed
 
 try -times 500 -delay 200 -command {
 	with [get-view Blocks] {
@@ -105,10 +76,8 @@ try -times 500 -delay 200 -command {
 	}
 }
 
-// Wait until the menu bar is clickable
-try -times 500 -delay 200 -command {
-	get-menu "Configuration/Edit Current Configuration..." | click
-}
+edit_current_config
+assert_wait_for_dialog_closed
 
 // Procedure to delete a block
 proc delete_block [val cell_number] {
@@ -140,4 +109,5 @@ with [get-window "Edit Configuration"] {
 try -times 500 -delay 200 -command {
 	get-view Blocks | get-control Any -index 2 | get-property "getContent().getChildren().length" | equals 0 | verify-true
 }
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
