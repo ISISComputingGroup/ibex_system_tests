@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _ipLYsEUYEead5NXtjPDgQA
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 9/30/16 4:50 PM
+Save-Time: 10/11/16 2:18 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -14,12 +14,6 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 block_logging_setup
-
-verify_block_log_config "Rate/seconds:" "0"
-verify_block_log_enabled false
-
-get-window "Edit Configuration" | get-window "Block Configuration" | get-group "Logging Settings" | get-button Enabled 
-    | check
 
 verify_block_log_config "Rate/seconds:" "30"
 verify_block_log_enabled true
