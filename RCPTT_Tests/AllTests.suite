@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 10/7/16 10:54 AM
+Save-Time: 10/13/16 3:43 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -21,6 +21,7 @@ _aFqJcBX6EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameLengthCannotExceed
 _lrojgBX5EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameCannotBeEmpty' path: 'SynopticTests/NewSynopticNameCannotBeEmpty.test'
 _W1lpsB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreEnabledIfNotRunning' path: 'DAEExperimentTabsAreEnabledIfNotRunning.test'
 _jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAEExperimentTabsAreDisabledIfRunning.test'
+_PG0d0JE_Eea7FIjHcktYOA	// kind: 'test' name: 'DAEPeriodTabDisplaysCorrectSettings' path: 'DAEPeriodTabDisplaysCorrectSettings.test'
 _6ljosCF-EeaVDbdGJtxYOQ	// kind: 'test' name: 'DefaultSynopticAppearsInEditConfig' path: 'ConfigurationTests/DefaultSynopticAppearsInEditConfig.test'
 _ipLYsEUYEead5NXtjPDgQA	// kind: 'test' name: 'ModifyBlockLogSettings' path: 'ModifyBlockLogSettings.test'
 _MHafIEUcEead5NXtjPDgQA	// kind: 'test' name: 'ValidateBlockLogSettings' path: 'ValidateBlockLogSettings.test'
