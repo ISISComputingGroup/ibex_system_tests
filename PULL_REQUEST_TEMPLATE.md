@@ -14,6 +14,7 @@
 - [ ] Does the code make use of existing procedures where appropriate?
 - [ ] Do they test a minimal set of functionality and leave the gui as close as possible to its original state?
 - [ ] Does the name of the tests reflect what is actually being tested?
+- [ ] Has the [manual system tests spreadsheet](https://github.com/ISISComputingGroup/ibex_developers_manual/wiki/Manual-system-tests) been updated to have entries equivalent to the system tests affected?
 
 ### Functional Tests
 
