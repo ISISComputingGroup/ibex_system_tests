@@ -1,3 +1,4 @@
+setlocal
 SET AUT=%WORKSPACE%\ibex_gui\Client
 SET RUNNER=C:\Jenkins\RCPTT_Runner
 SET PROJECT=%WORKSPACE%
@@ -21,4 +22,4 @@ java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_1.3.200.v20160318-1642.j
  -import %PROJECT% ^
  -suites AllTests ^
  -testOptions "testExecTimeout=600"
-  
+
