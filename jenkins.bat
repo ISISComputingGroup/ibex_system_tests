@@ -13,6 +13,8 @@ if exist "C:\Instrument\Apps\EPICS\stop_ibex_server.bat" (
 @taskkill /f /im pythonw.exe /t
 @taskkill /f /im ibex-client.exe /t
 
+@echo on
+
 REM Delete simulated instrument
 rd /S /Q "C:\data"
 mkdir "C:\data"
