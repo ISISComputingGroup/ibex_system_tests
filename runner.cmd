@@ -21,5 +21,4 @@ java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_1.3.200.v20160318-1642.j
  -junitReport %RESULTS%\report.xml ^
  -import %PROJECT% ^
  -suites AllTests ^
- -testOptions "testExecTimeout=600"
-
+ -testOptions "testExecTimeout=1200"
