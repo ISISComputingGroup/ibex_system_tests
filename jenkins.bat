@@ -5,6 +5,14 @@ REM we map this early as some other stuff (e.g. CSS, DAE DLLs) is copied from \\
 net use p: /d
 net use p: \\isis\inst$ /user:isis\builder %BUILDERPW%
 
+REM is previous system tests aborted, we may still have processes running
+if exist "C:\Instrument\Apps\EPICS\stop_ibex_server.bat" (
+    call "C:\Instrument\Apps\EPICS\stop_ibex_server.bat"
+)
+@taskkill /f /im javaw.exe /t
+@taskkill /f /im pythonw.exe /t
+@taskkill /f /im ibex-client.exe /t
+
 REM Delete simulated instrument
 rd /S /Q "C:\data"
 mkdir "C:\data"
@@ -49,6 +57,9 @@ cd %~dp0
 call runner.cmd
 
 call "C:\Instrument\Apps\EPICS\stop_ibex_server.bat"
+@taskkill /f /im javaw.exe /t
+@taskkill /f /im pythonw.exe /t
+@taskkill /f /im ibex-client.exe /t
 
 REM Sleep for 120 s while shut downs finalise
 sleep 120
