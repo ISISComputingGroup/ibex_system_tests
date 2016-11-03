@@ -1,4 +1,4 @@
-selocal
+setlocal
 
 REM the password for isis\builder is contained in the BUILDERPW system environment variable on the build server
 REM we map this early as some other stuff (e.g. CSS, DAE DLLs) is copied from \\isis\inst$ too during build 
