@@ -1,12 +1,15 @@
 setlocal
 
+@echo off
 REM the password for isis\builder is contained in the BUILDERPW system environment variable on the build server
 REM we map this early as some other stuff (e.g. CSS, DAE DLLs) is copied from \\isis\inst$ too during build 
 net use p: /d
 net use p: \\isis\inst$ /user:isis\builder %BUILDERPW%
 
 REM for create_icp_binaries
+net use \\shadow.isis.cclrc.ac.uk /d
 net use \\shadow.isis.cclrc.ac.uk /user:isis\builder %BUILDERPW%
+@echo on
 
 REM is previous system tests aborted, we may still have processes running
 if exist "C:\Instrument\Apps\EPICS\stop_ibex_server.bat" (
@@ -65,6 +68,9 @@ call "C:\Instrument\Apps\EPICS\stop_ibex_server.bat"
 @taskkill /f /im javaw.exe /t
 @taskkill /f /im pythonw.exe /t
 @taskkill /f /im ibex-client.exe /t
+
+net use p: /d
+net use \\shadow.isis.cclrc.ac.uk /d
 
 REM Sleep for 120 s while shut downs finalise
 sleep 120
