@@ -5,6 +5,9 @@ REM we map this early as some other stuff (e.g. CSS, DAE DLLs) is copied from \\
 net use p: /d
 net use p: \\isis\inst$ /user:isis\builder %BUILDERPW%
 
+REM for create_icp_binaries
+net use \\shadow.isis.cclrc.ac.uk /user:isis\builder %BUILDERPW%
+
 REM is previous system tests aborted, we may still have processes running
 if exist "C:\Instrument\Apps\EPICS\stop_ibex_server.bat" (
     call "C:\Instrument\Apps\EPICS\stop_ibex_server.bat"
