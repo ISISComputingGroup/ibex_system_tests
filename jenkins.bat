@@ -62,7 +62,7 @@ REM Sleep for 120 s while start ups finalise
 sleep 120
 
 cd %~dp0
-call runner.cmd
+call runner.cmd %1%
 
 call "C:\Instrument\Apps\EPICS\stop_ibex_server.bat"
 @taskkill /f /im javaw.exe /t
