@@ -86,12 +86,8 @@ proc "add_component_target" [val component_name] [val target_name] [val window -
 	    get-combo -after [get-label Type] | select $component_name
 		try -times 100 -delay 200 -command {
 		    with [get-window "Select Target"] {
-		        try {
-		            get-list | select_in_list $target_name
-		            get-button OK | check_button_enabled_and_click
-		        } -catch {
-		    	    cancel_dialog
-			    }
+		        get-list | select_in_list $target_name
+		        get-button OK | click
 			}
 		}
 	    get-editbox -after [get-label Name] | set-text $component_name

@@ -19,7 +19,6 @@ let [val config01 [test_prefix "config01"]] {
 		save_and_name_config $config01
 	}
 	
-	
 	try -times 50 -delay 200 -command {
 		// Open edit config window
 		with [edit_config] {
@@ -33,11 +32,11 @@ let [val config01 [test_prefix "config01"]] {
 			 }
 		}
 	}
-	try -times 5 -delay 500 -command {	  
-	    with [get-window "Confirm Edit Current Configuration"] {
-		    get-button Yes | check_button_enabled_and_click
-	    }
-	}
+//	try -times 5 -delay 500 -command {	  
+//	    with [get-window "Confirm Edit Current Configuration"] {
+//		    get-button Yes | check_button_enabled_and_click
+//	    }
+//	}
 	//Confirm window opens
 	try -times 5 -delay 500 -command {	  
 	  get-window "Edit Configuration" | get-label "Editing the current configuration" | get-property "getText()" | equals "Editing the current configuration" | verify-true
