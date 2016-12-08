@@ -138,6 +138,14 @@ def check_dir_exists(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
+def killproc(name):
+    for proc in psutil.process_iter():
+        try:
+            if proc.name() == name:
+                proc.kill()
+                break
+        except psutil.AccessDenied:
+            pass
 
 def copy_dae_tables():
     """
@@ -185,21 +193,16 @@ def safe_copy_dae_tables():
         copy_dae_tables()
 
 
-def reboot_dae(error_no):
+def stop_dae(error_no):
     """
-    Reboot the dae then immediately move the data directory
+    Stop the dae
     :return:
     """
-    for proc in psutil.process_iter():
-        try:
-            if proc.name() == "isisicp.exe":
-                proc.kill()
-                break
-        except psutil.AccessDenied:
-            pass
-
-    # reboot the dae by stopping it (dae procServ is set to autorestart)
     stop_ioc(DAE, error_no)
+    sleep(3)
+    killproc("ISISDAE-IOC-01.exe")
+    sleep(1)
+    killproc("isisicp.exe")
 
 
 def delete_dae_experiments_file(error_no):
@@ -237,7 +240,7 @@ def reset_ibex_backend():
     safe_execute(toggle_ioc_autorestart, SafeExErrNum.BS_TOGGLE_OFF, BLOCKSERVER, ErrNum.BS_TOGGLE_OFF)
     safe_execute(stop_ioc, SafeExErrNum.BS_STOP, BLOCKSERVER, ErrNum.BS_STOP)
     safe_execute(toggle_ioc_autorestart, SafeExErrNum.DAE_TOGGLE_OFF, DAE, ErrNum.DAE_TOGGLE_OFF)
-    safe_execute(reboot_dae, SafeExErrNum.DAE_STOP, ErrNum.DAE_STOP)
+    safe_execute(stop_dae, SafeExErrNum.DAE_STOP, ErrNum.DAE_STOP)
 
     # delete test artefacts
     configurations_path = os.path.join(PATH_TO_ICPCONFIGROOT, "configurations")
@@ -262,7 +265,8 @@ def reset_ibex_backend():
 
     # reboot the block server by restoring the autorestart flag
     safe_execute(toggle_ioc_autorestart, SafeExErrNum.BS_TOGGLE_ON, BLOCKSERVER, ErrNum.BS_TOGGLE_ON)
-    safe_execute(toggle_ioc_autorestart, SafeExErrNum.DAE_TOGGLE_ON, DAE, ErrNum.DAE_TOGGLE_ON)
+    # DAE should be started by block server
+    # safe_execute(toggle_ioc_autorestart, SafeExErrNum.DAE_TOGGLE_ON, DAE, ErrNum.DAE_TOGGLE_ON)
 
 
 def _log_and_exit(error, exit_code):
