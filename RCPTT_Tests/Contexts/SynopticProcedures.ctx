@@ -70,10 +70,24 @@ proc "delete_synoptic" [val name] {
 }
 
 // Add a component to a synoptic (e.g. "BEAMSTOP", "CHOPPER", "DAE", etc.)
+// if this component has a target type (e.g. choppers) use add_component_target and specify type/target
 proc "add_component" [val component_name] [val window -input true ] {
 	with $window {
 	    get-button "Add Component" | click
 	    get-combo -after [get-label Type] | select $component_name
+	    get-editbox -after [get-label Name] | set-text $component_name
+	}
+}
+
+// Add a component to a synoptic that has a type/target e.g. chopper
+proc "add_component_target" [val component_name] [val target_name] [val window -input true ] {
+	with $window {
+	    get-button "Add Component" | click
+	    get-combo -after [get-label Type] | select $component_name
+		with [get-window "Select Target"] {
+		    get-list | select_in_list $target_name
+		    get-button "OK" | check_button_enabled_and_click
+		}
 	    get-editbox -after [get-label Name] | set-text $component_name
 	}
 }
