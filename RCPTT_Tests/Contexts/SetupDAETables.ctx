@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _Paa1cB5jEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 12/9/16 11:30 AM
+Save-Time: 12/9/16 5:19 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -18,9 +18,10 @@ assert_instrument_is_setup
 get-label "DAE" | click
 
 with [get-view "DAE Control Program"] {
-
-    get-tab-folder | get-tab-item "Experiment Setup" | click
-    get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Data Acquisition" | click
+    try -times 100 -delay 200 -command {
+        get-tab-folder | get-tab-item "Experiment Setup" | click
+        get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Data Acquisition" | click
+    }
     
     // Set path for tables
     with [get-group Tables] {
