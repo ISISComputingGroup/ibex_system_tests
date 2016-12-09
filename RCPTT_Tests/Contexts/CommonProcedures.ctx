@@ -37,7 +37,11 @@ proc "cancel_dialog" [val window -input true] {
 }
 
 proc "log_message" [val message] {
-    echo [get-test-case-name] $message | log -severity info
+    try {
+        get-test-case-name | log -severity info
+	} -catch {
+	}
+    echo $message | log -severity info
 }
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
