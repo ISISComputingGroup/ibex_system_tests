@@ -14,13 +14,15 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 // Create variables for one configuration, one synoptic and eight components
-let [val synoptic01 [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val chopper "CHOPPER"] [val chopper_target "Mk3 Chopper"] [val dae "DAE"] [val eurotherm "EUROTHERM"]
+// make CHOPPER -> BEAMSTOP for test
+let [val synoptic01 [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val chopper "BEAMSTOP"] [val chopper_target "Mk3 Chopper"] [val dae "DAE"] [val eurotherm "EUROTHERM"]
 	[val kepco "KEPCO"] [val movingmonitor "MOVINGMONITOR"] [val polariser "POLARISER"] [val tdklambda "TDK_LAMBDA_GENESYS"] {
 
 	with [new_synoptic] {
 		// Add eight sample components
 		add_component $beamstop
 //		add_component_target $chopper $chopper_target
+		add_component $chopper
 		add_component $dae
 		add_component $eurotherm
 		add_component $kepco
@@ -39,7 +41,7 @@ let [val synoptic01 [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val c
 		// Assert that a component's image and label exist
 		with [get-view "Synoptic navigator" | get-group "Synoptic Navigation" | get-combo] {
 		    get-property "getItems().String[0]" | equals $beamstop | verify-true
-//		    get-property "getItems().String[1]" | equals $chopper | verify-true
+		    get-property "getItems().String[1]" | equals $chopper | verify-true
 		    get-property "getItems().String[2]" | equals $dae | verify-true
 		    get-property "getItems().String[3]" | equals $eurotherm | verify-true
 		    get-property "getItems().String[4]" | equals $kepco | verify-true
