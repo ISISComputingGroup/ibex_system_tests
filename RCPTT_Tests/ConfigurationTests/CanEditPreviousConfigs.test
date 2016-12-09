@@ -22,7 +22,7 @@ let [val config01 [test_prefix "config01"]] {
 	try -times 50 -delay 200 -command {
 		// Open edit config window
 		with [edit_config] {
-			try {
+			try -command {
 				//Confirm ok button is greyed out to start
 				get-button OK | get-property enablement | equals false | verify-true
 			    get-list | select_in_list $config01

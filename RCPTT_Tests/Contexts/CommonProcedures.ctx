@@ -37,7 +37,7 @@ proc "cancel_dialog" [val window -input true] {
 }
 
 proc "log_message" [val message] {
-    try {
+    try -command {
         get-test-case-name | log -severity info
 	} -catch {
 	}

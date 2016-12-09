@@ -43,7 +43,7 @@ proc "save_and_name_synoptic" [val name]  [val window -input true ] {
 		with $window {
 	    	get-button "Save as ..." | check_button_enabled_and_click
 	    	with [get-window "Save Synoptic As"] {
-				try {
+				try -command {
 				    get-editbox -after [get-label "Name:"] | set-text $name
 				    get-button OK | check_button_enabled_and_click
 			    } -catch {
@@ -59,7 +59,7 @@ proc "delete_synoptic" [val name] {
 	try -times 100 -delay 200 -command {
 		get-menu "Synoptic/Delete" | click
 		with [get-window "Delete Synoptics"] {
-			try {
+			try -command {
 				get-list | select_in_list $name
 		    	get-button OK | check_button_enabled_and_click
 		    } -catch {

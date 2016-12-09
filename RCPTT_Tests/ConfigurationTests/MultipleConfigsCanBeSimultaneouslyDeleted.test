@@ -38,7 +38,7 @@ with [new_config] {
 try -times 100 -delay 200 -command {
 	get-menu "Configuration/Configurations/Delete" | click
 	with [get-window "Delete Configurations"] {
-	    try {
+	    try -command {
 	    	with [get-list] {
 	    		select $config01 $config02 $config03
 	    		get-property "getSelection().length" | equals 3 | verify-true
@@ -54,7 +54,7 @@ try -times 100 -delay 200 -command {
 try -times 100 -delay 200 -command {
 	// Loop through the number of configs in the edit configuration list and assert that none of the names are equal to any of the previously created configs
 	with [edit_config] {
-		try {
+		try -command {
 			with [get-list] {
 				let [val item_count [get-property -raw true -name "getItemCount()"]] {	
 					loop [val index [int 0]] {

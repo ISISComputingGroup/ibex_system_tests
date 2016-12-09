@@ -51,7 +51,7 @@ proc "end_run" {
 }
 
 proc "wait_for_dialog_exists" {
-	try {
+	try -command {
 		get-window -class WaitForDialog
 		bool true
 	} -catch {

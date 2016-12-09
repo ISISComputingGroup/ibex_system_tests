@@ -25,7 +25,7 @@ new_synoptic | save_and_name_synoptic $synoptic03
 try -times 10 -delay 500 -command {
 	get-menu "Synoptic/Delete" | click
 	with [get-window "Delete Synoptics"] {
-	    try {
+	    try -command {
 	    	with [get-list] {
 	    		select $synoptic01 $synoptic02 $synoptic03
 	    		get-property "getSelection().length" | equals 3 | verify-true
@@ -41,7 +41,7 @@ try -times 10 -delay 500 -command {
 // Loop through the number of synoptics in the edit synoptic list and assert that none of the names are equal to any of the previously created synoptics
 try -times 500 -delay 200 -command {
 	with [edit_synoptic | get-list] {
-		try {
+		try -command {
 			let [val item_count [get-property -raw true -name "getItemCount()"]] {	
 				loop [val index [int 0]] {
 					if [ $index | lt $item_count] {
