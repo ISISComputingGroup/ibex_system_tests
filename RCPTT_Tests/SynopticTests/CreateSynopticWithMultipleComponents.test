@@ -15,7 +15,7 @@ Entry-Name: .content
 
 // Create variables for one configuration, one synoptic and eight components
 // make CHOPPER -> BEAMSTOP for test
-let [val synoptic01 [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val chopper "BEAMSTOP"] [val chopper_target "Mk3 Chopper"] [val dae "DAE"] [val eurotherm "EUROTHERM"]
+let [val synoptic01 [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val chopper "CAEN"] [val chopper_target "Mk3 Chopper"] [val dae "DAE"] [val eurotherm "EUROTHERM"]
 	[val kepco "KEPCO"] [val movingmonitor "MOVINGMONITOR"] [val polariser "POLARISER"] [val tdklambda "TDK_LAMBDA_GENESYS"] {
 
 	with [new_synoptic] {
