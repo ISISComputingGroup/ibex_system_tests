@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _mTKdkFVzEeaXbYm3HBnm7g
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/29/16 3:09 PM
+Save-Time: 12/9/16 3:18 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -35,4 +35,9 @@ proc "cancel_dialog" [val window -input true] {
 		verify-false
 	}
 }
+
+proc "log_message" [val message] {
+    echo [get-test-case-name] $message | log -severity info
+}
+
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

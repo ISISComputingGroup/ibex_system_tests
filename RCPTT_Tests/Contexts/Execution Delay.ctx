@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _dwXfYACrEean-631qMZhqw
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 12/8/16 3:57 PM
+Save-Time: 12/9/16 3:22 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -18,5 +18,7 @@ set-q7-option eclExecutionDelay 500
 // 1 s between tests. Previously 5 s. Not needed?
 // trial of 30s to see if it makes tests more consistent
 wait 30000
+
+log_message "Starting test"
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
