@@ -43,7 +43,7 @@ proc "save_and_name_synoptic" [val name]  [val window -input true ] {
 		with $window {
 	    	get-button "Save as ..." | check_button_enabled_and_click
 	    	with [get-window "Save Synoptic As"] {
-				try -command {
+				try -times 20 -delay 200 -command {
 				    get-editbox -after [get-label "Name:"] | set-text $name
 				    get-button OK | check_button_enabled_and_click
 			    } -catch {
