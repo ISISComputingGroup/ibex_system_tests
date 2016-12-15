@@ -61,7 +61,7 @@ proc "save_and_name_config" [val name]  [val window -input true ] {
 	    	get-button "Save as ..." | click
 	    }
 	    with [get-window "Save Configuration As"] {
-			try -command {	
+			try -times 20 -delay 200 -command {	
 	        	get-editbox -after [get-label "Name:"] | set-text $name
 	        	get-button OK | check_button_enabled_and_click
 	    	} -catch {
@@ -76,7 +76,7 @@ proc "load_config" [val name] {
 	try -times 100 -delay 200 -command {
 		get-menu "Configuration/Configurations/Load" | click
 		with [get-window "Load Configuration"] {
-			try -command {
+			try -times 20 -delay 200 -command {
 	    		get-list | select_in_list $name
 	    		get-button OK | check_button_enabled_and_click
 	    	} -catch {
@@ -91,7 +91,7 @@ proc "delete_config" [val name] {
 	try -times 100 -delay 200 -command {
 		get-menu "Configuration/Configurations/Delete" | click
 		with [get-window "Delete Configurations"] {
-			try -command {
+			try -times 20 -delay 200 -command {
 			    get-list | select_in_list $name
 			    get-button OK | check_button_enabled_and_click
 			} -catch {

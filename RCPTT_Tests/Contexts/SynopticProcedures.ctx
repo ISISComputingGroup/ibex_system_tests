@@ -59,7 +59,7 @@ proc "delete_synoptic" [val name] {
 	try -times 100 -delay 200 -command {
 		get-menu "Synoptic/Delete" | click
 		with [get-window "Delete Synoptics"] {
-			try -command {
+			try -times 20 -delay 200 -command {
 				get-list | select_in_list $name
 		    	get-button OK | check_button_enabled_and_click
 		    } -catch {
