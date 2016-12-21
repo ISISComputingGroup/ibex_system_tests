@@ -5,12 +5,19 @@ Element-Name: CommonProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _mTKdkFVzEeaXbYm3HBnm7g
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 12/9/16 3:18 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 12/21/16 10:53 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
+
+/**
+Add prefix for configurations, synoptics etc which need to be deleted
+*/
+proc "test_prefix"[val text] {
+  concat "rcptt_" $text 
+}
 
 // Helper method for clicking a button, ensuring it's enabled
 proc "check_button_enabled_and_click" [val button -input true ] {
