@@ -22,5 +22,12 @@ java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_1.3.200.v20160318-1642.j
  -import %PROJECT% ^
  -suites %1% ^
  -testOptions "testExecTimeout=3600;passedTestDetails=true" ^
- -autVMArgs "-Xms64m;-Xmx2048m;-XX:MaxPermSize=512m" ^
+ -autVMArgs "-Xms64m;-Xmx3g;-XX:+UseG1GC" ^
  -timeout 18000
+
+REM had some GC overhead limit exceeded errors, trying G1GC but
+REM may need to use concat mark sweep with check disabled
+REM -XX:+UseConcMarkSweepGC
+REM -XX:-UseGCOverheadLimit 
+REM for debugging use
+REM -XX:+PrintGCDetails -XX:+PrintGCTimeStamps
