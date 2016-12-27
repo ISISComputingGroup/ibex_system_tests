@@ -17,7 +17,9 @@ proc "new_synoptic" {
 	try -times 100 -delay 200 -command {
 		get-menu "Synoptic/New" | click
 	}
-	get-window "New Synoptic"
+	try -times 10 -delay 500 -command {
+	    get-window "New Synoptic"
+	}
 }
 
 // Open the "Edit Synoptic" window
@@ -25,7 +27,9 @@ proc "edit_synoptic" {
 	try -times 100 -delay 200 -command {
 		get-menu "Synoptic/Edit" | click
 	}
-	get-window "Edit Synoptic"
+	try -times 10 -delay 500 -command {
+	    get-window "Edit Synoptic"
+	}
 }
 
 // Save a synoptic (using the "save" dialog" on an edited synoptic) 
