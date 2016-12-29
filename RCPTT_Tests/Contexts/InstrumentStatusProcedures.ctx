@@ -64,7 +64,7 @@ proc "assert_wait_for_dialog_closed" {
 
 	try -times 50 -delay 200 -command {
 		if [wait_for_dialog_exists] {
-			true | verify-false
+			bool true | verify-false
 		}
 	}
 }
