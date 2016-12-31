@@ -39,7 +39,13 @@ if exist "C:\Instrument\Apps\EPICS\" rd /S /Q "C:\Instrument\Apps\EPICS\"
 
 REM Delete old configuration directory
 rd /S /Q "C:\Instrument\Settings\"
-rd /S /Q "C:\Instrument\Var\"
+
+REM Delete all but old logs as these are useful for debugging
+for /D %%d in ( C:\Instrument\Var\* ) do (
+    if not "%%d" == "C:\Instrument\Var\logs" (
+        rd /S /Q %%d
+	)
+)
 
 REM Clean up the previous version of the GUI
 rd /S /Q "ibex_gui"
