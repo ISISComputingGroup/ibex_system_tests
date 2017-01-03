@@ -15,7 +15,7 @@ Entry-Name: .ecl.context
 // Open the "New configuration" window
 proc "new_config" {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Configurations/New" | click
+		get-menu "Configuration/Configurations/New" | check_enabled_and_click
 	} 
 	get-window "New configuration"
 }
@@ -23,7 +23,7 @@ proc "new_config" {
 // Open the "Edit configuration" window
 proc "edit_config" {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Configurations/Edit" | click
+		get-menu "Configuration/Configurations/Edit" | check_enabled_and_click
 	} 
 	get-window "Edit Configuration"
 }
@@ -31,7 +31,7 @@ proc "edit_config" {
 // Open the "Edit current configuration" window
 proc "edit_current_config" {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Edit Current Configuration..." | click
+		get-menu "Configuration/Edit Current Configuration..." | check_enabled_and_click
 	} 
 	get-window "Edit Configuration"
 }
@@ -58,7 +58,7 @@ proc "save_config" {
 proc "save_and_name_config" [val name]  [val window -input true ] {
 	try -times 100 -delay 200 -command {
 		with $window {
-	    	get-button "Save as ..." | click
+	    	get-button "Save as ..." | check_enabled_and_click
 	    }
 	    with [get-window "Save Configuration As"] {
 			try -times 20 -delay 200 -command {	
@@ -74,7 +74,7 @@ proc "save_and_name_config" [val name]  [val window -input true ] {
 // Load a configuration
 proc "load_config" [val name] {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Configurations/Load" | click
+		get-menu "Configuration/Configurations/Load" | check_enabled_and_click
 		with [get-window "Load Configuration"] {
 			try -times 20 -delay 200 -command {
 	    		get-list | select_in_list $name
@@ -89,7 +89,7 @@ proc "load_config" [val name] {
 // Delete a configuration
 proc "delete_config" [val name] {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Configurations/Delete" | click
+		get-menu "Configuration/Configurations/Delete" | check_enabled_and_click
 		with [get-window "Delete Configurations"] {
 			try -times 20 -delay 200 -command {
 			    get-list | select_in_list $name
@@ -105,8 +105,8 @@ proc "delete_config" [val name] {
 proc "add_block"[val block_name] [val pv_name] [val window -input true ] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-tab-folder | get-tab-item Blocks | click
-			get-button "Add Block" | click
+			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+			get-button "Add Block" | check_enabled_and_click
 			with [get-window "Block Configuration"] {
 				try -command {
 				    with [get-group "Selected block"] {
@@ -126,20 +126,20 @@ proc "add_block"[val block_name] [val pv_name] [val window -input true ] {
 proc "add_block_any_pv"[val block_name] {
 	try -times 500 -delay 200 -command {
 		with [get-window "Edit Configuration"] {
-			get-tab-folder | get-tab-item Blocks | click
-			get-button "Add Block" | click
+			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+			get-button "Add Block" | check_enabled_and_click
 			with [get-window "Block Configuration"] {
 		    	with [get-group "Selected block"] {
 		        	with [get-editbox -after [get-label "Name:"]] {
 		            	set-text $block_name
 		        	}
-		    		get-button "Select PV" | click
+		    		get-button "Select PV" | check_enabled_and_click
 					with [get-window -class PvSelectorDialog] {
 						get-group "PV Selector" | get-table | select ".*INSTNAME"
-						get-button OK | click
+						get-button OK | check_enabled_and_click
 					}
 		    	}
-		    	get-button OK | click
+		    	get-button OK | check_enabled_and_click
 			}
 		}
 	}
@@ -151,8 +151,8 @@ proc "add_block_any_pv"[val block_name] {
 proc "add_group" [val window -input true ] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-tab-folder | get-tab-item Groups | click
-	    	get-group Groups | get-button Add | click
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+	    	get-group Groups | get-button Add | check_enabled_and_click
 		}
 	}
 }
@@ -161,11 +161,11 @@ proc "add_group" [val window -input true ] {
 proc "add_block_to_group" [val group_name] [val block_name] [val window -input true ] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-tab-folder | get-tab-item Groups | click
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
 			get-group Groups | get-list | select_in_list $group_name
 			with [get-group "Selected group" | get-group Blocks] {
 				get-list | select_in_list $block_name
-				get-button | click
+				get-button | check_enabled_and_click
 			}
 		}
 	}
