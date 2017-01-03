@@ -19,20 +19,25 @@ proc "test_prefix"[val text] {
   concat "rcptt_" $text 
 }
 
-// Helper method for clicking a button, ensuring it's enabled
-proc "check_button_enabled_and_click" [val button -input true ] {
-	with $button {
-		get-property enablement | equals true | verify-true
+// Helper method for clicking an item, ensuring it's enabled
+proc "check_enabled_and_click" [val item -input true ] {
+	with $item {
+		is-disabled | verify-false
 		click
 	}
 }
 
-// Helper method for clicking an item, ensuring it's enabled
-proc "check_enabled_and_click" [val item -input true ] {
-	with $item {
-		get-property enablement | equals true | verify-true
-		click
-	}
+// Helper method for clicking a button, ensuring it's enabled
+//proc "check_button_enabled_and_click" [val button -input true ] {
+//	with $button {
+//		get-property enablement | equals true | verify-true
+//		click
+//	}
+//}
+
+// Helper method for clicking a button, ensuring it's enabled
+proc "check_button_enabled_and_click" [val button -input true ] {
+	check_enabled_and_click $button
 }
 
 // Helper method for selecting something in a list
