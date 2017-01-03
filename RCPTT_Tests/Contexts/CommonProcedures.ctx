@@ -27,6 +27,14 @@ proc "check_button_enabled_and_click" [val button -input true ] {
 	}
 }
 
+// Helper method for clicking an item, ensuring it's enabled
+proc "check_enabled_and_click" [val item -input true ] {
+	with $item {
+		get-property enablement | equals true | verify-true
+		click
+	}
+}
+
 // Helper method for selecting something in a list
 proc "select_in_list" [val list -input true] [val select] {
 	with $list {

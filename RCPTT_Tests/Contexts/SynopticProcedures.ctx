@@ -15,7 +15,7 @@ Entry-Name: .ecl.context
 // Open the "New synoptic" window
 proc "new_synoptic" {
 	try -times 100 -delay 200 -command {
-		get-menu "Synoptic/New" | click
+		get-menu "Synoptic/New" | check_enabled_and_click
 	}
 	try -times 10 -delay 500 -command {
 	    get-window "New Synoptic"
