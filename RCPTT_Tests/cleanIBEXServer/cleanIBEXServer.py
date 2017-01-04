@@ -10,6 +10,7 @@ import stat
 import subprocess
 import shutil
 from subprocess import PIPE
+import time
 from time import sleep
 from datetime import datetime as dt
 
@@ -68,6 +69,7 @@ BLOCKSERVER = "BLOCKSVR"
 # DAE process name
 DAE = "ISISDAE_01"
 
+build_number = os.environ['BUILD_NUMBER']
 
 # Error codes
 class ErrNum(object):
@@ -292,7 +294,10 @@ def _delete_data_del_dir():
     path_to_dae_data_del = PATH_TO_DAE_DATA + "del"
     if not os.path.exists(path_to_dae_data_del):
         return
-
+    try:
+        os.rename(path_to_dae_data_del+r"\log", r"c:\ISIS_log\log_" + build_number + "_%d" % int(time.time()))
+    except:
+        pass
     def error_remove_readonly(func, path, exc):
         """Delete readonly files on error in rmtree"""
         exc_value = exc[1]
