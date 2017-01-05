@@ -7,6 +7,10 @@ SET RESULTS=%WORKSPACE%\Results
 
 IF NOT EXIST %RESULTS% GOTO NORESULTS
 RMDIR /S /Q %RESULTS%
+if exist "%RESULTS%" (
+    timeout /t 10 /nobreak >NUL
+    rd /S /Q %RESULTS%
+)
 
 :NORESULTS
 md %RESULTS%
