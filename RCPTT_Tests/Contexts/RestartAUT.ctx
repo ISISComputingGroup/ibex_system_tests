@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _uBCfIL41EeaTGY5kC118nA
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 12/9/16 7:06 PM
+Save-Time: 1/5/17 10:06 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -14,9 +14,12 @@ Entry-Name: .ecl.context
 
 restart-aut
 try -times 10 -delay 200 -command {
-    get-window "Close the application?" | get-button Yes | check_enabled_and_click
+    with [ get-window "Close the application?" | get-button Yes ] {
+        is-disabled | verify-false
+        click
+    }
 }
-wait 2000
+wait 3000
 wait-until-eclipse-is-ready
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
