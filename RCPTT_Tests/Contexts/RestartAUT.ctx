@@ -14,8 +14,9 @@ Entry-Name: .ecl.context
 
 restart-aut
 try -times 10 -delay 200 -command {
-    get-window "Close the application?" | get-button Yes | click
+    get-window "Close the application?" | get-button Yes | check_enabled_and_click
 }
+wait 2000
 wait-until-eclipse-is-ready
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
