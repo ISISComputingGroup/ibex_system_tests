@@ -19,7 +19,6 @@ try -times 10 -delay 200 -command {
         click
     }
 }
-wait 3000
 wait-until-eclipse-is-ready
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
