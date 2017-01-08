@@ -2,11 +2,11 @@ setlocal
 SET AUT=%WORKSPACE%\ibex_gui\Client
 
 REM v2.1.0
-SET RUNNER=C:\Jenkins\Runner\rcptt.ide-2.1.0-win32.win32.x86_64\rcptt
-SET LAUNCHER=1.3.200.v20160318-1642
+REM SET RUNNER=C:\Jenkins\RCPTT\rcptt.runner-2.1.0\eclipse
+REM SET LAUNCHER=1.3.200.v20160318-1642
 
 REM a v2.2.0 nightly snapshot
-SET RUNNER=C:\Jenkins\Runner\rcptt.ide-2.2.0-N201701070024-win32.win32.x86_64\rcptt
+SET RUNNER=C:\Jenkins\RCPTT\rcptt.runner-2.2.0-N201701080025\eclipse
 SET LAUNCHER=1.3.201.v20161025-1711
 
 SET PROJECT=%WORKSPACE%
