@@ -1,6 +1,14 @@
 setlocal
 SET AUT=%WORKSPACE%\ibex_gui\Client
-SET RUNNER=C:\Jenkins\RCPTT_Runner
+
+REM v2.1.0
+SET RUNNER=C:\Jenkins\Runner\rcptt.ide-2.1.0-win32.win32.x86_64\rcptt
+SET LAUNCHER=1.3.200.v20160318-1642
+
+REM a v2.2.0 nightly snapshot
+SET RUNNER=C:\Jenkins\Runner\rcptt.ide-2.2.0-N201701070024-win32.win32.x86_64\rcptt
+SET LAUNCHER=1.3.201.v20161025-1711
+
 SET PROJECT=%WORKSPACE%
 
 SET RESULTS=%WORKSPACE%\Results
@@ -15,7 +23,7 @@ if exist "%RESULTS%" (
 :NORESULTS
 md %RESULTS%
 
-java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_1.3.200.v20160318-1642.jar ^
+java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_%LAUNCHER%.jar ^
  -application org.eclipse.rcptt.runner.headless ^
  -data %RESULTS%\runner-workspace\ ^
  -aut %AUT% ^
