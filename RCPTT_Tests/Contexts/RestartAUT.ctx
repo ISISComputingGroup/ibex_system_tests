@@ -23,7 +23,7 @@ try -times 50 -delay 200 -command {
 
 wait-until-eclipse-is-ready
 
-try -times 50 -delay 500 -command {
+try -times 60 -delay 1000 -command {
     get-about-menu
 }
 
