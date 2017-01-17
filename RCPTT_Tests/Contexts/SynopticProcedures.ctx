@@ -5,8 +5,8 @@ Element-Name: SynopticProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 10/6/16 4:42 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 1/17/17 4:54 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -82,6 +82,23 @@ proc "add_component" [val component_name] [val window -input true ] {
 	    get-editbox -after [get-label Name] | set-text $component_name
 	}
 }
+
+// Delete a component in a synoptic
+proc "delete_component" [val component_name] [val window -input true ] {
+	with $window {
+		with [get-tree] {
+			// Works for single and multiple instances of a component
+			try -command {
+				select $component_name
+			} -catch {
+				select [get-item $component_name -index 1]
+			}
+		}
+    	get-button "Delete Component" | check_enabled_and_click
+	}
+	get-window "Confirm Delete" | get-button OK | click
+}
+
 
 // Add a component to a synoptic that has a type/target e.g. chopper
 proc "add_component_target" [val component_name] [val target_name] [val window -input true ] {
