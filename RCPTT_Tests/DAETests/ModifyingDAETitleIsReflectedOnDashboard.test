@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _Yan_MP6SEeaP287BV4ZLxQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/1/17 4:33 PM
+Save-Time: 3/1/17 4:58 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -23,5 +23,10 @@ let[val test_title "Test 1234'#/\[]{}()_&"] {
     
     get-view Dashboard | get-label -after [get-label "Title:"] | get-property caption 
     | equals [concat $test_title "&"] | verify-true //Double ampersand needed as otherwise label doesn't display ampersand
+    
+    with [get-view "DAE Control Program" | get-editbox -after [get-label "Title:"]] {
+        set-text ""
+    }
+    get-button Set | click
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
