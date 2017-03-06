@@ -1,12 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
+Contexts: __1U1MAJGEeef-slFjNBSXg
 Element-Name: SettingDAETitleIsReflectedOnDashboard
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Yan_MP6SEeaP287BV4ZLxQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/1/17 4:58 PM
+Save-Time: 3/6/17 9:31 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -16,6 +17,8 @@ Entry-Name: .content
 switch_to_dae_view
 
 let[val test_title "Test 1234'#/\[]{}()_&"] {
+	clear_title
+
 	with [get-view "DAE Control Program" | get-editbox -after [get-label "Title:"]] {
         set-text $test_title
     }
@@ -24,9 +27,6 @@ let[val test_title "Test 1234'#/\[]{}()_&"] {
     get-view Dashboard | get-label -after [get-label "Title:"] | get-property caption 
     | equals [concat $test_title "&"] | verify-true //Double ampersand needed as otherwise label doesn't display ampersand
     
-    with [get-view "DAE Control Program" | get-editbox -after [get-label "Title:"]] {
-        set-text ""
-    }
-    get-button Set | click
+	clear_title
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
