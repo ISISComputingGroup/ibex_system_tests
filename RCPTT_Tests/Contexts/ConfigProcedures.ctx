@@ -5,8 +5,8 @@ Element-Name: ConfigProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 10/11/16 1:42 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 3/6/17 5:33 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -21,13 +21,26 @@ proc "new_config" {
 }
 
 // Open the "Edit configuration" window
-proc "edit_config" {
+proc "edit_config_window" {
 	try -times 100 -delay 200 -command {
 		get-menu "Configuration/Configurations/Edit" | check_enabled_and_click
 	} 
 	get-window "Edit Configuration"
 }
 
+// Opens a specific config for editing
+proc "edit_config" [val config_name] {
+	try -times 100 -delay 200 -command {
+		with[edit_config_window] {
+			get-list | select_in_list $config_name
+			get-button OK | check_button_enabled_and_click
+		}
+	}-catch {
+		cancel_dialog
+	}
+	get-window "Edit Configuration"
+}
+	
 // Open the "Edit current configuration" window
 proc "edit_current_config" {
 	try -times 100 -delay 200 -command {
@@ -63,6 +76,7 @@ proc "save_and_name_config" [val name]  [val window -input true ] {
 	    with [get-window "Save Configuration As"] {
 			try -times 20 -delay 200 -command {	
 	        	get-editbox -after [get-label "Name:"] | set-text $name
+	        	get-editbox -after [get-label "Description:"] | set-text $name
 	        	get-button OK | check_button_enabled_and_click
 	    	} -catch {
 	    		cancel_dialog
@@ -97,6 +111,45 @@ proc "delete_config" [val name] {
 			} -catch {
 				cancel_dialog
 			}
+		}
+	}
+}
+
+// Add an IOC
+proc "add_ioc"[val ioc_name] [val window -input true ] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item IOCs | check_enabled_and_click	
+			get-button "Add IOC" | check_enabled_and_click
+			with [get-window -class IocDialog] {
+				get-table | select $ioc_name | double-click
+			}
+		}
+	}
+}
+
+// Add IOC macro
+proc "add_ioc_macro"[val macro] [val macro_value]{
+	try -times 100 -delay 200 -command {
+		with [get-window -class IocDialog] {
+    		get-table | select $macro
+    		get-editbox -after [get-label Value] | set-text $macro_value
+    		get-button "Set Macro" | check_enabled_and_click
+    		get-button OK | check_enabled_and_click
+    	}
+    }
+}
+
+// Verify that the given macro is the given value
+proc "verify_macro" [val ioc] [val macro] [val value] [val window -input true]{
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-table | select $ioc
+			get-button "Edit IOC" | check_enabled_and_click
+		    with [get-window -class IocDialog ] {
+		    	get-table | get-item $macro | get-property "columns[1]" | equals $value | verify-true
+		    	get-button Cancel | check_enabled_and_click
+		   	}
 		}
 	}
 }

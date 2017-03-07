@@ -5,8 +5,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _cB6ckEQiEear0fgUd5_sYQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 8/1/16 1:32 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 3/6/17 2:30 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -53,7 +53,7 @@ try -times 100 -delay 200 -command {
 // Assert that the three previous configurations do not appear in the edit configuration window
 try -times 100 -delay 200 -command {
 	// Loop through the number of configs in the edit configuration list and assert that none of the names are equal to any of the previously created configs
-	with [edit_config] {
+	with [edit_config_window] {
 		try -command {
 			with [get-list] {
 				let [val item_count [get-property -raw true -name "getItemCount()"]] {	
