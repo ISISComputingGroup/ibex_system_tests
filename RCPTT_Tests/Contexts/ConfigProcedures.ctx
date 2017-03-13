@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/13/17 11:06 AM
+Save-Time: 3/13/17 1:22 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -127,7 +127,7 @@ proc add_comp [val component_name] [val window -input true] {
 }
 
 // remove a component
-proc remove_component [val component_name] [val window -input true] {
+proc remove_comp [val component_name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
 			get-tab-folder | get-tab-item Components | check_enabled_and_click
@@ -272,5 +272,21 @@ proc create_simple_config_and_load [val config_name] [val block_name] [val pv] {
 
 	// Always do a short wait after changing config or the next dialog can jump the instrument updating dialog
 	wait 10000
+}
+
+proc assert_config_deleted [val test_config] {
+	try -times 50 -delay 200 -command {
+		get-menu "Configuration/Configurations/Delete" | click
+		with [get-window "Delete Configurations" | get-table] {
+			let [val item_count [get-property -raw true -name itemCount]] {
+				loop [val index [int 0]] {
+					if [$index | lt $item_count] {
+						get-window "Delete Configurations" | get-table | get-property -raw true -name [concat "getItems().TableItem[" $index "].getText()"] | eq $test_config | verify-false
+						recur [$index | plus 1]
+					}
+				}
+			}
+		}
+	}
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
