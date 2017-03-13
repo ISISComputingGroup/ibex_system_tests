@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _gBk3kP6UEeaP287BV4ZLxQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/13/17 4:31 PM
+Save-Time: 3/13/17 4:45 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -21,14 +21,18 @@ with [get-view "My View"] {
 		get-button Clear | check_enabled_and_click
 	    get-button Add | check_enabled_and_click
 	    with [get-table] {
+	    	wait 1000
 	        select "DEFAULT_USER" | activate-cell-edit
 	        get-editbox | set-text [concat "Dominic " $surname01]
+	        wait 1000
 	        apply-cell-edit -deactivate
 	    }
 	    get-button Add | check_enabled_and_click
 	    with [get-table] {
+	    	wait 1000
 	        select "DEFAULT_USER" | activate-cell-edit
 	        get-editbox | set-text [concat "David " $surname02]
+	        wait 1000
 	        apply-cell-edit -deactivate
 	    }
 	    get-button Set -after [get-label "Experiment Team"] | check_enabled_and_click
@@ -39,5 +43,4 @@ with [get-view "My View"] {
 		get-button Clear | check_enabled_and_click
 	}
 }
-
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
