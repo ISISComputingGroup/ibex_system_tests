@@ -1,13 +1,12 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Contexts: _8yQ5kATHEeebWKnhsKxNhg
 Element-Name: CanOnlyDeleteComponentWhenNotInUse
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Waw4oAQWEeeyKY3Ocx5XAg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/13/17 1:22 PM
+Save-Time: 3/13/17 1:28 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
