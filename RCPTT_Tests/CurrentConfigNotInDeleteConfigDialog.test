@@ -5,8 +5,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _SutOYGuLEeaEl7GeJPNMVQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 12/9/16 6:14 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 3/13/17 10:45 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -25,11 +25,11 @@ let [val test_config "rcptt_test_config"] {
 	try -times 50 -delay 200 -command {
 		get-menu "Configuration/Configurations/Delete" | click
 	}
-	with [get-window "Delete Configurations" | get-list] {
+	with [get-window "Delete Configurations" | get-table] {
 		let [val item_count [get-property -raw true -name "getItemCount()"]] {	
 			loop [val index [int 0]] {
 				if [ $index | lt $item_count] {
-		   			get-window "Delete Configurations" | get-list | get-property -raw true -name [ concat "getItems().String[" $index "]" ] | eq $test_config | verify-false
+		   			get-window "Delete Configurations" | get-table | get-property -raw true -name [ concat "getItems().TableItem[" $index "].getText()"  ] | eq $test_config | verify-false
 		   			recur [ $index | plus 1 ]
 				}
 			}
