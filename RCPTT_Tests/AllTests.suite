@@ -38,5 +38,6 @@ _THj0wDSMEea17PdyItjtbg	// kind: 'test' name: 'DeletingAllBlocksDeletesAllGroups
 _lFSlQNy3EeaGu9vK5vllnA	// kind: 'test' name: 'SynopticCannotHaveMultipleComponentsWithSameName' path: 'SynopticTests/SynopticCannotHaveMultipleComponentsWithSameName.test'
 _gBk3kP6UEeaP287BV4ZLxQ	// kind: 'test' name: 'ModifyingUsersIsReflectedOnDashboard' path: 'DAETests/ModifyingUsersIsReflectedOnDashboard.test'
 _Yan_MP6SEeaP287BV4ZLxQ	// kind: 'test' name: 'SettingDAETitleIsReflectedOnDashboard' path: 'DAETests/ModifyingDAETitleIsReflectedOnDashboard.test'
+_OQB5gAJuEeef-slFjNBSXg	// kind: 'test' name: 'CanEditIOCMacros' path: 'ConfigurationTests/CanEditIOCMacros.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
