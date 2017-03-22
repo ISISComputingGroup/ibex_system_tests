@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _mTKdkFVzEeaXbYm3HBnm7g
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 12/21/16 10:53 AM
+Save-Time: 3/10/17 1:11 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -45,6 +45,15 @@ proc "select_in_list" [val list -input true] [val select] {
 	with $list {
 		select $select
 		get-property "getSelection().String[0]" | equals $select | verify-true		    		
+	}
+}
+
+
+// Helper method for selecting something in a list
+proc "select_in_table" [val table -input true] [val select] {
+	with $table {
+		select $select
+		get-property "selection[0].path[0]" | equals $select | verify-true    		
 	}
 }
 
