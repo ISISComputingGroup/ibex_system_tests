@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 1/17/17 4:54 PM
+Save-Time: 3/13/17 1:10 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -64,7 +64,7 @@ proc "delete_synoptic" [val name] {
 		get-menu "Synoptic/Delete" | check_enabled_and_click
 		with [get-window "Delete Synoptics"] {
 			try -times 20 -delay 200 -command {
-				get-list | select_in_list $name
+				get-table | select_in_table $name
 		    	get-button OK | check_button_enabled_and_click
 		    } -catch {
 		    	cancel_dialog

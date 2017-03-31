@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _BgnBcB5tEeaAYI1qYj9bEg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/13/17 4:27 PM
+Save-Time: 3/31/17 4:33 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -17,6 +17,11 @@ proc "switch_to_dae_view" {
 	try -times 50 -delay 200 -command {
 	    get-label "DAE" | click
 	}
+}
+
+proc "switch_to_device_screens_view" {
+	// Switch to device screens view
+	get-label "Device Screens" | click
 }
 
 proc "switch_to_details_view" {
