@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _3QBvEBkKEeeBk98u4J3lxA
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 4/4/17 1:13 PM
+Save-Time: 4/4/17 5:14 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -14,7 +14,7 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 // Create variables for config, components and block names
-let [val config01 [test_prefix "config01"]] [val comp01 [test_prefix "comp01"]] [val comp02 [test_prefix "comp01"]] [val block_dup "duplicate_block"] [val block_rn "renamed_block"] {
+let [val config01 [test_prefix "config01"]] [val comp01 [test_prefix "comp01"]] [val comp02 [test_prefix "comp02"]] [val block_dup "duplicate_block"] [val block_rn "renamed_block"] {
 	// Create first component with duplicate block
 	with [new_comp] {
 		add_block $block_dup $block_dup
@@ -36,7 +36,7 @@ let [val config01 [test_prefix "config01"]] [val comp01 [test_prefix "comp01"]] 
 	}
 	
 	// Verify error
-	with [get-window "Component in Use"] {
+	with [get-window "Conflicts with current configuration"] {
 		 get-property "isVisible()" | equals true | verify-true
 		 get-button Ok | check_button_enabled_and_click
 	}
