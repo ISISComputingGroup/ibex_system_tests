@@ -1,0 +1,74 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CannotInsertDuplicateIntoCurrentConfigViaComponent
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _YyE5sBkcEeeBk98u4J3lxA
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 4/4/17 4:35 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Create variables for config, components and block names
+let [val config01 [test_prefix "config01"]] [val comp01 [test_prefix "comp01"]] [val block_dup "duplicate_block"] [val block "block"] {
+
+	// Create configuration with block
+	with [new_config] {
+		add_block $block_dup $block_dup
+		save_and_name_config $config01
+	}
+	assert_wait_for_dialog_closed
+	
+	// Load config
+	try -times 4 -delay 1000 -command {
+		load_config $config01
+		assert_wait_for_dialog_closed
+		get-label [concat "Current configuration: " $config01]
+	}
+	
+	// Create component with block
+	with [new_comp] {
+		add_block $block $block
+		save_and_name_comp $comp01
+	}
+	assert_wait_for_dialog_closed
+	
+	// Try to add comp to config
+	with [edit_current_config] {
+		add_comp $comp01
+		save_config
+	}
+	assert_wait_for_dialog_closed
+	
+	// Try to rename block in comp to cause duplicate
+	with [edit_comp $comp01] {
+	    get-tab-folder | get-tab-item Blocks | click
+	    get-table | select_in_table $block
+	    get-button "Edit Block" | click
+		with [get-window "Block Configuration"] {
+			with [get-group "Selected block"] {
+				get-editbox -after [get-label "Name:"] | set-text $block_dup
+			}
+			get-button OK | check_button_enabled_and_click
+		}
+		save_comp
+		
+	}
+	// Assert error
+	with [get-window "Conflicts with current configuration"] {
+		get-property "isVisible()" | equals true | verify-true
+		get-button Ok | click
+	}
+	get-window "Edit Component" | get-button Cancel | click
+	
+	// Assert block not renamed
+	with [edit_comp $comp01] {
+	    get-tab-folder | get-tab-item Blocks | click
+	    get-table | get-item $block
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
