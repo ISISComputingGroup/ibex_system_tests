@@ -4,7 +4,8 @@ import re
 import sys
 import subprocess
 
-KITS_ROOT = r'\\isis\inst$\Kits$\CompGroup\ICP'
+#KITS_ROOT = r'p:\Kits$\CompGroup\ICP'
+KITS_ROOT = r'q:'
 EPICS_KITS_DIR = KITS_ROOT + r'\EPICS\EPICS_win7_x64'
 GUI_KITS_DIR = KITS_ROOT + r'\Client'
 PYTHON_KITS_DIR = KITS_ROOT + r'\genie_python'
