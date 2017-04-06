@@ -6,24 +6,23 @@ import sys
 EPICS_KITS_DIR = "\\\\isis\\inst$\\Kits$\\CompGroup\\ICP\\EPICS\\EPICS_win7_x64"
 GUI_KITS_DIR = "\\\\isis\\inst$\\Kits$\\CompGroup\\ICP\\Client"
 
+EPICS_BUILD_FOLDER_PATTERN = "BUILD-(\d+)"
+
 # Find the latest version of EPICS
 version = 0
 folder = None
 for x in os.listdir(EPICS_KITS_DIR):
     if os.path.isfile(os.path.join(EPICS_KITS_DIR, x, 'EPICS', 'COPY_COMPLETE.txt')):
-        m = re.match("BUILD-(\d+)", x)
+        m = re.match(EPICS_BUILD_FOLDER_PATTERN, x)
         if m is not None:
             d = int(m.groups()[0])
             if d > version:
                 version = d
                 folder = x
     else:
-        m = re.match("BUILD-(\d+)", x)
+        m = re.match(EPICS_BUILD_FOLDER_PATTERN, x)
         if m is not None:
-            print "Warning: COPY_COMPLETE not found for build " + m.groups()[0]
-
-print "version = " + str(version)				
-sys.exit(0)
+            print "Warning: COPY_COMPLETE not found for build " + m.groups()[0] + ". \nThis might be because the build is incomplete, or because the folder structure has changed."
 
 if folder is not None: 
     print "Copying EPICS from %s, please wait..." % folder
