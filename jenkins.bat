@@ -36,9 +36,6 @@ if exist "C:\Instrument\Apps\Python\" (
     rd /S /Q "C:\Instrument\Apps\Python\"
 )
 
-call "\\isis\inst$\Kits$\CompGroup\ICP\Client\genie_python\genie_python_install.bat"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
 cd %WORKSPACE%
 
 REM Clean up the previous versions
