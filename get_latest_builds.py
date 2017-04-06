@@ -22,7 +22,9 @@ for x in os.listdir(EPICS_KITS_DIR):
     else:
         m = re.match(EPICS_BUILD_FOLDER_PATTERN, x)
         if m is not None:
-            print "Warning: COPY_COMPLETE not found for build " + m.groups()[0] + ". \nThis might be because the build is incomplete, or because the folder structure has changed."
+            print "Warning: COPY_COMPLETE not found for build " + m.groups()[0]
+            print "This might be because the build is incomplete, or because the folder structure has changed."
+			
 
 if folder is not None: 
     print "Copying EPICS from %s, please wait..." % folder
