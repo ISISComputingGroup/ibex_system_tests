@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/31/17 2:35 PM
+Save-Time: 4/6/17 9:56 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -148,8 +148,20 @@ proc add_ioc [val ioc_name] [val window -input true] {
 			}
 		}
 	}
+	get-window -class IocDialog
 }
 
+// Edit an IOC
+proc edit_ioc [val ioc_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
+			get-table | select $ioc_name -column Name
+			get-button "Edit IOC" | check_enabled_and_click
+		}
+	}
+	get-window -class IocDialog
+}
 // Add IOC macro
 proc add_ioc_macro [val macro] [val macro_value] {
 	try -times 100 -delay 200 -command {

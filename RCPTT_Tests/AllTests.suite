@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/8/17 11:47 AM
+Save-Time: 4/6/17 11:27 AM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -19,8 +19,8 @@ _Rq2D4PpcEeWdEd9B02gwIw	// kind: 'test' name: 'CreateSimpleSynoptic' path: 'Syno
 _YxmLoBE7EeaK56OpzmNTzg	// kind: 'test' name: 'AddingManyGroupsDoesNotCrashGui' path: 'ConfigurationTests/AddingManyGroupsDoesNotCrashGui.test'
 _aFqJcBX6EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameLengthCannotExceedMax' path: 'SynopticTests/NewSynopticNameLengthCannotExceedMax.test'
 _lrojgBX5EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameCannotBeEmpty' path: 'SynopticTests/NewSynopticNameCannotBeEmpty.test'
-_W1lpsB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreEnabledIfNotRunning' path: 'DAEExperimentTabsAreEnabledIfNotRunning.test'
-_jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAEExperimentTabsAreDisabledIfRunning.test'
+_W1lpsB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreEnabledIfNotRunning' path: 'DAETests/DAEExperimentTabsAreEnabledIfNotRunning.test'
+_jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAETests/DAEExperimentTabsAreDisabledIfRunning.test'
 _6ljosCF-EeaVDbdGJtxYOQ	// kind: 'test' name: 'DefaultSynopticAppearsInEditConfig' path: 'ConfigurationTests/DefaultSynopticAppearsInEditConfig.test'
 _ipLYsEUYEead5NXtjPDgQA	// kind: 'test' name: 'ModifyBlockLogSettings' path: 'ModifyBlockLogSettings.test'
 _MHafIEUcEead5NXtjPDgQA	// kind: 'test' name: 'ValidateBlockLogSettings' path: 'ValidateBlockLogSettings.test'
@@ -33,9 +33,20 @@ _GHwdwDLcEeaaer6ihff4wQ	// kind: 'test' name: 'BlockWithoutGroupGoesIntoOther' p
 _75-K8FMjEeaXbYm3HBnm7g	// kind: 'test' name: 'EmptyLogPlotterGivesMessage' path: 'EmptyLogPlotterGivesMessage.test'
 _SutOYGuLEeaEl7GeJPNMVQ	// kind: 'test' name: 'CurrentConfigNotInDeleteConfigDialog' path: 'CurrentConfigNotInDeleteConfigDialog.test'
 _Xt7pAE5hEeaUKeYJFOSZaA	// kind: 'test' name: 'CanEditPreviousConfigs' path: 'ConfigurationTests/CanEditPreviousConfigs.test'
-_mXPo4EdoEeatS9ozXm2xuQ	// kind: 'test' name: 'ToggleExperimentTitleVisibility' path: 'ToggleExperimentTitleVisibility.test'
+_mXPo4EdoEeatS9ozXm2xuQ	// kind: 'test' name: 'ToggleExperimentTitleVisibility' path: 'DAETests/ToggleExperimentTitleVisibility.test'
 _THj0wDSMEea17PdyItjtbg	// kind: 'test' name: 'DeletingAllBlocksDeletesAllGroups' path: 'ConfigurationTests/DeletingAllBlocksDeletesAllGroups.test'
 _lFSlQNy3EeaGu9vK5vllnA	// kind: 'test' name: 'SynopticCannotHaveMultipleComponentsWithSameName' path: 'SynopticTests/SynopticCannotHaveMultipleComponentsWithSameName.test'
+_gBk3kP6UEeaP287BV4ZLxQ	// kind: 'test' name: 'ModifyingUsersIsReflectedOnDashboard' path: 'DAETests/ModifyingUsersIsReflectedOnDashboard.test'
+_Yan_MP6SEeaP287BV4ZLxQ	// kind: 'test' name: 'SettingDAETitleIsReflectedOnDashboard' path: 'DAETests/ModifyingDAETitleIsReflectedOnDashboard.test'
 _OQB5gAJuEeef-slFjNBSXg	// kind: 'test' name: 'CanEditIOCMacros' path: 'ConfigurationTests/CanEditIOCMacros.test'
+_xCZlkAirEeewRLVbkB4NiA	// kind: 'test' name: 'AddAndDeleteDeviceScreens' path: 'Devicescreens/AddAndDeleteDeviceScreens.test'
+_Xv5SUPkPEeae1rzSy-R5nA	// kind: 'test' name: 'CreateManyBlankConfigs' path: 'UsefulTools/CreatingManyBlankConfigsDoesNotLeakMemory.test'
+_6DleABkZEeeBk98u4J3lxA	// kind: 'test' name: 'CannotAddCompWithDuplicatesToConfig' path: 'ConfigurationTests/CannotAddCompWithDuplicatesToConfig.test'
+_3QBvEBkKEeeBk98u4J3lxA	// kind: 'test' name: 'CannotAddTwoCompsWithDuplicates' path: 'ConfigurationTests/CannotAddTwoCompsWithDuplicates.test'
+_qxSuABh8Eeefm6eVbSR_zg	// kind: 'test' name: 'CannotCreateDuplicateBlocksInConfig' path: 'ConfigurationTests/CannotCreateDuplicateBlocksInConfig.test'
+_YyE5sBkcEeeBk98u4J3lxA	// kind: 'test' name: 'CannotInsertDuplicateIntoCurrentConfigViaComponent' path: 'ConfigurationTests/CannotInsertDuplicateIntoCurrentConfigViaComponent.test'
+_j2lBwBlEEeeK0IHDxEGBQQ	// kind: 'test' name: 'CannotLoadConfigContainingDuplicates' path: 'ConfigurationTests/CannotLoadConfigContainingDuplicates.test'
+_Waw4oAQWEeeyKY3Ocx5XAg	// kind: 'test' name: 'CanOnlyDeleteComponentWhenNotInUse' path: 'ConfigurationTests/CanOnlyDeleteComponentWhenNotInUse.test'
+_RgALAMdeEea9WqmIdIbeTA	// kind: 'test' name: 'AddPVValuesToAConfig' path: 'ConfigurationTests/AddPVValuesToAConfig.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
