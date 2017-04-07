@@ -168,7 +168,7 @@ proc add_ioc_macro [val macro] [val macro_value] {
 		with [get-window -class IocDialog] {
 			get-table | select $macro
 			get-editbox -after [get-label Value] | set-text $macro_value
-			get-button "Set Macro" | check_enabled_and_click
+			get-table | get-item $macro | get-property "columns[1]" | equals $macro_value | verify-true
 			get-button OK | check_enabled_and_click
 		}
 	}
