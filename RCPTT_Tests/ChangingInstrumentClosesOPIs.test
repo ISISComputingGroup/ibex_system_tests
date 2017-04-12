@@ -6,13 +6,26 @@ Element-Version: 3.0
 External-Reference: 
 Id: _hsIk0A1OEeeWRafk2sGJ8w
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/20/17 10:21 AM
+Save-Time: 4/12/17 4:52 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
+switch_to_device_screens_view
 
-
+let [val screen_name "Screen"] {
+    add_device_screen
+    get-menu "IBEX/Switch Instrument" | click
+    with [get-window "Instrument Selector"] {
+        get-group Instrument | get-table | select NDW1695
+        get-button OK | click
+    }
+    get-view "Device Screens" | get-button "Edit Device Screens" | click
+    with [get-window "Configure Device Screens"] {
+        get-group "Device Screens" | get-list | select $screen_name
+        get-button Cancel | click
+    }
+}
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
