@@ -6,6 +6,9 @@ REM we map this early as some other stuff (e.g. CSS, DAE DLLs) is copied from \\
 net use p: /d
 net use p: \\isis\inst$ /user:isis\builder %BUILDERPW%
 
+subst q: /d
+subst q: p:\Kits$\CompGroup\ICP
+
 REM for create_icp_binaries
 net use \\shadow.isis.cclrc.ac.uk /d
 net use \\shadow.isis.cclrc.ac.uk /user:isis\builder %BUILDERPW%
@@ -35,9 +38,6 @@ if exist "C:\Instrument\Apps\Python\" (
     timeout /t 10 /nobreak >NUL
     rd /S /Q "C:\Instrument\Apps\Python\"
 )
-
-call "\\isis\inst$\Kits$\CompGroup\ICP\Client\genie_python\genie_python_install.bat"
-if %errorlevel% neq 0 exit /b %errorlevel%
 
 cd %WORKSPACE%
 
