@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 4/6/17 9:56 AM
+Save-Time: 4/13/17 10:17 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -137,18 +137,37 @@ proc remove_comp [val component_name] [val window -input true] {
 	}
 }
 
+// Get an open IOC settings dialog
+proc get_ioc_dialog {
+	try -command {
+		get-window -class IocDialog
+	} -catch {
+		get-window -class AddIocDialog
+	}
+}
+
+// Open the IOC settings
+proc open_ioc [val window -input true] {
+	with $window {
+		try -command {
+			get-button "Edit IOC" | check_enabled_and_click
+		} -catch {
+			get-button "View IOC" | check_enabled_and_click
+		}
+	}
+}
 // Add an IOC
 proc add_ioc [val ioc_name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
 			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
 			get-button "Add IOC" | check_enabled_and_click
-			with [get-window -class IocDialog] {
+			with [get_ioc_dialog] {
 				get-table | select $ioc_name | double-click
 			}
 		}
 	}
-	get-window -class IocDialog
+	get_ioc_dialog 
 }
 
 // Edit an IOC
@@ -157,15 +176,15 @@ proc edit_ioc [val ioc_name] [val window -input true] {
 		with $window {
 			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
 			get-table | select $ioc_name -column Name
-			get-button "Edit IOC" | check_enabled_and_click
+			open_ioc
 		}
 	}
-	get-window -class IocDialog
+	get_ioc_dialog 
 }
 // Add IOC macro
 proc add_ioc_macro [val macro] [val macro_value] {
 	try -times 100 -delay 200 -command {
-		with [get-window -class IocDialog] {
+		with [get_ioc_dialog] {
 			get-table | select $macro
 			get-editbox -after [get-label Value] | set-text $macro_value
 			get-table | get-item $macro | get-property "columns[1]" | equals $macro_value | verify-true
@@ -178,9 +197,7 @@ proc add_ioc_macro [val macro] [val macro_value] {
 proc verify_macro [val ioc] [val macro] [val value] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-table | select $ioc
-			get-button "Edit IOC" | check_enabled_and_click
-			with [get-window -class IocDialog] {
+			with [edit_ioc $ioc] {
 				get-table | get-item $macro | get-property "columns[1]" | equals $value | verify-true
 				get-button Cancel | check_enabled_and_click
 			}
