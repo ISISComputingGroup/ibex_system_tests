@@ -1,0 +1,108 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CanOpenSynopticTargets
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _UqzfICBrEeewH-_OS6CJKQ
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 4/18/17 1:22 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+let [val synoptic_name [test_prefix "test_synoptic"]] [val OPI_target "EUROTHERM"] [val DAE_target "DAE"] [val group "Group"] 
+	[val group_with_OPI "CCD100"] {
+	
+	// Create a synoptic with at least one of every component type 
+	try -times 50 -delay 200 -command {
+		with [new_synoptic] {
+			add_component $OPI_target
+		    add_component $DAE_target
+		    
+		    get-button "Add Component" | click
+		    get-editbox -after [get-label Name] | set-text $group
+		    
+		    add_component $group_with_OPI
+		    
+		    with [get-tree] {
+		        select $DAE_target
+		        get-item $DAE_target | drag-start 9 9
+		        get-item $group | drag-enter 9 23 -detail move
+		        get-item $group | drag-over 9 17 -detail move
+		        get-item $group | drag-exit
+		        drag-set-data
+		        get-item $group | drop 9 17 -detail move
+		        drag-end -detail move
+		        select $OPI_target
+		        get-item $OPI_target | drag-start 7 20
+		        get-item $group_with_OPI | drag-over 31 18 -detail move
+		        get-item $group_with_OPI | drag-accept 31 18 -detail move
+		        drag-set-data
+		        get-item $group_with_OPI | drop 31 18 -detail move
+		        drag-end -detail move
+		    }
+		    
+		    save_and_name_synoptic $synoptic_name
+		}
+	}
+	
+	switch_to_synoptic_view
+	
+	// Select the correct synoptic
+	try -times 50 -delay 200 -command {
+		with [get-view "Synoptic navigator"] {
+	    	get-group "Synoptic Selection" | get-combo | select $synoptic_name
+		}
+	}
+	
+	with [get-view "New synoptic"] {
+		//Test that there are 2 icons
+		try -times 50 -delay 200 -command {
+			 get-control Any -index 3 | get-property "getChildren().length" | equals 2 | verify-true
+		}
+	
+		//Test that clicking the group with no OPI works causes just that group to be shown
+		open_group_single_child $group $synoptic_name
+		
+		//Test that the navigator shows what is expected
+		with [get-view "Synoptic navigator" | get-group "Synoptic Navigation"] {
+			try -times 50 -delay 200 -command {
+    			get-canvas | get-property "getItemCount()" | equals 2 | verify-true // The breadcrumb has two elements
+    			get-button "" | get-property enablement | equals false | verify-true // The left navigation is disabled
+    			get-button $synoptic_name | get-property enablement | equals true | verify-true // The up navigation is enabled
+    			get-button $group_with_OPI | get-property enablement | equals true | verify-true // The right navigation is enabled
+				get-button $synoptic_name | click // Return to top view
+			}
+		}
+		
+		//Test that clicking the group with an OPI works causes just that group to be shown
+		open_group_single_child $group_with_OPI $synoptic_name
+		
+		//Test that the navigator shows what is expected
+		with [get-view "Synoptic navigator" | get-group "Synoptic Navigation"] {
+			try -times 50 -delay 200 -command {
+				get-canvas | get-property "getItemCount()" | equals 2 | verify-true // The breadcrumb has two elements
+    			get-button $group | get-property enablement | equals true | verify-true // The left navigation is enabled
+    			get-button $synoptic_name | get-property enablement | equals true | verify-true // The up navigation is enabled
+    			get-button "" -after [get-button $synoptic_name] | get-property enablement | equals false | verify-true // The right navigation is disabled
+			}
+		}
+	}
+		
+	// Test that clicking the group with an OPI when in that group causes the OPI to show
+	test_opi_opens $group_with_OPI
+
+	// Return to top view
+	get-view "New synoptic" | get-view "Synoptic navigator" | get-group "Synoptic Navigation" | get-button $synoptic_name | click 
+	
+	// Test OPI opens
+	test_opi_opens $OPI_target
+	
+	// Test DAE opens
+	get-view "New synoptic" | get-label "" | click
+	get-view "DAE Control Program" | get-label "DAE Control Program" | get-property caption | equals "DAE Control Program" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
