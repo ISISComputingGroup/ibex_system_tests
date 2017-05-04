@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/13/17 1:10 PM
+Save-Time: 4/18/17 1:21 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -125,6 +125,28 @@ proc "view_synoptic" [val synoptic] {
     			get-property selection | equals $synoptic | verify-true
     		}
     	}
+	}
+}
+
+// Open a group in the synoptic view and check that it has a single child
+proc "open_group_single_child" [val group_name] [val synoptic_name] [val synoptic_view -input true ] {
+	with $synoptic_view {
+		try -times 50 -delay 200 -command {
+			get-label $group_name | click
+			get-control Any -index 3 | get-property "getChildren().length" | equals 1 | verify-true
+		} -catch {
+			get-view "Synoptic navigator" | get-group "Synoptic Navigation" | get-button $synoptic_name | click // Return to top view
+		}
+	}
+}
+
+// Test that clicking on a label (with the same name as the OPI) opens an OPI with the expected caption, then close it again
+proc "test_opi_opens" [val opi_name] {
+	try -times 50 -delay 200 -command {	
+		get-view "New synoptic" | get-label $opi_name | click
+		get-tab-folder | get-property activePage | equals $opi_name | verify-true
+	} -finally {
+		get-view $opi_name | close
 	}
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
