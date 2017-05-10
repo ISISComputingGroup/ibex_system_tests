@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/10/17 9:43 AM
+Save-Time: 5/10/17 9:52 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -173,14 +173,8 @@ proc add_ioc [val ioc_name] [val window -input true] {
 
 // Add an IOC without macros
 proc add_ioc_no_macros [val ioc_name] [val window -input true] {
-	try -times 100 -delay 200 -command {
-		with $window {
-			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
-			get-button "Add IOC" | check_enabled_and_click
-			with [get_ioc_dialog] {
-				get-table | select $ioc_name | double-click
-			}
-		}
+	with $window {
+		add_ioc $ioc_name
 	}
 	try -times 100 -delay 200 -command {
 		with [get_ioc_dialog] {
@@ -212,8 +206,7 @@ proc verify_selected_text [val expected] [val window -input true] {
 proc delete_ioc [val ioc_name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
-			get-table | select $ioc_name -column Name
+			select_ioc $ioc_name
 			set-dialog-result MessageBox 32
 			get-button "Delete IOC" | click
 		}
@@ -224,8 +217,7 @@ proc delete_ioc [val ioc_name] [val window -input true] {
 proc edit_ioc [val ioc_name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
-			get-table | select $ioc_name -column Name
+			select_ioc $ioc_name
 			open_ioc
 		}
 	}
