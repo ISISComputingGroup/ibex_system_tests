@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/10/17 9:52 AM
+Save-Time: 5/10/17 9:54 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -193,6 +193,7 @@ proc select_ioc [val ioc_name] [val window -input true] {
 	}
 }
 
+// Check that the text in the selected box of the IOC tab matches the expected value
 proc verify_selected_text [val expected] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
