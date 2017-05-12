@@ -1,0 +1,28 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: BlockProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _xjLrUDb2EeekDKscI2cwGA
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 5/12/17 12:12 PM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+// edit a block by opening it directly from the blocks bar
+proc edit_block [val name] {
+	get-view Blocks | get-label [concat $name ":"] | get-menu "Edit block" | click
+}
+
+// edit log configuration for a block
+proc change_block_name [val new_name] {
+	with [get-window "Block Configuration"] {
+    	get-group "Selected block" | get-editbox -after [get-label "Name:"] | set-text $new_name
+    	get-button OK | click
+    }
+}
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

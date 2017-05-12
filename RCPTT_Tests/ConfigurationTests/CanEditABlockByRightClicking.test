@@ -1,0 +1,63 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CanEditABlockByRightClicking
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _CRQFEDWMEeekDKscI2cwGA
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 5/12/17 2:22 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Create a component with a block
+let [val config_name [test_prefix "config03"]] [val comp_name [test_prefix "comp03"]] [val config_block "config_block" ] [val comp_block "comp_block"] 
+	[val pv "DAE:INSTNAME"] [val edit_suffix "_EDITED"]{
+	// Create the component
+	with [new_comp] {
+		add_block $comp_block $pv
+		save_and_name_comp $comp_name
+	}
+	
+	// Create the config with the component
+	with [new_config] {
+		add_block $config_block $pv
+		add_comp $comp_name
+		save_and_name_config $config_name
+	}
+	
+	// Create a 2nd component with the same block so we know we're changing the right one
+	with [new_comp] {
+		add_block $comp_block $pv
+		save_and_name_comp [concat $comp_name "_DUPLICATE"]
+	}
+	
+	// Change to the new configuration
+	load_config $config_name
+	
+	// Sometimes the blocks don't appear immediately
+	try -times 10 -delay 2000 -command {
+	
+		// Edit the config block by right clicking
+		edit_block $config_block
+		change_block_name [concat $config_block $edit_suffix]
+	
+		// Edit the component block by right clicking
+		edit_block $comp_block
+		change_block_name [concat $comp_block $edit_suffix]
+		
+	}
+	
+	// Check that the configuration block has been edited in the configuration
+	//verify_config_has_block $config_name $config_block
+		
+	// Check that the component block has been edited in the component
+	//verify_comp_has_block $comp_name $comp_block
+	
+	// Verify the current configuration name is correct
+	//verify_current_config_name $config_name
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

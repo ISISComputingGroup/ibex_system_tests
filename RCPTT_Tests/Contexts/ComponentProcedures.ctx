@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _8yQ5kATHEeebWKnhsKxNhg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/13/17 1:19 PM
+Save-Time: 5/12/17 11:26 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -74,6 +74,7 @@ proc "save_and_name_comp" [val name]  [val window -input true ] {
 	    		cancel_dialog
 	    	}
 	    }
+	    assert_wait_for_dialog_closed
 	}
 }
 
