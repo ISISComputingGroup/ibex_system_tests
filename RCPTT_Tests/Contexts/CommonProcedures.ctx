@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _mTKdkFVzEeaXbYm3HBnm7g
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 4/6/17 9:54 AM
+Save-Time: 5/12/17 4:20 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -72,5 +72,4 @@ proc "log_message" [val message] {
 	}
     echo $message | log -severity info
 }
-
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

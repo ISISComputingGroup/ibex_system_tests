@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _xjLrUDb2EeekDKscI2cwGA
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/12/17 12:12 PM
+Save-Time: 5/12/17 3:21 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -23,6 +23,7 @@ proc change_block_name [val new_name] {
     	get-group "Selected block" | get-editbox -after [get-label "Name:"] | set-text $new_name
     	get-button OK | click
     }
+	assert_wait_for_dialog_closed
 }
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 4/13/17 10:17 AM
+Save-Time: 5/12/17 4:19 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -316,6 +316,22 @@ proc assert_config_deleted [val test_config] {
 				}
 			}
 		}
+	}
+}
+
+// Verify that the current config matches the given name
+proc verify_current_config_name [val expected_name] {
+	// This will error if the label is incorrect
+	get-label [concat "Current configuration: " $config_name]
+}
+
+// Verify that the config contains a block with a particular name 
+proc verify_current_config_has_block [val block] {
+	with [edit_current_config] {
+		get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+		get-table | get-item $block | get-property "values['Name']" 
+    		| equals $block | verify-true
+		get-button Cancel | check_enabled_and_click
 	}
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
