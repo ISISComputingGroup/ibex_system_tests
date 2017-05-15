@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 4/13/17 10:17 AM
+Save-Time: 5/10/17 9:54 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -156,6 +156,7 @@ proc open_ioc [val window -input true] {
 		}
 	}
 }
+
 // Add an IOC
 proc add_ioc [val ioc_name] [val window -input true] {
 	try -times 100 -delay 200 -command {
@@ -170,17 +171,60 @@ proc add_ioc [val ioc_name] [val window -input true] {
 	get_ioc_dialog 
 }
 
-// Edit an IOC
-proc edit_ioc [val ioc_name] [val window -input true] {
+// Add an IOC without macros
+proc add_ioc_no_macros [val ioc_name] [val window -input true] {
+	with $window {
+		add_ioc $ioc_name
+	}
+	try -times 100 -delay 200 -command {
+		with [get_ioc_dialog] {
+			get-button OK | check_enabled_and_click
+		}
+	}
+}
+
+// Select an IOC
+proc select_ioc [val ioc_name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
 			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
 			get-table | select $ioc_name -column Name
+		}
+	}
+}
+
+// Check that the text in the selected box of the IOC tab matches the expected value
+proc verify_selected_text [val expected] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-editbox -after [get-label "Selected:"] | get-property text | equals $expected 
+    		| verify-true
+		}
+	}
+}
+
+// Delete an IOC
+proc delete_ioc [val ioc_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			select_ioc $ioc_name
+			set-dialog-result MessageBox 32
+			get-button "Delete IOC" | click
+		}
+	}
+}
+
+// Edit an IOC
+proc edit_ioc [val ioc_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			select_ioc $ioc_name
 			open_ioc
 		}
 	}
 	get_ioc_dialog 
 }
+
 // Add IOC macro
 proc add_ioc_macro [val macro] [val macro_value] {
 	try -times 100 -delay 200 -command {
