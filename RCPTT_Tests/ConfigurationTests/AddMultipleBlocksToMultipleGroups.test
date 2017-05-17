@@ -5,8 +5,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _PBkwsDF0EeaWJe_H2uySSQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/27/16 3:52 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 5/16/17 8:58 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -41,7 +41,7 @@ let [val config01 [test_prefix "config01"]]
 		add_block_to_group "NEW_GROUP_2" $block05
 		add_block_to_group "NEW_GROUP_2" $block06
 		
-		with [get-window "New configuration"] {
+		with [get-window "New Configuration"] {
 			// Assert that "NEW_GROUP" contains block01 and block02
 			get-group Groups | get-list | select "NEW_GROUP"
 			with [get-group "Selected group" | get-group Blocks | get-list 
