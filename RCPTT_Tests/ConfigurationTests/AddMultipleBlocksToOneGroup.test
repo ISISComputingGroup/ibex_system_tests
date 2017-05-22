@@ -5,8 +5,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Kym24DFpEeaWJe_H2uySSQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/20/16 4:13 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 5/16/17 8:58 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -40,8 +40,8 @@ let [val config01 [test_prefix "config01"]]
 		add_block_to_group "NEW_GROUP" $block06
 		
 		// Assert that the new group ("NEW_GROUP") contains all blocks
-		get-window "New configuration" | get-group Groups | get-list | select "NEW_GROUP"
-		with [get-window "New configuration" | get-group "Selected group" | get-group Blocks | get-list 
+		get-window "New Configuration" | get-group Groups | get-list | select "NEW_GROUP"
+		with [get-window "New Configuration" | get-group "Selected group" | get-group Blocks | get-list 
     		-after [get-label "Selected:"] -index 1] {
     		get-property "getItems().String[0]" | equals $block01 | verify-true
     		get-property "getItems().String[1]" | equals $block02 | verify-true

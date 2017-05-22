@@ -6,19 +6,17 @@ call %~dp0get_builds.bat
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 REM Run config_env
-call "C:\Instrument\Apps\EPICS\config_env"
+REM call "C:\Instrument\Apps\EPICS\config_env"
 
 REM Get the icp binaries so that the DAE can run
-call "C:\Instrument\Apps\EPICS\create_icp_binaries"
+REM call "C:\Instrument\Apps\EPICS\create_icp_binaries"
 
-REM Start the instrument
-call "C:\Instrument\Apps\EPICS\start_ibex_server.bat"
+rmdir /q /s test-reports
 
-REM Sleep for 120 s while start ups finalise
-sleep 120
+call "C:\Instrument\Apps\EPICS\support\IocTestFramework\master\run_all_tests.bat"
+if %errorlevel% neq 0 exit /b %errorlevel%
 
-cd %~dp0
-call runner.cmd %1%
+REM cleanup
 
 call "C:\Instrument\Apps\EPICS\stop_ibex_server.bat"
 @taskkill /f /im javaw.exe /t
