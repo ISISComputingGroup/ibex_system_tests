@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/22/17 1:15 PM
+Save-Time: 5/25/17 10:52 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -272,7 +272,7 @@ proc add_block [val block_name] [val pv_name] [val window -input true] {
 
 // add bloack with a name just find a sensible pv for it
 proc add_block_any_pv [val block_name] {
-	try -times 500 -delay 200 -command {
+	try -times 100 -delay 200 -command {
 		with [get-window "Edit Configuration"] {
 			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
 			get-button "Add Block" | check_enabled_and_click
@@ -377,5 +377,19 @@ proc verify_current_config_has_block [val block] {
     		| equals $block | verify-true
 		get-button Cancel | check_enabled_and_click
 	}
+}
+
+// Change name of block in configuration
+proc rename_config_block [val old_name] [val new_name] {
+	try -times 100 -delay 200 -command {
+		with [get-window "Edit Configuration"] {
+			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+			get-table | get-item $old_name | click
+			get-button "Edit Block" | click
+			change_block_name $new_name
+			get-button Save | click
+		}
+    }
+	assert_wait_for_dialog_closed
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
