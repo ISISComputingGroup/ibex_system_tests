@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _8yQ5kATHEeebWKnhsKxNhg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/13/17 1:19 PM
+Save-Time: 5/25/17 10:52 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -74,6 +74,7 @@ proc "save_and_name_comp" [val name]  [val window -input true ] {
 	    		cancel_dialog
 	    	}
 	    }
+	    assert_wait_for_dialog_closed
 	}
 }
 
@@ -96,6 +97,7 @@ proc "create_empty_comp" [val component_name] {
 	}
 }
 
+// Check that a component has been deleted
 proc assert_comp_deleted [val test_comp] {
 	try -times 50 -delay 200 -command {
 		get-menu "Configuration/Components/Delete" | click
@@ -110,5 +112,29 @@ proc assert_comp_deleted [val test_comp] {
 			}
 		}
 	}
+}
+
+// Verify that the component contains a block with a particular name 
+proc verify_comp_has_block [val comp] [val block] {
+	with [edit_comp $comp] {
+		get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+		get-table | get-item $block | get-property "values['Name']" 
+    		| equals $block | verify-true
+		get-button Cancel | check_enabled_and_click
+	}
+}
+
+// Change name of block in component
+proc rename_component_block [val old_name] [val new_name] {
+	try -times 100 -delay 200 -command {
+		with [get-window "Edit Component"] {
+			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+			get-table | get-item $old_name | click
+			get-button "Edit Block" | click
+			change_block_name $new_name
+			get-button Save | click
+		}
+    }
+	assert_wait_for_dialog_closed
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
