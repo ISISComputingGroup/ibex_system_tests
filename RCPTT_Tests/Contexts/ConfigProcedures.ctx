@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/1/17 1:51 PM
+Save-Time: 6/1/17 3:25 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -97,6 +97,7 @@ proc load_config [val name] {
 			}
 		}
 	}
+	assert_wait_for_dialog_closed
 }
 
 // Delete a configuration
