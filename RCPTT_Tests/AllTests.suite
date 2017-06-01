@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/1/17 3:42 PM
+Save-Time: 6/1/17 4:17 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -52,5 +52,6 @@ _tmc28EYTEeeju4t-OpFjaw	// kind: 'test' name: 'OrderingOfComponentGroupsInAConfi
 _azp1UEbOEeeo0OfG8brAwA	// kind: 'test' name: 'WhenComponentGroupRenamedItAppearsInConfig' path: 'GroupTests/WhenComponentGroupRenamedItAppearsInConfig.test'
 _mVlncEbOEeeo0OfG8brAwA	// kind: 'test' name: 'WhenComponentRemovedItsGroupsNoLongerAppearInConfigurations' path: 'GroupTests/WhenComponentRemovedItsGroupsNoLongerAppearInConfigurations.test'
 _CAavwEbPEeeo0OfG8brAwA	// kind: 'test' name: 'WhenNewGroupsAreAddedToAComponentItAppearsInTheConfig' path: 'GroupTests/WhenNewGroupsAreAddedToAComponentItAppearsInTheConfig.test'
+_5M1aQEbOEeeo0OfG8brAwA	// kind: 'test' name: 'ComponentBlocksNotInGroupsAreNotAvailableToAddToConfigGroups' path: 'GroupTests/ComponentBlocksNotInGroupsAreNotAvailableToAddToConfigGroups.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
