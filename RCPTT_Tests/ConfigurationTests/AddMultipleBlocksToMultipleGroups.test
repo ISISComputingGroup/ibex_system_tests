@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _PBkwsDF0EeaWJe_H2uySSQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/16/17 8:58 AM
+Save-Time: 6/1/17 9:45 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -16,7 +16,8 @@ Entry-Name: .content
 // Create variables for one config, six blocks and six PV addresses
 let [val config01 [test_prefix "config01"]] 
 	[val block01 "block01"] [val block02 "block02"] [val block03 "block03"] [val block04 "block04"] [val block05 "block05"] [val block06 "block06"]
-	[val pv01 "pv01"] [val pv02 "pv02"] [val pv03 "pv03"] [val pv04 "pv04"] [val pv05 "pv05"] [val pv06 "pv06"] {
+	[val pv01 "pv01"] [val pv02 "pv02"] [val pv03 "pv03"] [val pv04 "pv04"] [val pv05 "pv05"] [val pv06 "pv06"] [val group1 "GROUP1"] 
+	[val group2 "GROUP2"] [val group3 "GROUP3"] {
 
 	// In a new configuration...
 	with [new_config] {
@@ -29,37 +30,37 @@ let [val config01 [test_prefix "config01"]]
 		add_block $block06 $pv06
 		
 		// Create three groups
-		add_group 
-		add_group 
-		add_group
+		add_group $group1
+		add_group $group2
+		add_group $group3
 		
 		// Move two blocks into each group
-		add_block_to_group "NEW_GROUP" $block01
-		add_block_to_group "NEW_GROUP" $block02
-		add_block_to_group "NEW_GROUP_1" $block03
-		add_block_to_group "NEW_GROUP_1" $block04
-		add_block_to_group "NEW_GROUP_2" $block05
-		add_block_to_group "NEW_GROUP_2" $block06
+		add_block_to_group $group1 $block01
+		add_block_to_group $group1 $block02
+		add_block_to_group $group2 $block03
+		add_block_to_group $group2 $block04
+		add_block_to_group $group3 $block05
+		add_block_to_group $group3 $block06
 		
 		with [get-window "New Configuration"] {
-			// Assert that "NEW_GROUP" contains block01 and block02
-			get-group Groups | get-list | select "NEW_GROUP"
+			// Assert that group1 contains block01 and block02
+			get-group Groups | get-list | select $group1
 			with [get-group "Selected group" | get-group Blocks | get-list 
 	    		-after [get-label "Selected:"] -index 1] {
 	    		get-property "getItems().String[0]" | equals $block01 | verify-true
 	    		get-property "getItems().String[1]" | equals $block02 | verify-true
 			}
 				
-			// Assert that "NEW_GROUP_1" contains block03 and block04
-			get-group Groups | get-list | select "NEW_GROUP_1"
+			// Assert that group2 contains block03 and block04
+			get-group Groups | get-list | select $group2
 			with [get-group "Selected group" | get-group Blocks | get-list 
 	    		-after [get-label "Selected:"] -index 1] {
 	    		get-property "getItems().String[0]" | equals $block03 | verify-true
 	    		get-property "getItems().String[1]" | equals $block04 | verify-true
 			}
 			
-			// Assert that "NEW_GROUP_2" contains block05 and block06
-			get-group Groups | get-list | select "NEW_GROUP_2"
+			// Assert that group3 contains block05 and block06
+			get-group Groups | get-list | select $group3
 			with [get-group "Selected group" | get-group Blocks | get-list 
 	    		-after [get-label "Selected:"] -index 1] {
 	    		get-property "getItems().String[0]" | equals $block05 | verify-true
