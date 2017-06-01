@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _tmc28EYTEeeju4t-OpFjaw
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/1/17 1:53 PM
+Save-Time: 6/1/17 1:57 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -70,6 +70,12 @@ let [val config_name [test_prefix "group_test_config"]] [val comp_name [test_pre
 	//group_at_index_has_expected_name 2 $other_group
 
 	// Check that the blocks from the removed component are not available to the config
+	with [edit_current_config] {
+    	get-tab-folder | get-tab-item Groups | click
+    	get-group Groups | get-list | select $config_group
+    	get-group "Selected group" | get-group Blocks | get-list | get-property "getItems().length" | equals 0 | verify-true
+		get-button Cancel | check_enabled_and_click
+	}
 
 // Add a group to the component, check it appears in the config
 
