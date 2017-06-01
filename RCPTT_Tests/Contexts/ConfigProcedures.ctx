@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/25/17 10:52 AM
+Save-Time: 6/1/17 1:51 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -296,11 +296,39 @@ proc add_block_any_pv [val block_name] {
 // Delete all blocks?
 
 // Add a group
-proc add_group [val window -input true] {
+proc add_group [val name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
 			get-tab-folder | get-tab-item Groups | check_enabled_and_click
-			get-group Groups | get-button Add | check_enabled_and_click
+    		with [get-group Groups] {
+				get-button Add | check_enabled_and_click
+				get-list | select "NEW_GROUP"
+			}
+			get-group "Selected group" | get-editbox -after [get-label "Name:"] | set-text $name
+		}
+	}
+}
+
+// Removea group
+proc remove_group [val name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+    		with [get-group Groups] {
+				get-list | select $name
+				get-button Remove | check_enabled_and_click
+			}
+		}
+	}
+}
+
+// Rename a group
+proc rename_group [val old_name] [val new_name][val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+    		get-group Groups | get-list | select $old_name
+			get-group "Selected group" | get-editbox -after [get-label "Name:"] | set-text $new_name
 		}
 	}
 }
