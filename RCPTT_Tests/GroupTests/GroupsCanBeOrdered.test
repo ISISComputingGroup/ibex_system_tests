@@ -1,0 +1,54 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: GroupsCanBeOrdered
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _tmc28EYTEeeju4t-OpFjaw
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/1/17 9:39 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+let [val config_name [test_prefix "group_test_config"]] [val comp_name [test_prefix "group_test_comp"]] [val config_block "config_block" ] [val comp_block_1 "comp_block_1"] 
+	[val comp_block_2 "comp_block_2"] [val config_group "CONFIG_GROUP"] [val comp_group_1 "COMP_GROUP_1"] [val comp_group_2 "COMP_GROUP_2"] {
+	
+	// Create a new component + 2 blocks + 2 groups
+	with [new_comp] {
+		add_block_any_pv $comp_block_1
+		add_block_any_pv $comp_block_2
+		add_group $comp_group_1
+		add_block_to_group $comp_group_1 $comp_block_1
+		add_group $comp_group_2
+		add_block_to_group $comp_group_2 $comp_block_2
+		save_and_name_comp $comp_name
+	}
+	
+	// Create a new configuration + block + group + component
+	with [new_config] {
+		add_comp $comp_name
+		add_block_any_pv $config_block
+		add_group $config_group
+		add_block_to_group $config_group $config_block		
+		save_and_name_config $config_name
+	}
+	
+	// Check the current order of the groups in the block menu
+
+// Rename the group in the component, check it is propogated
+
+// Delete a group from the component, check it is removed from the config
+
+// Check that the blocks from the removed component are not available to the config
+
+// Add a group to the component, check it appears in the config
+
+// Move a component group to the top of the config groups, make sure it now comes first in the blocks panel
+
+}
+
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
