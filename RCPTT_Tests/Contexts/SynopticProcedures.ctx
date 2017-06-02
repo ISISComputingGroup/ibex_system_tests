@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/2/17 1:14 PM
+Save-Time: 4/18/17 1:21 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -113,16 +113,6 @@ proc "add_component_target" [val component_name] [val target_name] [val window -
 		}
 	    get-editbox -after [get-label Name] | set-text $component_name
 	}
-}
-
-// Add a pv detail to a component
-proc "add_pv_to_synoptic_component" [val component_name] [val pv_name] [val pv_address] [val window -input true ] {
-	with $window {
-    	get-tree | select $component_name
-    	get-button "Add New PV" | check_button_enabled_and_click
-    	get-editbox -after [get-label -after [get-label "PV Details"] ] | set-text $pv_name 
-    	get-editbox -after [get-label Address] | set-text $pv_address
-    }
 }
 
 // Open a synoptic to view (in the "Synoptic" perspective)
