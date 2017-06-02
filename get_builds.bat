@@ -11,7 +11,7 @@ subst q: p:\Kits$\CompGroup\ICP
 
 REM for create_icp_binaries
 net use \\shadow.isis.cclrc.ac.uk /d
-net use \\shadow.isis.cclrc.ac.uk /user:IBEXisis\builder %BUILDERPW%
+net use \\shadow.isis.cclrc.ac.uk /user:isis\IBEXbuilder %BUILDERPW%
 @echo on
 
 REM is previous system tests aborted, we may still have processes running
