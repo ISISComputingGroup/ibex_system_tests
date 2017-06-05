@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 4/6/17 11:27 AM
+Save-Time: 6/2/17 3:30 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -48,5 +48,7 @@ _YyE5sBkcEeeBk98u4J3lxA	// kind: 'test' name: 'CannotInsertDuplicateIntoCurrentC
 _j2lBwBlEEeeK0IHDxEGBQQ	// kind: 'test' name: 'CannotLoadConfigContainingDuplicates' path: 'ConfigurationTests/CannotLoadConfigContainingDuplicates.test'
 _Waw4oAQWEeeyKY3Ocx5XAg	// kind: 'test' name: 'CanOnlyDeleteComponentWhenNotInUse' path: 'ConfigurationTests/CanOnlyDeleteComponentWhenNotInUse.test'
 _RgALAMdeEea9WqmIdIbeTA	// kind: 'test' name: 'AddPVValuesToAConfig' path: 'ConfigurationTests/AddPVValuesToAConfig.test'
+_T4Y_MEeFEeeYd68Emfg7ng	// kind: 'test' name: 'CheckAddPVDetailToSynopticComponent' path: 'SynopticTests/CheckAddPVDetailToSynopticComponent.test'
+_pTZKcEbQEeeV-cQwTy29-g	// kind: 'test' name: 'CheckErrorOnAddPVDetailToSynopticComponent' path: 'SynopticTests/CheckErrorOnAddPVDetailToSynopticComponent.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
