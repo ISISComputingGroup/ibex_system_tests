@@ -1,0 +1,35 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: AddScreenCheckItIsSelected
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _k_9P0EnEEeeQ0ryEI963_g
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/5/17 2:28 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Test when a screen is added it is selected
+
+
+with [edit_device_screens] {
+	with [device_screens_group] {
+
+		get-button Add | check_button_enabled_and_click
+		
+	    // get position of first entry in list
+	    let [ val select_index [ get-list | get-property -raw true -name "getSelectionIndices().int[0]" ]] {
+	            	        
+	        get-button Add | check_button_enabled_and_click
+	        
+	        // check new entry is after previous entry
+	        get-list | get-property "getSelectionIndices().int[0]" | equals [ plus $select_index 1] | verify-true
+        }
+    }
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
