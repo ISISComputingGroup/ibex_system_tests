@@ -5,14 +5,16 @@ Element-Name: Execution Delay
 Element-Type: context
 Element-Version: 2.0
 Id: _dwXfYACrEean-631qMZhqw
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 12/9/16 3:22 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/1/17 4:38 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
-// 200 ms between commands
+// Between 3rd and 7th June, 200ms delay led to a 9/25
+// failure rate. Setting to 500ms for comparisson. The
+// average run time was ~2hr10min
 set-q7-option eclExecutionDelay 500
 
 // 1 s between tests. Previously 5 s. Not needed?
