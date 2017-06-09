@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _P_dG8EnDEeeQ0ryEI963_g
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/5/17 2:24 PM
+Save-Time: 6/9/17 10:49 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -36,7 +36,7 @@ proc "device_screens_group" [val window -input true] {
 //       targetName - name of the target
 proc "add_screen_with_target" [val window -input true] [val name] [val targetName -value "Analyser"] {
     with $window {    
-        with [edit_device_screens_group] {
+        with [device_screens_group] {
 	        get-button Add | check_button_enabled_and_click
 	    }
 	
