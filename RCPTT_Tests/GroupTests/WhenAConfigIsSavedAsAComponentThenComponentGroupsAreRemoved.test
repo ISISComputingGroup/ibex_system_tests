@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _I072oExYEeehx9brc2-KyQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/9/17 10:36 AM
+Save-Time: 6/12/17 4:28 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -17,7 +17,7 @@ let [val config_name [test_prefix "group_test_config"]] [val comp_name [test_pre
 	[val comp_block_2 "comp_block_2"] [val config_group "CONFIG_GROUP"] [val comp_group_1 "COMP_GROUP_1"] [val comp_group_2 "COMP_GROUP_2"]
 	[val as_component_name [test_prefix "config_as_component"]]  {
 	
-	// create_simple_config_tree_with_groups $config_name $comp_name $config_block $comp_block_1 $comp_block_2 $config_group $comp_group_1 $comp_group_2
+	create_simple_config_tree_with_groups $config_name $comp_name $config_block $comp_block_1 $comp_block_2 $config_group $comp_group_1 $comp_group_2
 	
 	// Save as component
 	save_current_config_as_component $as_component_name
