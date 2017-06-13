@@ -5,8 +5,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _THj0wDSMEea17PdyItjtbg
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 10/12/16 10:12 AM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/1/17 9:48 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -27,9 +27,9 @@ with [edit_current_config] {
     add_block "NEW_BLOCK_08" "NEW_PV_08"
     add_block "NEW_BLOCK_09" "NEW_PV_09"
     
-    add_group
-    add_group
-    add_group
+    add_group "NEW_GROUP"
+    add_group "NEW_GROUP_1"
+    add_group "NEW_GROUP_2"
 
     add_block_to_group "NEW_GROUP" "NEW_BLOCK_01"
     add_block_to_group "NEW_GROUP" "NEW_BLOCK_02"

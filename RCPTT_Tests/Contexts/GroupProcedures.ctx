@@ -1,0 +1,49 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: GroupProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _BAWr0EbNEeeo0OfG8brAwA
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/1/17 3:29 PM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+proc "create_simple_config_tree_with_groups" [val config_name] [val comp_name] [val config_block] [val comp_block_1] 
+[val comp_block_2] [val config_group] [val comp_group_1] [val comp_group_2] {
+	
+	let [val pv "DAE:INSTNAME"] {
+	
+	    // Create a new component + 2 blocks + 2 groups
+	    with [new_comp] {
+		    add_block $comp_block_1 $pv
+		    add_block $comp_block_2 $pv
+		    add_group $comp_group_1
+		    add_block_to_group $comp_group_1 $comp_block_1
+		    add_group $comp_group_2
+		    add_block_to_group $comp_group_2 $comp_block_2
+		    save_and_name_comp $comp_name
+	    }
+	
+	    // Create a new configuration + block + group + component
+	    with [new_config] {
+		    add_comp $comp_name
+		    add_block $config_block $pv
+		    add_group $config_group
+		    add_block_to_group $config_group $config_block		
+		    save_and_name_config $config_name
+	    }
+	}
+	
+	// Load the new config
+	load_config $config_name
+}
+
+proc group_at_index_has_expected_name [val index] [val expected] {
+	get-view Blocks | get-control Any -index 3 | get-property [concat "getChildren().Control[" [str $index] "].getChildren().Control[0].getText()"]
+    	| equals $expected | verify-true
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

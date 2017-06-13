@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/25/17 10:52 AM
+Save-Time: 6/9/17 10:25 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -84,6 +84,36 @@ proc save_and_name_config [val name] [val window -input true] {
 	assert_wait_for_dialog_closed
 }
 
+// Save a configuration as a component
+proc save_current_config_as_component [val name] {
+	try -times 100 -delay 200 -command {
+		edit_current_config
+		loop {
+			with [get-window "Edit Configuration"] {
+				if [get-list -after [get-label "Selected:"] -index 1 | get-property -raw -name "getItemCount()" | gt 0] {
+					get-list -after [get-label "Selected:"] -index 1 | select [get-property -raw true -name "getItems().String[0]"]
+					get-button -after [get-label "Selected:"] -index 2 | click
+					recur
+				}
+	    	}
+	    }	
+		with [get-window "Edit Configuration"] {
+			get-button "Save as ..." | check_enabled_and_click
+		}
+		with [get-window "Save Configuration As"] {
+			try -times 20 -delay 200 -command {
+				get-editbox -after [get-label "Name:"] | set-text $name
+				get-editbox -after [get-label "Description:"] | set-text $name
+		        get-button "Save the configuration as a component" | check
+				get-button OK | check_button_enabled_and_click
+			} -catch {
+				cancel_dialog
+			}
+		}
+	}
+	assert_wait_for_dialog_closed
+}
+
 // Load a configuration
 proc load_config [val name] {
 	try -times 100 -delay 200 -command {
@@ -97,6 +127,7 @@ proc load_config [val name] {
 			}
 		}
 	}
+	assert_wait_for_dialog_closed
 }
 
 // Delete a configuration
@@ -296,11 +327,39 @@ proc add_block_any_pv [val block_name] {
 // Delete all blocks?
 
 // Add a group
-proc add_group [val window -input true] {
+proc add_group [val name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
 			get-tab-folder | get-tab-item Groups | check_enabled_and_click
-			get-group Groups | get-button Add | check_enabled_and_click
+    		with [get-group Groups] {
+				get-button Add | check_enabled_and_click
+				get-list | select "NEW_GROUP"
+			}
+			get-group "Selected group" | get-editbox -after [get-label "Name:"] | set-text $name
+		}
+	}
+}
+
+// Removea group
+proc remove_group [val name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+    		with [get-group Groups] {
+				get-list | select $name
+				get-button Remove | check_enabled_and_click
+			}
+		}
+	}
+}
+
+// Rename a group
+proc rename_group [val old_name] [val new_name][val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+    		get-group Groups | get-list | select $old_name
+			get-group "Selected group" | get-editbox -after [get-label "Name:"] | set-text $new_name
 		}
 	}
 }

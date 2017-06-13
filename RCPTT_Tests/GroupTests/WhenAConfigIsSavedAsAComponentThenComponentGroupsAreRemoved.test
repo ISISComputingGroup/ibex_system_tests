@@ -1,0 +1,35 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: WhenAConfigIsSavedAsAComponentThenComponentGroupsAreRemoved
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _I072oExYEeehx9brc2-KyQ
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/12/17 4:28 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+let [val config_name [test_prefix "group_test_config"]] [val comp_name [test_prefix "group_test_comp"]] [val config_block "config_block" ] [val comp_block_1 "comp_block_1"] 
+	[val comp_block_2 "comp_block_2"] [val config_group "CONFIG_GROUP"] [val comp_group_1 "COMP_GROUP_1"] [val comp_group_2 "COMP_GROUP_2"]
+	[val as_component_name [test_prefix "config_as_component"]]  {
+	
+	create_simple_config_tree_with_groups $config_name $comp_name $config_block $comp_block_1 $comp_block_2 $config_group $comp_group_1 $comp_group_2
+	
+	// Save as component
+	save_current_config_as_component $as_component_name
+	
+	// Check new component has only config group
+	with [edit_comp $as_component_name] {
+		get-tab-folder | get-tab-item Groups | check_enabled_and_click
+		with [get-group Groups | get-list] {
+	    	get-property "getItemCount()" | equals 1 | verify-true
+    		get-property "getItems().String[0]" | equals $config_group | verify-true
+    	}
+    	get-button Cancel | click
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

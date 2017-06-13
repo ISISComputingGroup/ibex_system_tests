@@ -69,7 +69,11 @@ BLOCKSERVER = "BLOCKSVR"
 # DAE process name
 DAE = "ISISDAE_01"
 
-build_number = os.environ['BUILD_NUMBER']
+try:
+    build_number = os.environ['BUILD_NUMBER']
+except:
+    from datetime import datetime as dt
+    build_number = dt.now().strftime("%y_%m_%d_%H_%M_%S")
 
 # Error codes
 class ErrNum(object):
