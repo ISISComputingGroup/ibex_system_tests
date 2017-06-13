@@ -6,54 +6,51 @@ Element-Version: 3.0
 External-Reference: 
 Id: _xCZlkAirEeewRLVbkB4NiA
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/14/17 1:16 PM
+Save-Time: 6/5/17 2:28 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
+// Test device screens can be added and deleted
+
 switch_to_device_screens_view
 
-proc "add_screen" [val name] {
-	with [get-group "Device Screens"] {
-    	get-button Add | click
-		get-list | select Screen
-	}
-	with [get-group Target] {
-    	get-editbox -after [get-label Name] | set-text $name
-    	get-combo -after [get-label Target] | select Analyser
-	}
-}
+let [ val device_screen_count [get-table | get-property "itemCount" -raw true]] {
 
-let [val screen01 [test_prefix "test_screen"]] [val screen02 [test_prefix "test_screen_01"]] 
-	[val screen03 [test_prefix "test_screen_02"]] {
+	let [val screen01 [test_prefix "test_screen"]] [val screen02 [test_prefix "test_screen_01"]] 
+		[val screen03 [test_prefix "test_screen_02"]] {
+		
+		// add screens
+		with [edit_device_screens] {
+			add_screen_with_target $screen01
+			add_screen_with_target $screen02
+			add_screen_with_target $screen03
 	
-	with [get-view "Device Screens"] { 
-		get-button "Edit Device Screens" | click
-		with [get-window "Configure Device Screens"] {
-			add_screen $screen01
-			add_screen $screen02
-			add_screen $screen03
-
-    		get-button OK | click
+	    	get-button OK | check_button_enabled_and_click
 		}
+		
+		// verify screens have appeared
 		get-table | get-item $screen01 -column Name | get-property "columns[1]" | equals $screen01 | verify-true
 		get-table | get-item $screen02 -column Name | get-property "columns[1]" | equals $screen02 | verify-true
 		get-table | get-item $screen03 -column Name | get-property "columns[1]" | equals $screen03 | verify-true
-
-		get-button "Edit Device Screens" | click
-		with [get-window "Configure Device Screens"] {
-		    with [get-group "Device Screens"] {
+		
+		// delete added screens	
+	    with [edit_device_screens] {
+		    with [device_screens_group] {
 		        get-list | select $screen01
 		        get-button Delete | click
 		        get-list | select $screen02 $screen03
 		        get-button Delete | click
-		    }
-		    get-button OK | click
+			}
+			get-button OK | click
 		}
-		get-view "Device Screens" | get-table | get-property itemCount | equals 0 | verify-true
+		
+	}
 
-	}	
+    // ensure extra device screens that were added have been deleted
+    get-table | get-property "itemCount" | equals $device_screen_count | verify-true
 }
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
