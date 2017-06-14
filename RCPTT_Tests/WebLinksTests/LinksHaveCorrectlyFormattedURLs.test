@@ -1,0 +1,32 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: LinksHaveCorrectlyFormattedURLs
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _6mEWEFDqEeeZhKFwlNH0sA
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/14/17 5:30 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Checks that the links on the weblinks perspective have correctly formatted URLs, at least the start of them.
+
+switch_to_web_links_view
+
+    get-link "<a href=\"http://shadow.nd.rl.ac.uk/ibex_user_manual/Home\" target=\"_blank\">IBEX User Manual</a>" | get-property caption | contains "<a href=\"http" | verify-true
+
+    get-link "<a href=\"http://shadow.nd.rl.ac.uk/genie_python/sphinx/genie_python.html\" target=\"_blank\">Genie Python Documentation</a>"  | get-property caption | contains "<a href=\"http" | verify-true
+
+    get-link "<a href=\"https://users.facilities.rl.ac.uk/schedule/reportlosttime.aspx?facility=isis?Instrument=INSTNAME\" target=\"_blank\">Launch LTR Website</a>"  | get-property caption | contains "<a href=\"http" | verify-true
+
+    get-link "<a href=\"http://www.facilities.rl.ac.uk/isis/ops/Lists/INSTNAME/calendar.aspx\" target=\"_blank\">Launch Maintenance Website</a>"  | get-property caption | contains "<a href=\"http" | verify-true
+
+    get-link "<a href=\"http://bugs.isis.rl.ac.uk/enter_bug.cgi?product=PC%20Instrument%20Controlamp;format=pcinst\">Submit a bug or problem</a>"  | get-property caption | contains "<a href=\"http" | verify-true
+
+    get-link "<a href=\"http://info.isis.rl.ac.uk/operations/instrument-quick-links.htm\" target=\"_blank\">Instrument Scientist Quick Links</a>"  | get-property caption | contains "<a href=\"http" | verify-true
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
