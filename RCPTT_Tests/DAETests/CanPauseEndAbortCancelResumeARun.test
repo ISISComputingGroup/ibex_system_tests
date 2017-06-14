@@ -5,39 +5,81 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _qNn_cFDTEeen85wkhybD2Q
-Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 9:53 AM
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/14/17 11:05 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
+proc "check_pause_state" {    
+	assert_instrument_is "PAUSED"
+	// In PAUSED only end, resume and abort should be enabled
+    get-button "BEGIN RUN" | get-property enablement | equals false| verify-true
+    get-button "CANCEL ABORT" | get-property enablement | equals false | verify-true
+    get-button "PAUSE RUN" | get-property enablement | equals false | verify-true
+    get-button "RESUME RUN" | get-property enablement | equals true | verify-true
+    get-button "ABORT RUN" | get-property enablement | equals true | verify-true
+    get-button "END RUN" | get-property enablement | equals true | verify-true
+}
+
+proc "check_setup_state" {    
+	assert_instrument_is "SETUP"
+    // In SETUP only begin and cancel abort are enabled
+    get-button "BEGIN RUN" | get-property enablement | equals true | verify-true
+    get-button "CANCEL ABORT" | get-property enablement | equals true | verify-true
+    get-button "PAUSE RUN" | get-property enablement | equals false | verify-true
+    get-button "RESUME RUN" | get-property enablement | equals false | verify-true
+    get-button "ABORT RUN" | get-property enablement | equals false | verify-true
+    get-button "END RUN" | get-property enablement | equals false | verify-true
+}
+
+proc "check_running_state" {    
+	assert_instrument_is "RUNNING"
+    // In RUNNING only end, pause and abort should be enabled
+    get-button "BEGIN RUN" | get-property enablement | equals false| verify-true
+    get-button "CANCEL ABORT" | get-property enablement | equals false | verify-true
+    get-button "PAUSE RUN" | get-property enablement | equals true | verify-true
+    get-button "RESUME RUN" | get-property enablement | equals false | verify-true
+    get-button "ABORT RUN" | get-property enablement | equals true | verify-true
+    get-button "END RUN" | get-property enablement | equals true | verify-true
+}
+
 assert_instrument_is_setup
 switch_to_dae_view
 
 with [get-view "DAE Control Program"] {
-    get-button "BEGIN RUN" | get-property enablement | equals true | verify-true
+	check_setup_state
+    
+    // Begin run
     get-button "BEGIN RUN" | click
-    assert_instrument_is "RUNNING"
-    get-button "PAUSE RUN" | get-property enablement | equals true | verify-true
+    check_running_state
+    
+    // Pause run
     get-button "PAUSE RUN" | click
-    assert_instrument_is "PAUSED"
-    get-button "RESUME RUN" | get-property enablement | equals true | verify-true
+    check_pause_state
+    
+    // Resume run
     get-button "RESUME RUN" | click
-    assert_instrument_is "RUNNING"
-    get-button "ABORT RUN" | get-property enablement | equals true | verify-true
+    check_running_state
+    
+ 	// Abort run
     get-button "ABORT RUN" | click
-    assert_instrument_is "SETUP"
-    get-button "CANCEL ABORT" | get-property enablement | equals true | verify-true
+    check_setup_state
+    
+    // Cancel abort
     get-button "CANCEL ABORT" | click
-    assert_instrument_is "PAUSED"
-    get-button "RESUME RUN" | get-property enablement | equals true | verify-true
+    check_pause_state
+    
+    // Resume from paused after cancel abort
     get-button "RESUME RUN" | click
-    assert_instrument_is "RUNNING"
+    check_running_state
+    
+    // End run
+    get-button "END RUN" | click
+    check_setup_state
 }
-// Stop the run
-end_run
 
 // Make sure we leave things as we found them    
 assert_instrument_is_setup
