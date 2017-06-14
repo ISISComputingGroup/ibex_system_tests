@@ -5,8 +5,8 @@ Element-Name: InstrumentStatusProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _u7zXkB5uEeaqQYS4M76Ebw
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 8/8/16 5:16 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/14/17 1:21 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -25,6 +25,10 @@ proc "assert_instrument_is_setup" {
 
 proc "assert_instrument_is_running" {
 	assert_instrument_is "RUNNING"
+}
+
+proc "assert_instrument_is_paused" {
+	assert_instrument_is "PAUSED"
 }
 
 proc "assert_instrument_is_unknown" {
