@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/9/17 10:51 AM
+Save-Time: 6/14/17 11:38 AM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -61,5 +61,6 @@ _UqzfICBrEeewH-_OS6CJKQ	// kind: 'test' name: 'CanOpenSynopticTargets' path: 'Sy
 _ZZsoUB-IEeeDtMdnkdf_bw	// kind: 'test' name: 'CanViewComponentIOCs' path: 'ConfigurationTests/CanViewComponentIOCs.test'
 _I072oExYEeehx9brc2-KyQ	// kind: 'test' name: 'WhenAConfigIsSavedAsAComponentThenComponentGroupsAreRemoved' path: 'GroupTests/WhenAConfigIsSavedAsAComponentThenComponentGroupsAreRemoved.test'
 _bpiCAEzwEee1irVDJO9Pmw	// kind: 'test' name: 'WhenComponetGroupRemovedItIsRemovedFromConfig' path: 'GroupTests/WhenComponetGroupRemovedItIsRemovedFromConfig.test'
+_OZJSQFDbEeebUsTjSlsNqg	// kind: 'test' name: 'CanGetAndSetBlocksFromTheScriptingPerspective' path: 'ScriptingTests/CanGetAndSetBlocksFromTheScriptingPerspective.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--

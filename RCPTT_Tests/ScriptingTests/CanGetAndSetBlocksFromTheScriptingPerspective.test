@@ -1,0 +1,58 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CanGetAndSetBlocksFromTheScriptingPerspective
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _OZJSQFDbEeebUsTjSlsNqg
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/14/17 11:36 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+switch_to_scripting_view
+
+proc cset_value_and_check_with_cshow [val block] [val value] {
+	type-text [concat "g.cset(" $block "=" $value ")"]
+	key-type Enter
+	
+	type-text [concat "g.cshow(\"" $block_name "\")"]
+    key-type Enter
+    try -times 100 -delay 200 -command {
+		get-view Console | get-editbox | get-property "getText()" | contains [concat $block " = " $value] | verify-true
+	}
+}
+
+// Wait for the scripting window to finish starting
+try -times 100 -delay 200 -command {
+	get-view Console | get-editbox | get-property "getText()" | contains "set_instrument" | verify-true
+	get-view Console | get-editbox | get-property "getText()" | contains "THIS IS " | verify-true
+}
+
+// Set up a new configuration with a block
+let [val config_name [test_prefix "scripting_config"]] [val block_name [test_prefix "scripting_block"]] [val pv "SIMPLE:LONG"] [val ioc "SIMPLE"]
+	[val pv_value 1234] [val pv_value_2 5678] {
+	with [new_config] {
+		add_block $block_name $pv
+	    add_ioc_no_macros $ioc
+		save_and_name_config $config_name
+    }
+    load_config $config_name
+    
+	with [get-view Console | get-editbox] {
+		
+		cset_value_and_check_with_cshow $block_name $pv_value
+			
+    	type-text [concat "g.cget(\"" $block_name "\")"]
+    	key-type Enter
+    	try -times 100 -delay 200 -command {
+			get-view Console | get-editbox | get-property "getText()" | contains [concat  "OrderedDict([('name', u'" $block_name "'), ('value', " $pv_value ")" ] | verify-true
+		}
+		
+		cset_value_and_check_with_cshow $block_name $pv_value_2
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

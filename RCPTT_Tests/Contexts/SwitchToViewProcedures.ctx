@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _BgnBcB5tEeaAYI1qYj9bEg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/31/17 4:33 PM
+Save-Time: 6/14/17 10:27 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -14,9 +14,7 @@ Entry-Name: .ecl.context
 
 proc "switch_to_dae_view" { 
 	// Switch to DAE View
-	try -times 50 -delay 200 -command {
-	    get-label "DAE" | click
-	}
+	get-label "DAE" | click
 }
 
 proc "switch_to_device_screens_view" {
@@ -37,5 +35,10 @@ proc "switch_to_synoptic_view" {
 proc "switch_to_log_plotter_view" {
 	// Switch to log plotter view
 	get-label "Log Plotter" | click
+}
+
+proc "switch_to_scripting_view" {
+	// Switch to scripting view
+	get-label "Scripting" | click
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
