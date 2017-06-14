@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _hamJ8FDbEee8yMBD6nu81w
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 11:13 AM
+Save-Time: 6/14/17 2:02 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -15,7 +15,7 @@ Entry-Name: .ecl.context
 // Procedures to interact with experimental details
 
 // set the rb number
-proc "set_rb_numbers" [val new_rb_number] [val use_enter -value false] {
+proc "set_rb_number" [val new_rb_number] [val use_enter -value false] {
     with [get-view "Experiment Details"] {
         get-editbox -after [get-label "RB Number"] | set-text $new_rb_number
         if $use_enter -then {
