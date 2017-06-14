@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/6/17 9:30 AM
+Save-Time: 6/14/17 10:55 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -16,6 +16,16 @@ proc "clear_title" {
     with [get-view "DAE Control Program" | get-editbox -after [get-label "Title:"]] {
         set-text ""
     }
-    get-button Set | click
+    get-button Set | check_button_enabled_and_click
 }
+
+// get the dae run information tab at front
+// return the view
+proc "get_dae_run_information" {
+    let [val view [get-view "DAE Control Program"]] { 
+    	$view | get-tab-folder | get-tab-item "Run Information" | check_button_enabled_and_click
+    	$view
+    }
+}
+
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
