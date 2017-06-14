@@ -1,0 +1,37 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: WhenComponentGroupRenamedItAppearsInConfig
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _azp1UEbOEeeo0OfG8brAwA
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/1/17 3:32 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+let [val config_name [test_prefix "group_test_config"]] [val comp_name [test_prefix "group_test_comp"]] [val config_block "config_block" ] [val comp_block_1 "comp_block_1"] 
+	[val comp_block_2 "comp_block_2"] [val config_group "CONFIG_GROUP"] [val comp_group_1 "COMP_GROUP_1"] [val comp_group_2 "COMP_GROUP_2"] [val comp_group_3 "COMP_GROUP_3"]
+	[val other_group "Other"]  {
+	
+	create_simple_config_tree_with_groups $config_name $comp_name $config_block $comp_block_1 $comp_block_2 $config_group $comp_group_1 $comp_group_2
+	
+	// Check the current order of the groups in the block menu
+	group_at_index_has_expected_name 0 $config_group
+	group_at_index_has_expected_name 1 $comp_group_1
+	group_at_index_has_expected_name 2 $comp_group_2
+	
+	// Rename the group in the component, check it is propogated
+	with [edit_comp $comp_name] {
+		rename_group $comp_group_2 $comp_group_3
+	}
+	save_comp
+	
+	group_at_index_has_expected_name 0 $config_group
+	group_at_index_has_expected_name 1 $comp_group_1
+	group_at_index_has_expected_name 2 $comp_group_3
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
