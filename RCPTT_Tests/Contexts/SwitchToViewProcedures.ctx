@@ -37,6 +37,11 @@ proc "switch_to_log_plotter_view" {
 	get-label "Log Plotter" | click
 }
 
+proc "switch_to_motors_view" {
+	// Switch to motors view
+	get-label "Motors" | click
+}
+
 proc "switch_to_scripting_view" {
 	// Switch to scripting view
 	get-label "Scripting" | click
