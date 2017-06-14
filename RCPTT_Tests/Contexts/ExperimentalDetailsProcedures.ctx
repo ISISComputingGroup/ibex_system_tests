@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _hamJ8FDbEee8yMBD6nu81w
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 11:13 AM
+Save-Time: 6/14/17 5:02 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -14,16 +14,18 @@ Entry-Name: .ecl.context
 
 // Procedures to interact with experimental details
 
+// Get the experimental details view on the correct perspective and return it
+proc "experimental_details_view" {
+	switch_to_details_view
+	get-view "Experiment Details"
+}
+
+
 // set the rb number
-proc "set_rb_numbers" [val new_rb_number] [val use_enter -value false] {
-    with [get-view "Experiment Details"] {
+proc "set_rb_number" [val view -input true][val new_rb_number] {    
+    with $view {
         get-editbox -after [get-label "RB Number"] | set-text $new_rb_number
-        if $use_enter -then {
-            get-button Set | check_button_enabled_and_click
-        }
-        -else  {
-            key-type Enter
-        }
+        get-button "Set" | check_button_enabled_and_click
     }
 }
 
