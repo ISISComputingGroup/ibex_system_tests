@@ -1,0 +1,44 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: OnlyServerDeviceScreensArePreservedOnRestart
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _UPh6MFEEEeeN-J8cVhSWtw
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/14/17 3:46 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+switch_to_device_screens_view 
+
+// Add the screens
+let [val server_screen [test_prefix "server_screen"]] [val local_screen [test_prefix "local_screen"]] {
+    with [edit_device_screens] {
+		add_screen_with_target $local_screen
+		add_screen_with_target $server_screen true
+	   	get-button OK | check_button_enabled_and_click
+	   	wait 5000
+	} 
+}
+
+// Restart Ibex
+// We have to do this outside let or RCPTT will "Fail to close report node"
+restart-aut
+check_button_enabled_and_click [get-window "Close the application?" | get-button Yes]
+wait-until-eclipse-is-ready
+
+// Check that only the server screen is still available
+let	[val server_screen [test_prefix "server_screen"]] [val local_screen [test_prefix "local_screen"]] {
+    try -times 20 -delay 200 -command {
+    	switch_to_device_screens_view
+    	get-table | get-property "itemCount" -raw true | equals 1 | verify-true
+    	with [edit_device_screens] {
+			get-table | get-item $server_screen -column Name | get-property "columns[1]" | equals $server_screen | verify-true
+		}
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

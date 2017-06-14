@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _P_dG8EnDEeeQ0ryEI963_g
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/9/17 10:49 AM
+Save-Time: 6/14/17 3:32 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -34,13 +34,21 @@ proc "device_screens_group" [val window -input true] {
 // param group (input) - the device screen group on the edit window
 //       name - name of screen
 //       targetName - name of the target
-proc "add_screen_with_target" [val window -input true] [val name] [val targetName -value "Analyser"] {
+proc "add_screen_with_target" [val window -input true] [val name] [val save_on_server -value false] [val targetName -value "Analyser"] {
     with $window {    
         with [device_screens_group] {
 	        get-button Add | check_button_enabled_and_click
 	    }
-	
+	    
+	    if 
+        get-button "Save this device screen" | click
+		
 		with [get-group Target] {
+			if [$save_on_server | eq true] -then {
+        		get-button "Save this device screen" | click
+        	} -else {
+        		get-button "Remove this device screen when IBEX is closed" | click
+        	}
 	    	get-editbox -after [get-label Name] | set-text $name
 	    	get-combo -after [get-label Target] | select $targetName
 		}
