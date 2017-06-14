@@ -1,0 +1,49 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: IOCProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _6GTDIFDlEeeRb7qwOt4j4g
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/14/17 1:02 PM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+// Clicks a named button in the IOC control dialog
+// @param ioc The name of the ioc
+// @param button The button text
+proc control_ioc [val ioc] [val button] {
+	get-menu "IOC/Start\\/Stop IOCs" | click
+	with [get-window "Control IOCs"] {
+    	get-table | select $ioc
+    	check_enabled_and_click [get-button $button]
+    	get-button Close | click
+	}
+}
+
+// Starts a named ioc
+// @param ioc The name of the ioc
+proc "start_ioc" [val ioc] [val block] {
+	control_ioc $ioc "Start"
+	try -times 300 -delay 200 -command {
+		get-view Blocks | get-label -after [get-label [concat $block ":"]] | get-property "getText()" | equals disconnected | verify-false
+	}
+	
+	// Even after the block appears connected, instances of cgets showing disconnected have been encountered. Leave a couple of seconds' wait
+	// just in case
+    wait 10000
+}
+
+// Stop a named ioc
+// @param ioc The name of the ioc
+// @param block The name of a block used to verify the operation is complete
+proc "stop_ioc" [val ioc] [val block] {
+	control_ioc $ioc "Stop"
+	try -times 300 -delay 200 -command {
+		get-view Blocks | get-label -after [get-label [concat $block ":"]] | get-property "getText()" | equals disconnected | verify-true
+	}
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
