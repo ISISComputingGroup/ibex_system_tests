@@ -16,7 +16,7 @@ Entry-Name: .content
 // change the rb number and check it is correct. use enter true press enter false press set button
 proc "change_and_check_rb_number" [val new_rb_number] {
 
-     experimental_details_view | set_rb_number -new_rb_number $new_rb_number 
+    experimental_details_view | set_rb_number -new_rb_number $new_rb_number 
 
     switch_to_dae_view
     
