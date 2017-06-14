@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _xCZlkAirEeewRLVbkB4NiA
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/5/17 2:28 PM
+Save-Time: 6/14/17 2:52 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -21,6 +21,20 @@ let [ val device_screen_count [get-table | get-property "itemCount" -raw true]] 
 
 	let [val screen01 [test_prefix "test_screen"]] [val screen02 [test_prefix "test_screen_01"]] 
 		[val screen03 [test_prefix "test_screen_02"]] {
+		
+		// Check that screen can't be added without a target
+        with [edit_device_screens] {	    
+        	get-button Add | check_button_enabled_and_click
+        	
+	    	// Is there error text? Don't use the full text because it'll be fragile but I expect it should suggest the target
+	    	// as the problem    
+    		get-editbox -after [get-label "Configure Device Screens"] | get-property text | contains "target" | verify-true
+    	
+    		// We shouldn't be able to press OK
+			get-button OK | get-property enablement | equals false | verify-true
+			
+			check_button_enabled_and_click [get-button Cancel]
+		}		
 		
 		// add screens
 		with [edit_device_screens] {
