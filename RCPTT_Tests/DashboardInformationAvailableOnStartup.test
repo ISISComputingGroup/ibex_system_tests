@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _Iokw4FDSEeebUsTjSlsNqg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 9:41 AM
+Save-Time: 6/14/17 10:09 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -14,10 +14,28 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 with [get-view Dashboard] {
+
+	// Check these controls exist and are non-empty
     get-label -after [get-label "Run:"] | get-property "getText()" | length | gt 0 | verify-true
-    //get-label "(DAE SIMULATION MODE) long title" | get-property enablement | equals true | verify-true
-    //get-label "Phil and Alan" | get-property enablement | equals true | verify-true
-    //get-editbox -after [get-label "Inst. Time:"] | get-property "getText()" | equals "14/06/2017 09:28:13" | verify-true
-    //get-editbox -after [get-label "Good / Raw Frames:"] | get-property "getText()" | equals "0 / 0" | verify-true
+    get-label -after [get-label "Shutter:"] | get-property "getText()" | length | gt 0 | verify-true
+    get-editbox -after [get-label "Monitor Counts:"] | get-property "getText()" | length | gt 0 | verify-true
+    get-label -after [get-label "Run Time:"] | get-property "getText()" | length | gt 0 | verify-true
+    
+    // Some labels we know should contain a slash
+    get-editbox -after [get-label "Good / Raw Frames:"] | get-property "getText()" | contains "/" | verify-true
+    get-editbox -after [get-label "Current / Total:"] | get-property "getText()" | contains "/" | verify-true
+    get-label -after [get-label "Period:"] | get-property "getText()" | contains "/" | verify-true
+    
+    // These labels might be empty. Just check they exist and are active
+    get-label -after [get-label "Title:"] | get-property enablement | equals true | verify-true
+    get-label -after [get-label "Users:"] | get-property enablement | equals true | verify-true
+     
+    // Check that the time exists and is non-empty   
+    get-editbox -after [get-label "Inst. Time:"] | get-property "getText()" | length | gt 0 | verify-true
+    
+    let [val initial_time [get-editbox -after [get-label "Inst. Time:"] | get-property "getText()"]] {
+    	wait 2000
+    	get-editbox -after [get-label "Inst. Time:"] | get-property "getText()" | equals $initial_time | verify-false
+    }
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
