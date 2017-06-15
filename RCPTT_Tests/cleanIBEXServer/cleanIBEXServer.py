@@ -11,12 +11,12 @@ import subprocess
 import shutil
 from subprocess import PIPE
 import time
+from threading import Thread
 from time import sleep
 from datetime import datetime as dt
 
 import errno
 import psutil
-
 
 # How often should be clean the directories
 RUN_CLEAN_PER = 0
@@ -45,6 +45,9 @@ WIRING_TABLE = "RCPTT_wiring128.dat"
 SPECTRA_TABLE = "RCPTT_spectra128.dat"
 DETECTOR_TABLE = "RCPTT_detector128.dat"
 
+# name of experimental database rb number
+EXP_DB_RBNUMBER_FILE = "experimental_database_rb_numbers.xml"
+
 # name of the blank config
 BLANK_CONFIG_DIR = "rcptt_blank"
 
@@ -69,11 +72,14 @@ BLOCKSERVER = "BLOCKSVR"
 # DAE process name
 DAE = "ISISDAE_01"
 
+# Console name of Experiment database
+EXPDB_CONSOLE_NAME = "EXPDB"
+
 try:
     build_number = os.environ['BUILD_NUMBER']
 except:
-    from datetime import datetime as dt
     build_number = dt.now().strftime("%y_%m_%d_%H_%M_%S")
+
 
 # Error codes
 class ErrNum(object):
@@ -84,6 +90,7 @@ class ErrNum(object):
     DELETE_DATA = 7,
     BS_TOGGLE_ON = 8,
     DAE_TOGGLE_ON = 9,
+    RELOAD_RB_NUMBERS = 10
 
 
 class SafeExErrNum(object):
@@ -101,7 +108,32 @@ class SafeExErrNum(object):
     DELETE_DATA_DEL_2 = 21,
     BS_TOGGLE_ON = 22,
     DAE_TOGGLE_ON = 23,
-   
+    RELOAD_RB_NUMBERS = 24
+
+    
+class ReadLine(object):
+    """
+    read a number of lines from the stdout of a process
+    """
+    
+    def __init__(self, p, count):
+        """
+        Init
+        :param p: process from which the stdout is read
+        :param count: number of lines to read
+        """
+        self.last_line = ""
+        self.p = p
+        self.count = count
+
+    def run(self):
+        """
+        Read the lines from stdout
+        """
+        for i in range(self.count):
+            self.last_line = self.p.stdout.readline()
+            print "     console output {0}".format(self.last_line)
+
 
 def remove_test_dir_and_files(root_path):
     """
@@ -144,6 +176,7 @@ def check_dir_exists(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
+
 def killproc(name):
     for proc in psutil.process_iter():
         try:
@@ -152,6 +185,7 @@ def killproc(name):
                 break
         except psutil.AccessDenied:
             pass
+
 
 def copy_dae_tables():
     """
@@ -248,6 +282,9 @@ def reset_ibex_backend():
     safe_execute(toggle_ioc_autorestart, SafeExErrNum.DAE_TOGGLE_OFF, DAE, ErrNum.DAE_TOGGLE_OFF)
     safe_execute(stop_dae, SafeExErrNum.DAE_STOP, ErrNum.DAE_STOP)
 
+    # rb numbers
+    safe_execute(reload_rb_numbers, SafeExErrNum.RELOAD_RB_NUMBERS, ErrNum.RELOAD_RB_NUMBERS)
+    
     # delete test artefacts
     configurations_path = os.path.join(PATH_TO_ICPCONFIGROOT, "configurations")
     print "Removing test configurations in {0}".format(configurations_path)
@@ -268,6 +305,7 @@ def reset_ibex_backend():
     safe_execute(delete_dae_experiments_file, SafeExErrNum.DELETE_DATA, ErrNum.DELETE_DATA)
     safe_execute(_delete_data_del_dir, SafeExErrNum.DELETE_DATA_DEL_2)
     print "Deleted the moved data dir"
+       
 
     # reboot the block server by restoring the autorestart flag
     safe_execute(toggle_ioc_autorestart, SafeExErrNum.BS_TOGGLE_ON, BLOCKSERVER, ErrNum.BS_TOGGLE_ON)
@@ -345,6 +383,7 @@ def _send_via_console(console_name, message, error_no):
     """
     Open a console in a subprocess
     :param console_name: name of the console
+    :param message: message to send to the console
     :param error_no: number reported in case of error
     :return: the subprocess
     """
@@ -358,6 +397,48 @@ def _send_via_console(console_name, message, error_no):
     missing_console_msg = "console '" + console_name + "' not found"
     if missing_console_msg in output:
         _log_and_exit(output, error_no)
+        
+        
+def _send_multiple_lines_via_console(console_name, lines, error_no):
+    """
+    Open a console in a subprocess and send lines to it waiting for a reply between each line
+    :param console_name: name of the console
+    :param lines: iterable fo line to send
+    :param error_no: number reported in case of error
+    :return: the subprocess
+    """
+    p = subprocess.Popen([PATH_TO_CONSOLE_EXE, "-M", "localhost", console_name],
+                         stdin=PIPE, stdout=PIPE, stderr=PIPE)
+
+    # read 5 lines in but do it on another thread so this doesn't block
+    readline = ReadLine(p, 5)
+    Thread(target=readline.run).start()
+
+    for line in lines:
+        p.stdin.write("{0}\n".format(line))
+        p.stdin.flush()
+        error_code = p.poll()
+        if error_code is not None:
+            _log_and_exit("console exited with {0}. Las message {1}!".format(error_code, readline.last_line), error_no)
+
+    output, errors = p.communicate(EXIT_CONSOLE_SIGNAL)
+
+    if errors:
+        _log_and_exit(errors, error_no)
+
+        
+def reload_rb_numbers(error_no):
+    """
+    Reload rb numbers from the experimental databse file.
+    :param error_no: number reported in case of error
+    :return:
+    """
+    
+    message = ["F",
+               os.path.join(CLEAN_IBEX_DIR, "misc", EXP_DB_RBNUMBER_FILE),
+               "U"]
+    _send_multiple_lines_via_console(EXPDB_CONSOLE_NAME, message, error_no)
+    print("RB numbers updated")
 
 
 def need_run_clean():

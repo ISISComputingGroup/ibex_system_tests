@@ -1,0 +1,14 @@
+<Experiment>
+    <PI>
+      <Name>Dr Test Testerson</Name>
+      <Organisation>Test Org</Organisation>
+    </PI>
+    <Local>
+      <Name>Mrs localfirst Local</Name>
+      <Organisation />
+    </Local>
+    <Others />
+    <StartDate>2017-01-10T08:00:00Z</StartDate>
+    <Duration>1</Duration>
+    <RB>1234567</RB>
+</Experiment>
