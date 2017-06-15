@@ -8,6 +8,7 @@ Id: __1U1MAJGEeef-slFjNBSXg
 Runtime-Version: 2.0.1.201508250612
 Save-Time: 6/15/17 11:51 AM
 
+
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
@@ -16,7 +17,7 @@ proc "clear_title" {
     with [get-view "DAE Control Program" | get-editbox -after [get-label "Title:"]] {
         set-text ""
     }
-    get-button Set | click
+    get-button Set | check_button_enabled_and_click
 }
 
 proc "dae_update_dialog_exists" {
@@ -44,4 +45,15 @@ proc "set_combo_by_index" [val combo -input] [val index]{
         click
     }
 }
+
+// get the dae run information tab at front
+// return the view
+proc "get_dae_run_information" {
+    let [val view [get-view "DAE Control Program"]] { 
+    	$view | get-tab-folder | get-tab-item "Run Information" | check_button_enabled_and_click
+    	$view
+    }
+}
+
+
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
