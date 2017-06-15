@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/15/17 9:05 AM
+Save-Time: 6/15/17 11:51 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -38,4 +38,10 @@ proc "wait_for_dae_update_dialog_to_close" {
 	}
 }
 
+proc "set_combo_by_index" [val combo -input] [val index]{
+	with $combo {
+        get-object | invoke select $index
+        click
+    }
+}
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
