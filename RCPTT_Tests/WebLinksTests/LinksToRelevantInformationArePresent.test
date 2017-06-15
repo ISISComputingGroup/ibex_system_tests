@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _WER3gFETEeeZhKFwlNH0sA
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/14/17 5:26 PM
+Save-Time: 6/15/17 11:45 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -15,18 +15,21 @@ Entry-Name: .content
 
 // Checks that the weblinks perspective has links to the relevant webpages on it. 
 
+// procedure to get the URL of a link at a relative position ($index) to the supplied label ($label) and check it contains the supplied title ($title)
+
+proc "link_is_relevant" [val label] [val index] [val title] {
+	get-link -after [get-label $label] -index $index | get-property caption | contains $title | verify-true
+}
+
 switch_to_web_links_view
 
-    get-link "<a href=\"http://shadow.nd.rl.ac.uk/ibex_user_manual/Home\" target=\"_blank\">IBEX User Manual</a>" | get-property caption | contains "IBEX User Manual" | verify-true
+link_is_relevant "Help and Documentation" 0 "IBEX User Manual"
+link_is_relevant "Help and Documentation" 1 "Genie Python Documentation"
 
-    get-link "<a href=\"http://shadow.nd.rl.ac.uk/genie_python/sphinx/genie_python.html\" target=\"_blank\">Genie Python Documentation</a>"  | get-property caption | contains "Genie Python Documentation" | verify-true
-
-    get-link "<a href=\"https://users.facilities.rl.ac.uk/schedule/reportlosttime.aspx?facility=isis?Instrument=INSTNAME\" target=\"_blank\">Launch LTR Website</a>"  | get-property caption | contains "Launch LTR Website" | verify-true
-
-    get-link "<a href=\"http://www.facilities.rl.ac.uk/isis/ops/Lists/INSTNAME/calendar.aspx\" target=\"_blank\">Launch Maintenance Website</a>"  | get-property caption | contains "Launch Maintenance Website" | verify-true
-
-    get-link "<a href=\"http://bugs.isis.rl.ac.uk/enter_bug.cgi?product=PC%20Instrument%20Controlamp;format=pcinst\">Submit a bug or problem</a>"  | get-property caption | contains "Submit a bug or problem" | verify-true
-
-    get-link "<a href=\"http://info.isis.rl.ac.uk/operations/instrument-quick-links.htm\" target=\"_blank\">Instrument Scientist Quick Links</a>"  | get-property caption | contains "Instrument Scientist Quick Links" | verify-true
+// Tried this with a loop, but didn't work.
+link_is_relevant "Useful Links" 0 "Launch LTR Website"
+link_is_relevant "Useful Links" 1 "Launch Maintenance Website"
+link_is_relevant "Useful Links" 2 "Submit a bug or problem"
+link_is_relevant "Useful Links" 3 "Instrument Scientist Quick Links"
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
