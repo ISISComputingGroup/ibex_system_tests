@@ -5,8 +5,8 @@ Element-Name: DAEProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
-Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/6/17 9:30 AM
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/15/17 9:05 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -18,4 +18,24 @@ proc "clear_title" {
     }
     get-button Set | click
 }
+
+proc "dae_update_dialog_exists" {
+	try -command {
+		get-window -class SendingChangesDialog
+		bool true
+	} -catch {
+		bool false
+	}
+}
+
+proc "wait_for_dae_update_dialog_to_close" {
+	wait 1000 // Dialog takes some time to display
+
+	try -times 50 -delay 200 -command {
+		if [dae_update_dialog_exists] {
+			bool true | verify-false
+		}
+	}
+}
+
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

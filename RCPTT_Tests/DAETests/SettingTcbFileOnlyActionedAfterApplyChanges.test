@@ -1,0 +1,69 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: SettingTcbFileOnlyActionedAfterApplyChanges
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _lwJiAFDoEee5PKfRF9iJJw
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/15/17 11:29 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+proc "reset_tcb_file" {
+	// Set tcb to ""
+	get-view "DAE Control Program" | get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | get-object | invoke select 0
+	get-view "DAE Control Program" | get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | click
+	get-view "DAE Control Program" | get-button "Apply Changes" | click
+	wait_for_dae_update_dialog_to_close 
+}
+
+assert_instrument_is_setup
+switch_to_dae_view
+
+with [get-view "DAE Control Program"] {
+	// Move to Time Channels tab
+	get-tab-folder | get-tab-item "Experiment Setup" | click
+    get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Time Channels" | click
+    
+    // Switch to "Use TCB File" and set tcb to blank
+    get-view "DAE Control Program" | get-button "Use TCB File" | click
+    reset_tcb_file
+    
+    // Set "Change" to TCB file 1
+    get-view "DAE Control Program" | get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | get-object | invoke select 1
+    get-view "DAE Control Program" | get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | click
+    // Check "Change" was set 
+	get-view "DAE Control Program" | get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] 
+    | get-property selection | contains "RCPTT_TCB_1.dat" | verify-true
+    // Check "Current" is unchanged (still blank TCB file)
+	get-view "DAE Control Program" | get-group "Time Channel Settings" | get-label -after [get-label "Current:"] | get-property caption | contains "RCPTT_TCB_1.dat" | verify-false
+	// Apply it.
+    get-view "DAE Control Program" | get-button "Apply Changes" | click
+    wait_for_dae_update_dialog_to_close
+	// Check is set
+	get-view "DAE Control Program" | get-group "Time Channel Settings" | get-label -after [get-label "Current:"] | get-property caption | contains "RCPTT_TCB_1.dat" | verify-true
+
+	// Set "Change" to TCB file 2 and check it is not applied
+    get-view "DAE Control Program" | get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | get-object | invoke select 2
+    get-view "DAE Control Program" | get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | click
+    // Check "Change" was set 
+	get-view "DAE Control Program" | get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] 
+    | get-property selection | contains "RCPTT_TCB_2.dat" | verify-true
+    // Check "Current" is unchanged (still TCB file 1)
+	get-view "DAE Control Program" | get-group "Time Channel Settings" | get-label -after [get-label "Current:"] | get-property caption | contains "RCPTT_TCB_1.dat" | verify-true
+	// Apply the change
+	get-view "DAE Control Program" | get-button "Apply Changes" | click
+    wait_for_dae_update_dialog_to_close
+    // Check "Current" is set to TCB file 2
+	get-view "DAE Control Program" | get-group "Time Channel Settings" | get-label -after [get-label "Current:"] | get-property caption | contains "RCPTT_TCB_2.dat" | verify-true
+}
+
+// Make sure we leave things as we found them
+reset_tcb_file
+get-view "DAE Control Program" | get-button "Specify Parameters" | click
+assert_instrument_is_setup
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
