@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _mTKdkFVzEeaXbYm3HBnm7g
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/12/17 4:20 PM
+Save-Time: 6/14/17 4:08 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -72,4 +72,17 @@ proc "log_message" [val message] {
 	}
     echo $message | log -severity info
 }
+
+// Verify the first 3 coulmns in a table by getting the items based on the first val
+//  table - the table
+//  valX - conents of column X
+proc "verify_3_column_table" [val table] [val val1] [val val2] [val val3] {
+	with $table {
+        get-item $val1 | get-property "columns[0]" | equals $val1 | verify-true
+        get-item $val1 | get-property "columns[1]" | equals $val2 | verify-true
+        get-item $val1 | get-property "columns[2]" | equals $val3 | verify-true
+    }
+
+}
+
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
