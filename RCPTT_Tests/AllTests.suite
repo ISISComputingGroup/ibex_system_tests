@@ -55,6 +55,9 @@ _CAavwEbPEeeo0OfG8brAwA	// kind: 'test' name: 'WhenNewGroupsAreAddedToAComponent
 _5M1aQEbOEeeo0OfG8brAwA	// kind: 'test' name: 'ComponentBlocksNotInGroupsAreNotAvailableToAddToConfigGroups' path: 'GroupTests/ComponentBlocksNotInGroupsAreNotAvailableToAddToConfigGroups.test'
 _T4Y_MEeFEeeYd68Emfg7ng	// kind: 'test' name: 'CheckAddPVDetailToSynopticComponent' path: 'SynopticTests/CheckAddPVDetailToSynopticComponent.test'
 _pTZKcEbQEeeV-cQwTy29-g	// kind: 'test' name: 'CheckErrorOnAddPVDetailToSynopticComponent' path: 'SynopticTests/CheckErrorOnAddPVDetailToSynopticComponent.test'
+_OxSrgFDmEeeeKpyvQQ-r8Q	// kind: 'test' name: 'SwitchByMouseSelection' path: 'SwitchInstruments/SwitchByMouseSelection.test'
+_pTu1IFD2EeeeKpyvQQ-r8Q	// kind: 'test' name: 'SwitchToKnown' path: 'SwitchInstruments/SwitchToKnown.test'
+_4rJEAFD2EeeeKpyvQQ-r8Q	// kind: 'test' name: 'SwitchToUnknown' path: 'SwitchInstruments/SwitchToUnknown.test'
 _9oDdkDPkEeeS4rGnZ-QcxQ	// kind: 'test' name: 'CanAddAndRemoveIocsInConfiguration' path: 'ConfigurationTests/CanAddAndRemoveIocsInConfiguration.test'
 _CRQFEDWMEeekDKscI2cwGA	// kind: 'test' name: 'CanEditABlockByRightClicking' path: 'ConfigurationTests/CanEditABlockByRightClicking.test'
 _UqzfICBrEeewH-_OS6CJKQ	// kind: 'test' name: 'CanOpenSynopticTargets' path: 'SynopticTests/CanOpenSynopticTargets.test'
@@ -68,5 +71,8 @@ _OZJSQFDbEeebUsTjSlsNqg	// kind: 'test' name: 'CanGetAndSetBlocksFromTheScriptin
 _trX9EFDxEeeRb7qwOt4j4g	// kind: 'test' name: 'CanControlRunFromScripting' path: 'ScriptingTests/CanControlRunFromScripting.test'
 _BHV84FBKEeebUsTjSlsNqg	// kind: 'test' name: 'CheckForBasicBeamStatusInformation' path: 'BeamStatusTests/CheckForBasicBeamStatusInformation.test'
 _Iokw4FDSEeebUsTjSlsNqg	// kind: 'test' name: 'DashboardInformationAvailableOnStartup' path: 'DashboardInformationAvailableOnStartup.test'
+_kDiVkFDwEee3T8gi7qgLJg	// kind: 'test' name: 'EditRunControlSettings' path: 'RunControlTests/EditRunControlSettings.test'
+_Bnx5wFD1Eee3T8gi7qgLJg	// kind: 'test' name: 'RestoreConfigurationValues' path: 'RunControlTests/RestoreConfigurationValues.test'
+_ALII0FDlEee3T8gi7qgLJg	// kind: 'test' name: 'ViewRunControlSettings' path: 'RunControlTests/ViewRunControlSettings.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--

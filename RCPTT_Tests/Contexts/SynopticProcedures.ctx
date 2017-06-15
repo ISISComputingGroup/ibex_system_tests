@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/2/17 1:14 PM
+Save-Time: 6/14/17 4:18 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -83,8 +83,8 @@ proc "add_component" [val component_name] [val window -input true ] {
 	}
 }
 
-// Delete a component in a synoptic
-proc "delete_component" [val component_name] [val window -input true ] {
+// Select a component in the tree
+proc "select_single_component" [val component_name] [val window -input true ] {
 	with $window {
 		with [get-tree] {
 			// Works for single and multiple instances of a component
@@ -94,11 +94,25 @@ proc "delete_component" [val component_name] [val window -input true ] {
 				select [get-item $component_name -index 1]
 			}
 		}
+	}
+
+}
+
+// Delete a component in a synoptic
+proc "delete_component" [val component_name] [val window -input true ] {
+	with $window {
+		select_single_component $component_name
+    	delete_selected_component
+	}
+}
+
+// Deletes the selected component(s)
+proc "delete_selected_component" [val window -input true ] {
+	with $window {
     	get-button "Delete Component" | check_enabled_and_click
 	}
 	get-window "Confirm Delete" | get-button OK | click
 }
-
 
 // Add a component to a synoptic that has a type/target e.g. chopper
 proc "add_component_target" [val component_name] [val target_name] [val window -input true ] {
@@ -118,7 +132,7 @@ proc "add_component_target" [val component_name] [val target_name] [val window -
 // Add a pv detail to a component
 proc "add_pv_to_synoptic_component" [val component_name] [val pv_name] [val pv_address] [val window -input true ] {
 	with $window {
-    	get-tree | select $component_name
+    	select_single_component $component_name
     	get-button "Add New PV" | check_button_enabled_and_click
     	get-editbox -after [get-label -after [get-label "PV Details"] ] | set-text $pv_name 
     	get-editbox -after [get-label Address] | set-text $pv_address
