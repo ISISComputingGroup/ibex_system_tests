@@ -34,7 +34,7 @@ java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_%LAUNCHER%.jar ^
  -import %PROJECT% ^
  -suites %1% ^
  -autVMArgs "-Xms256m;-Xmx3g;-XX:+UseG1GC" ^
- -timeout 18000 ^
+ -timeout 30000 ^
  -testOptions "testExecTimeout=3600;passedTestDetails=true;launchingKillAutOnConnectError=true"
 
 REM had some GC overhead limit exceeded errors, trying G1GC but
