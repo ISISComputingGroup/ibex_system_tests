@@ -45,6 +45,10 @@ WIRING_TABLE = "RCPTT_wiring128.dat"
 SPECTRA_TABLE = "RCPTT_spectra128.dat"
 DETECTOR_TABLE = "RCPTT_detector128.dat"
 
+# names of TCB files
+TCB1 = "RCPTT_TCB_1.dat"
+TCB2 = "RCPTT_TCB_2.dat"
+
 # name of experimental database rb number
 EXP_DB_RBNUMBER_FILE = "experimental_database_rb_numbers.xml"
 
@@ -108,17 +112,19 @@ class SafeExErrNum(object):
     DELETE_DATA_DEL_2 = 21,
     BS_TOGGLE_ON = 22,
     DAE_TOGGLE_ON = 23,
-    RELOAD_RB_NUMBERS = 24
+    RELOAD_RB_NUMBERS = 24,
+    COPY_TCB = 25
 
     
 class ReadLine(object):
     """
-    read a number of lines from the stdout of a process
+    Read a number of lines from the stdout of a process.
     """
     
     def __init__(self, p, count):
         """
-        Init
+        Init.
+        
         :param p: process from which the stdout is read
         :param count: number of lines to read
         """
@@ -128,7 +134,7 @@ class ReadLine(object):
 
     def run(self):
         """
-        Read the lines from stdout
+        Read the lines from stdout.
         """
         for i in range(self.count):
             self.last_line = self.p.stdout.readline()
@@ -137,7 +143,8 @@ class ReadLine(object):
 
 def remove_test_dir_and_files(root_path):
     """
-    Remove all directories and files which start with rcptt_
+    Remove all directories and files which start with rcptt_.
+    
     :param root_path: path to search through
     :return:
     """
@@ -156,7 +163,8 @@ def remove_test_dir_and_files(root_path):
 
 def set_default_config(config_path):
     """
-    Copy files to create a default configuration
+    Copy files to create a default configuration.
+    
     :param config_path:
     :return:
     """
@@ -169,7 +177,8 @@ def set_default_config(config_path):
 
 def check_dir_exists(path):
     """
-    Check a directory exists, and create it if it does not
+    Check a directory exists, and create it if it does not.
+    
     :param path: the directory path
     :return:
     """
@@ -189,8 +198,9 @@ def killproc(name):
 
 def copy_dae_tables():
     """
-    Copy DAE tables from system test folder to a predefined 
-    location on the machine
+    Copy DAE tables from system test folder to a predefined
+    location on the machine.
+    
     :return:
     """
     table_source = os.path.join(CLEAN_IBEX_DIR, "Tables")
@@ -201,11 +211,28 @@ def copy_dae_tables():
     shutil.copyfile(os.path.join(table_source, WIRING_TABLE), os.path.join(table_dest, WIRING_TABLE))
     shutil.copyfile(os.path.join(table_source, SPECTRA_TABLE), os.path.join(table_dest, SPECTRA_TABLE))
     shutil.copyfile(os.path.join(table_source, DETECTOR_TABLE), os.path.join(table_dest, DETECTOR_TABLE))
+    
+
+def copy_tcb_files():
+    """
+    Copy TCB files from system test folder to a predefined 
+    location on the machine.
+    
+    :return:
+    """
+    tcb_source = os.path.join(CLEAN_IBEX_DIR, "tcb")
+    
+    tcb_dest = os.path.join(PATH_TO_ICPCONFIGROOT, "tcb")
+    check_dir_exists(tcb_dest)
+    
+    shutil.copyfile(os.path.join(tcb_source, TCB1), os.path.join(tcb_dest, TCB1))
+    shutil.copyfile(os.path.join(tcb_source, TCB2), os.path.join(tcb_dest, TCB2))
 
 
 def safe_execute(function_to_execute, error_no, *args):
     """
     Execute input command in a try catch. Stop script in case of error.
+    
     :param function_to_execute: the command to execute
     :param error_no: the error number to use when quitting the script
     :param args: arguments to the command to execute
@@ -231,11 +258,20 @@ def safe_copy_dae_tables():
     except IOError:
         sleep(6)
         copy_dae_tables()
+        
+
+def safe_copy_tcb_files():
+    try:
+        copy_tcb_files()
+    except IOError:
+        sleep(6)
+        copy_tcb_files()
 
 
 def stop_dae(error_no):
     """
-    Stop the dae
+    Stop the dae.
+    
     :return:
     """
     stop_ioc(DAE, error_no)
@@ -247,7 +283,8 @@ def stop_dae(error_no):
 
 def delete_dae_experiments_file(error_no):
     """
-    Delete dae experiments file
+    Delete dae experiments file.
+    
     :param error_no:
     :return:
     """
@@ -271,7 +308,8 @@ def delete_dae_experiments_file(error_no):
 
 def reset_ibex_backend():
     """
-    reset the ibex backend
+    Reset the ibex backend.
+    
     :return:
     """
 
@@ -300,6 +338,7 @@ def reset_ibex_backend():
 
     safe_execute(safe_set_default_config, SafeExErrNum.SET_DEFAULT_CONFIG, configurations_path)
     safe_execute(safe_copy_dae_tables, SafeExErrNum.COPY_DAE)
+    safe_execute(safe_copy_tcb_files, SafeExErrNum.COPY_TCB)
     safe_execute(_delete_data_del_dir, SafeExErrNum.DELETE_DATA_DEL)
     
     safe_execute(delete_dae_experiments_file, SafeExErrNum.DELETE_DATA, ErrNum.DELETE_DATA)
@@ -315,7 +354,8 @@ def reset_ibex_backend():
 
 def _log_and_exit(error, exit_code):
     """
-    Log the error and exit
+    Log the error and exit.
+    
     :param error: error to log
     :param exit_code: error number to exit with
     :return:
@@ -330,7 +370,8 @@ def _log_and_exit(error, exit_code):
 
 def _delete_data_del_dir():
     """
-    Delete the old data to delete dir
+    Delete the old data to delete dir.
+    
     :return:
     """
     path_to_dae_data_del = PATH_TO_DAE_DATA + "del"
@@ -360,6 +401,7 @@ def _delete_data_del_dir():
 def stop_ioc(console_name, error_no):
     """
     Stop an ioc running in a console. ProcServ will automatically restart it if it is set to do so.
+    
     :param console_name: name of the console
     :param error_no: number reported in case of error
     :return:
@@ -370,7 +412,8 @@ def stop_ioc(console_name, error_no):
 
 def toggle_ioc_autorestart(console_name, error_no):
     """
-    Toggle the procServ autorestart flag in a console
+    Toggle the procServ autorestart flag in a console.
+    
     :param console_name: name of the console
     :param error_no: number reported in case of error
     :return:
@@ -381,7 +424,8 @@ def toggle_ioc_autorestart(console_name, error_no):
 
 def _send_via_console(console_name, message, error_no):
     """
-    Open a console in a subprocess
+    Open a console in a subprocess.
+    
     :param console_name: name of the console
     :param message: message to send to the console
     :param error_no: number reported in case of error
@@ -401,7 +445,8 @@ def _send_via_console(console_name, message, error_no):
         
 def _send_multiple_lines_via_console(console_name, lines, error_no):
     """
-    Open a console in a subprocess and send lines to it waiting for a reply between each line
+    Open a console in a subprocess and send lines to it waiting for a reply between each line.
+    
     :param console_name: name of the console
     :param lines: iterable fo line to send
     :param error_no: number reported in case of error
@@ -430,6 +475,7 @@ def _send_multiple_lines_via_console(console_name, lines, error_no):
 def reload_rb_numbers(error_no):
     """
     Reload rb numbers from the experimental databse file.
+    
     :param error_no: number reported in case of error
     :return:
     """
@@ -443,8 +489,9 @@ def reload_rb_numbers(error_no):
 
 def need_run_clean():
     """
-    Should we run a clean, only run a clean every RUN_CLEAN_PER tests
-    :return:true if clean; false otherwise
+    Should we run a clean, only run a clean every RUN_CLEAN_PER tests.
+    
+    :return: true if clean; false otherwise
     """
     test_run_num = os.path.join(PATH_TO_DAE_DATA, "test_run_num.txt")
     try:

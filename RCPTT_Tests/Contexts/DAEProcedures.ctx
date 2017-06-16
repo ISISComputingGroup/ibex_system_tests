@@ -5,8 +5,9 @@ Element-Name: DAEProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
-Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 10:55 AM
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 6/15/17 11:51 AM
+
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -19,6 +20,32 @@ proc "clear_title" {
     get-button Set | check_button_enabled_and_click
 }
 
+proc "dae_update_dialog_exists" {
+	try -command {
+		get-window -class SendingChangesDialog
+		bool true
+	} -catch {
+		bool false
+	}
+}
+
+proc "wait_for_dae_update_dialog_to_close" {
+	wait 1000 // Dialog takes some time to display
+
+	try -times 50 -delay 200 -command {
+		if [dae_update_dialog_exists] {
+			bool true | verify-false
+		}
+	}
+}
+
+proc "set_combo_by_index" [val combo -input] [val index]{
+	with $combo {
+        get-object | invoke select $index
+        click
+    }
+}
+
 // get the dae run information tab at front
 // return the view
 proc "get_dae_run_information" {
@@ -27,5 +54,6 @@ proc "get_dae_run_information" {
     	$view
     }
 }
+
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
