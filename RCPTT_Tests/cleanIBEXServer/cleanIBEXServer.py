@@ -46,8 +46,8 @@ SPECTRA_TABLE = "RCPTT_spectra128.dat"
 DETECTOR_TABLE = "RCPTT_detector128.dat"
 
 # names of TCB files
-TCB1 = RCPTT_TCB_1.dat
-TCB2 = RCPTT_TCB_2.dat
+TCB1 = "RCPTT_TCB_1.dat"
+TCB2 = "RCPTT_TCB_2.dat"
 
 # name of experimental database rb number
 EXP_DB_RBNUMBER_FILE = "experimental_database_rb_numbers.xml"
