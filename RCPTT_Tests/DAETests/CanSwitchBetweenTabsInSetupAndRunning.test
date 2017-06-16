@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _6MwCsFDgEeeu8sXca8PBMQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/14/17 11:49 AM
+Save-Time: 6/15/17 4:00 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -17,33 +17,38 @@ proc "check_can_access_all_tabs" {
     // Verify Experiment Setup tab selected
     get-tab-folder | get-tab-item "Experiment Setup" | click
     get-tab-folder | get-property activePage | equals "Experiment Setup" | verify-true
+    
     // Check can select all sub tabs
-    get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Time Channels" | click
-    get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-property activePage | equals "Time Channels" | verify-true
-    get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Data Acquisition" | click
-    get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-property activePage | equals "Data Acquisition" | verify-true
-	get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Periods" | click
-    get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-property activePage | equals "Periods" | verify-true
-
-	// Verify Run Information tab selected
-	get-tab-folder | get-tab-item "Run Information" | click
-    get-tab-folder | get-property activePage | equals "Run Information" | verify-true
-    
-    // Verify Spectra Plots tab selected
-	get-tab-folder | get-tab-item "Spectra Plots" | click
-    get-tab-folder | get-property activePage | equals "Spectra Plots" | verify-true
-    
-    // Verify Diagnostics tab selected
-	get-tab-folder | get-tab-item "Diagnostics" | click
-    get-tab-folder | get-property activePage | equals "Diagnostics" | verify-true
-    
-    // Verify Vetos tab selected
-	get-tab-folder | get-tab-item "Vetos" | click
-    get-tab-folder | get-property activePage | equals "Vetos" | verify-true
-    
-    // Verify Run Summary tab selected
-	get-tab-folder | get-tab-item "Run Summary" | click
-    get-tab-folder | get-property activePage | equals "Run Summary" | verify-true
+    with [get-tab-folder -after [get-label "DAE Control Program"] -index 1] {
+	    get-tab-item "Time Channels" | click
+	    get-property activePage | equals "Time Channels" | verify-true
+	    get-tab-item "Data Acquisition" | click
+	    get-property activePage | equals "Data Acquisition" | verify-true
+		get-tab-item "Periods" | click
+	    get-property activePage | equals "Periods" | verify-true
+	}
+	
+	with [get-tab-folder] {
+		// Verify Run Information tab selected
+		get-tab-item "Run Information" | click
+	    get-property activePage | equals "Run Information" | verify-true
+	    
+	    // Verify Spectra Plots tab selected
+		get-tab-item "Spectra Plots" | click
+	    get-property activePage | equals "Spectra Plots" | verify-true
+	    
+	    // Verify Diagnostics tab selected
+		get-tab-item "Diagnostics" | click
+	    get-property activePage | equals "Diagnostics" | verify-true
+	    
+	    // Verify Vetos tab selected
+		get-tab-item "Vetos" | click
+	    get-property activePage | equals "Vetos" | verify-true
+	    
+	    // Verify Run Summary tab selected
+		get-tab-item "Run Summary" | click
+	    get-property activePage | equals "Run Summary" | verify-true
+    }
 }
 
 assert_instrument_is_setup
@@ -61,6 +66,7 @@ with [get-view "DAE Control Program"] {
 		// Start a run
 		get-tab-folder | get-tab-item "Run Summary" | click
 		get-button "BEGIN RUN" | click
+		assert_instrument_is "RUNNING"
 		
 		// Check tabs in RUNNING
 		check_can_access_all_tabs
