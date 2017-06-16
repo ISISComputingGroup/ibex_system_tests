@@ -33,9 +33,9 @@ java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_%LAUNCHER%.jar ^
  -junitReport %RESULTS%\report.xml ^
  -import %PROJECT% ^
  -suites %1% ^
- -testOptions "testExecTimeout=3600;passedTestDetails=true;launchingKillAutOnConnectError=true" ^
- -autVMArgs "-Xms64m;-Xmx3g;-XX:+UseG1GC" ^
- -timeout 18000
+ -autVMArgs "-Xms256m;-Xmx3g;-XX:+UseG1GC" ^
+ -timeout 30000 ^
+ -testOptions "testExecTimeout=3600;passedTestDetails=true;launchingKillAutOnConnectError=true"
 
 REM had some GC overhead limit exceeded errors, trying G1GC but
 REM may need to use concat mark sweep with check disabled
