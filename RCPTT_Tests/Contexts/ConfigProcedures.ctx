@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 4:49 PM
+Save-Time: 6/16/17 11:43 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -209,10 +209,9 @@ proc add_ioc_no_macros [val ioc_name] [val window -input true] [val autostart -v
 	}
 	
 	try -times 100 -delay 200 -command {
-		if $autostart | eq true {
+		if $autostart {
 			with [get_ioc_dialog] {
 		 		get-button "Auto-Start" | check
-		     	get-button OK | check_enabled_and_click
 		    }
 		}
 	}
