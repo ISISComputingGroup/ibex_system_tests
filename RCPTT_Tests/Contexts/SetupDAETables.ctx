@@ -43,6 +43,9 @@ with [get-view "DAE Control Program"] {
     	   	get-tab-item "Data Acquisition" | click
     	    get-tab-item "Time Channels" | click
    		}
+		
+		get-button "Specify Parameters" | click
+		
    		with [get-group "Time Channel Settings" | get-table] {
        		select "0.0" | activate-cell-edit
        		get-editbox | set-text 10
