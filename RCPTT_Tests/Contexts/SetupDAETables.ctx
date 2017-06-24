@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _Paa1cB5jEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 12/9/16 5:19 PM
+Save-Time: 6/24/17 8:31 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -67,6 +67,14 @@ with [get-view "DAE Control Program"] {
 // Wait for changes to be applied
 try  -times 200 -delay 900 -command {
 	get-tab-folder | get-tab-item "Experiment Setup" | click
+}
+
+// Put back to run summary
+with [get-view "DAE Control Program"] {
+    try -times 100 -delay 200 -command {
+        get-tab-folder | get-tab-item "Run Summary" | click
+		get-tab-folder | get-property activePage | equals "Run Summary" | verify-true
+     }
 }
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
