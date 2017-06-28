@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/27/17 11:36 AM
+Save-Time: 6/28/17 9:10 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -27,12 +27,14 @@ proc "configure_dae_for_tests" {
 	    
 	    // Set path for tables
 	    with [get-group Tables] {
-	        get-combo -after [get-label "Wiring Table:"] 
-	            | select ".*/RCPTT_wiring128.dat"
-	        get-combo -after [get-label "Detector Table:"] 
-	            | select ".*/RCPTT_detector128.dat"
-	        get-combo -after [get-label "Spectra Table:"] 
-	            | select ".*/RCPTT_spectra128.dat"
+	    	try -times 100 -delay 200 -command {
+		        get-combo -after [get-label "Wiring Table:"] 
+		            | select ".*/RCPTT_wiring128.dat"
+		        get-combo -after [get-label "Detector Table:"] 
+		            | select ".*/RCPTT_detector128.dat"
+		        get-combo -after [get-label "Spectra Table:"] 
+		            | select ".*/RCPTT_spectra128.dat"
+	        }
 	    }
 	    // Send changes can take time to initialize
 	    try -times 100 -delay 1800 -command {
