@@ -39,7 +39,7 @@ proc "check_can_access_all_tabs" {
 	    
 	    // Verify Diagnostics tab selected
 		get-tab-item "Detector Diagnostics" | click
-	    get-property activePage | equals "Diagnostics" | verify-true
+	    get-property activePage | equals "Detector Diagnostics" | verify-true
 	    
 	    // Verify Vetos tab selected
 		get-tab-item "Vetos" | click
