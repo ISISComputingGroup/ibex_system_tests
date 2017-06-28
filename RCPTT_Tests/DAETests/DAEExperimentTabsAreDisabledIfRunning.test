@@ -13,8 +13,8 @@ Testcase-Type: ecl
 Content-Type: text/ecl
 Entry-Name: .content
 
-configure_dae_for_tests
 assert_instrument_is_setup
+configure_dae_for_tests
 begin_run
 
 with [get-view "DAE Control Program"] {

@@ -46,8 +46,8 @@ proc "check_running_state" {
     get-button "END RUN" | get-property enablement | equals true | verify-true
 }
 
-configure_dae_for_tests
 assert_instrument_is_setup
+configure_dae_for_tests
 switch_to_dae_view
 
 with [get-view "DAE Control Program"] {

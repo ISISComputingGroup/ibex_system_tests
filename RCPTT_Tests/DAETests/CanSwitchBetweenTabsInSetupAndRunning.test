@@ -39,7 +39,7 @@ proc "check_can_access_all_tabs" {
 	    
 	    // Verify Diagnostics tab selected
 		get-tab-item "Detector Diagnostics" | click
-	    get-property activePage | equals "Diagnostics" | verify-true
+	    get-property activePage | equals "Detector Diagnostics" | verify-true
 	    
 	    // Verify Vetos tab selected
 		get-tab-item "Vetos" | click
@@ -51,8 +51,8 @@ proc "check_can_access_all_tabs" {
     }
 }
 
-configure_dae_for_tests
 assert_instrument_is_setup
+configure_dae_for_tests
 switch_to_dae_view
 
 with [get-view "DAE Control Program"] {
