@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/29/17 12:05 PM
+Save-Time: 6/29/17 12:34 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -79,5 +79,6 @@ _WER3gFETEeeZhKFwlNH0sA	// kind: 'test' name: 'LinksToRelevantInformationArePres
 _ALII0FDlEee3T8gi7qgLJg	// kind: 'test' name: 'ViewRunControlSettings' path: 'RunControlTests/ViewRunControlSettings.test'
 _kDiVkFDwEee3T8gi7qgLJg	// kind: 'test' name: 'EditRunControlSettings' path: 'RunControlTests/EditRunControlSettings.test'
 _Bnx5wFD1Eee3T8gi7qgLJg	// kind: 'test' name: 'RestoreConfigurationValues' path: 'RunControlTests/RestoreConfigurationValues.test'
+_2KJ48FyyEeezsvgayPB8-Q	// kind: 'test' name: 'RestoreAllConfigurationValues' path: 'RunControlTests/RestoreAllConfigurationValues.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
