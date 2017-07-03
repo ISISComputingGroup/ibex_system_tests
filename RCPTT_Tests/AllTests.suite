@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/29/17 4:48 PM
+Save-Time: 7/3/17 4:58 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -16,7 +16,6 @@ _n_V-kCfsEeaXTOU1uHI8IA	// kind: 'test' name: 'StartupInstrumentIsInitiallySetUp
 _qNn_cFDTEeen85wkhybD2Q	// kind: 'test' name: 'CanPauseEndAbortCancelResumeARun' path: 'DAETests/CanPauseEndAbortCancelResumeARun.test'
 _6MwCsFDgEeeu8sXca8PBMQ	// kind: 'test' name: 'CanSwitchBetweenTabsInSetupAndRunning' path: 'DAETests/CanSwitchBetweenTabsInSetupAndRunning.test'
 _trX9EFDxEeeRb7qwOt4j4g	// kind: 'test' name: 'CanControlRunFromScripting' path: 'ScriptingTests/CanControlRunFromScripting.test'
-_VXHlcFDlEeen85wkhybD2Q	// kind: 'test' name: 'RunningMotorsAppearProperly' path: 'MotorTests/RunningMotorsAppearProperly.test'
 _Sar0oDE_EeaWJe_H2uySSQ	// kind: 'test' name: 'AddABlockToAGroup' path: 'ConfigurationTests/AddABlockToAGroup.test'
 _M5CDMFEDEee8yMBD6nu81w	// kind: 'test' name: 'CanSetRealRBNumber' path: 'ExperimentalDetails/CanSetRealRBNumber.test'
 _iWPmIPZqEeWUB6ttFEmy4Q	// kind: 'test' name: 'AddEditAndRemoveBlock' path: 'ConfigurationTests/AddEditAndRemoveBlock.test'
