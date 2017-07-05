@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _gBk3kP6UEeaP287BV4ZLxQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/5/17 2:39 PM
+Save-Time: 7/5/17 2:48 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -29,18 +29,19 @@ proc "add_user" [val user_name] [val window -input true] {
 
 switch_to_details_view
 
-//with [get-view "My View"] {
-//	let [val surname01 "Oram"][val surname02 "Ampersand&"] {
-//		
-//		get-button Clear | check_enabled_and_click
-//	    add_user [concat "Dominic " $surname01] 
-//		add_user [concat "Adam " $surname02] 
-//	    get-button Set -after [get-label "Experiment Team"] | check_enabled_and_click
-	    
-//	    get-view Dashboard | get-label -after [get-label "Users:"] | get-property caption 
-//	    | equals [concat $surname01 " and " $surname02 "&"] | verify-true //Double ampersand needed as otherwise label doesn't display ampersand
+with [get-view "Experiment Details"] {
+	let [val surname01 "Oram"][val surname02 "Ampersand&"] {
 		
-//		get-button Clear | check_enabled_and_click
-//	}
-//}
+		get-button Clear | check_enabled_and_click
+	    add_user [concat "Dominic " $surname01] 
+		add_user [concat "Adam " $surname02] 
+	    get-button Set -after [get-label "Experiment Team"] | check_enabled_and_click
+	    
+	    get-view Dashboard | get-label -after [get-label "Users:"] | get-property caption 
+	    | equals [concat $surname01 " and " $surname02 "&"] | verify-true //Double ampersand needed as otherwise label doesn't display ampersand
+		
+		get-button Clear | check_enabled_and_click
+	}
+}
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
