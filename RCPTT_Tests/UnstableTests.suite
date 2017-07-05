@@ -5,17 +5,16 @@ Element-Type: testsuite
 Element-Version: 2.0
 Id: _JhhA0GCFEeeQFbQTpeRQSg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/4/17 8:52 AM
+Save-Time: 7/5/17 9:48 AM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
 Entry-Name: testcase-items
 
-_9KNL8FDYEeen85wkhybD2Q	// kind: 'test' name: 'CanOpenMotorOpisFromMotorsPerspective' path: 'MotorTests/CanOpenMotorOpisFromMotorsPerspective.test'
-_qmBtAFECEeeZA_wPu-VRqQ	// kind: 'test' name: 'ComponentsCanBeCopiedAndDeleted' path: 'SynopticTests/ComponentsCanBeCopiedAndDeleted.test'
-_jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAETests/DAEExperimentTabsAreDisabledIfRunning.test'
-_kDiVkFDwEee3T8gi7qgLJg	// kind: 'test' name: 'EditRunControlSettings' path: 'RunControlTests/EditRunControlSettings.test'
-_gBk3kP6UEeaP287BV4ZLxQ	// kind: 'test' name: 'ModifyingUsersIsReflectedOnDashboard' path: 'DAETests/ModifyingUsersIsReflectedOnDashboard.test'
-_VXHlcFDlEeen85wkhybD2Q	// kind: 'test' name: 'RunningMotorsAppearProperly' path: 'MotorTests/RunningMotorsAppearProperly.test'
+_qmBtAFECEeeZA_wPu-VRqQ	//
+_jvMZYB5nEeaAYI1qYj9bEg	//
+_kDiVkFDwEee3T8gi7qgLJg	//
+_gBk3kP6UEeaP287BV4ZLxQ	//
+_VXHlcFDlEeen85wkhybD2Q	//
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
