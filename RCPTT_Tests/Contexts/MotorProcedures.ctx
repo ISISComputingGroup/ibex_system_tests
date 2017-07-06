@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamaaa2qvREOQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 1:45 PM
+Save-Time: 7/4/17 2:05 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -24,7 +24,7 @@ proc wait_for_opi_to_exist [val name] {
 proc assert_wait_for_opi_to_be_closed [val name] {
 	wait 1000 //Dialog takes some time to display
 
-	try -times 50 -delay 200 -command {
+	try -times 100 -delay 200 -command {
 		if [wait_for_opi_to_exist $name] {
 			bool true | verify-false
 		}
