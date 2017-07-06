@@ -6,7 +6,7 @@ Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/5/17 3:02 PM
+Save-Time: 7/6/17 10:11 AM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -83,5 +83,6 @@ _jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRun
 _kDiVkFDwEee3T8gi7qgLJg	// kind: 'test' name: 'EditRunControlSettings' path: 'RunControlTests/EditRunControlSettings.test'
 _VXHlcFDlEeen85wkhybD2Q	// kind: 'test' name: 'RunningMotorsAppearProperly' path: 'MotorTests/RunningMotorsAppearProperly.test'
 _gBk3kP6UEeaP287BV4ZLxQ	// kind: 'test' name: 'ModifyingUsersIsReflectedOnDashboard' path: 'DAETests/ModifyingUsersIsReflectedOnDashboard.test'
+_2KJ48FyyEeezsvgayPB8-Q	// kind: 'test' name: 'RestoreAllConfigurationValues' path: 'RunControlTests/RestoreAllConfigurationValues.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
