@@ -5,8 +5,8 @@ Element-Name: DAEProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/28/17 9:10 AM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 7/24/17 9:33 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -15,6 +15,11 @@ Entry-Name: .ecl.context
 proc "configure_dae_for_tests" {
 
 	assert_instrument_is_setup
+	
+	// Give the instrument a little bit of time before leaping straight into the DAE view
+	// Occasional failures on UI tests with line 18:
+	// Can't set value '.*/RCPTT_wiring128.dat' into combo. Value not found.
+	wait 2000
 	
 	// Switch to DAE View
 	get-label "DAE" | click
