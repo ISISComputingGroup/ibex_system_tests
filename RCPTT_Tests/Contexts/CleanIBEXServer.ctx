@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _nbUl0C4eEea6L74Op-Ffbg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 4:48 PM
+Save-Time: 7/24/17 3:43 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -25,13 +25,16 @@ exec-process "c:\\Instrument\\Apps\\Python\\python" -args "C:\\Instrument\\Clean
 log_message "Done Cleaning and restarting services, checking setup"
 
 // Ensure you are on the local instrument
-get-menu "IBEX/Switch Instrument" | click
-	with [get-window "Instrument Selector"] {
-	    let [val localhost [get-group Instrument | get-property -name "getChildren().Control[4].getChildren().Control[0].getChildren().Control[0].getItems().TableItem[0].getText()" -raw]] {
-	    	get-group Instrument | get-editbox -after [get-label "Instrument:"] | set-text $localhost
-	    }
-	    get-button OK | click
-	}
+try -times 100 -delay 200 -command {
+	get-menu "IBEX/Switch Instrument" | click
+}
+
+with [get-window "Instrument Selector"] {
+    let [val localhost [get-group Instrument | get-property -name "getChildren().Control[4].getChildren().Control[0].getChildren().Control[0].getItems().TableItem[0].getText()" -raw]] {
+    	get-group Instrument | get-editbox -after [get-label "Instrument:"] | set-text $localhost
+    }
+    get-button OK | click
+}
 
 // wait for setver to be ready, just saves on retry messages in log
 wait 60000
