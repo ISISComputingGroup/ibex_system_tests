@@ -33,7 +33,7 @@ java -jar %RUNNER%\plugins\org.eclipse.equinox.launcher_%LAUNCHER%.jar ^
  -junitReport %RESULTS%\report.xml ^
  -import %PROJECT% ^
  -suites %1% ^
- -autVMArgs "-Xms256m;-Xmx3g;-XX:+UseG1GC" ^
+ -autVMArgs "-Xms1g;-Xmx3g;-XX:+UseG1GC" ^
  -timeout 30000 ^
  -testOptions "testExecTimeout=3600;contextRunnableTimeout=600000;passedTestDetails=true;launchingKillAutOnConnectError=true"
 
