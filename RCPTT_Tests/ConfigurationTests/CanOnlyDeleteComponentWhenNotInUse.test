@@ -1,0 +1,53 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CanOnlyDeleteComponentWhenNotInUse
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Waw4oAQWEeeyKY3Ocx5XAg
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 3/22/17 2:32 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+let [val config [test_prefix config01]] [val comp [test_prefix comp01]] {
+	// Create config & component to be used
+	create_empty_config $config
+	assert_wait_for_dialog_closed
+
+	create_empty_comp $comp
+	assert_wait_for_dialog_closed
+
+	// Add component to config
+	add_comp $comp [edit_config $config]
+	save_config
+	assert_wait_for_dialog_closed
+
+	// Confirm error on deletion
+	try -times 20 -delay 500 -command {
+		delete_comp $comp
+		with [get-window "Component in Use"] {
+			get-property "isVisible()" | equals true | verify-true
+			get-button Ok | click
+		}
+	}
+
+	// Confirm back to selection dialog
+	with [get-window "Delete Components"] {
+		get-property "isVisible()" | equals true | verify-true
+		get-button Cancel | click
+	}
+
+	// Remove component then try again
+	remove_comp $comp [edit_config $config]
+	save_config
+	delete_comp $comp
+	assert_wait_for_dialog_closed
+
+	// Confirm component is gone
+	assert_comp_deleted $comp
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

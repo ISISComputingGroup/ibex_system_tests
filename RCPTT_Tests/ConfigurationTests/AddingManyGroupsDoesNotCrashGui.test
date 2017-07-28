@@ -1,0 +1,46 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: AddingManyGroupsDoesNotCrashGui
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _YxmLoBE7EeaK56OpzmNTzg
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 5/16/17 8:47 AM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+This is to tests that there are no major resource leaks in the Edit Configuration dialog
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+let [val numberOfGroups 70] {
+	with [new_config] {
+	    get-tab-folder | get-tab-item Groups | click
+	    with [get-group Groups | get-button Add] {
+	    	repeat -times $numberOfGroups -command {
+	    		click
+	    	}
+	    }
+	}
+	
+	// Cannot base the assert on the number of items in the group list
+	// because even when they don't get displayed, the underlying group list has still the correct number of items!
+}  
+
+// Close the configuration dialog
+get-window "New Configuration" | get-button Cancel | click
+
+// Assert - re-open the configuration dialog
+// If the UI has crashed, the automated test should not be able to reopen the dialog
+get-menu "Configuration/Configurations/New" | click
+
+// Final closing of dialog
+get-window "New Configuration" | get-button Cancel | click
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

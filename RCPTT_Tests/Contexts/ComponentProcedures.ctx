@@ -1,0 +1,141 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: ComponentProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _8yQ5kATHEeebWKnhsKxNhg
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/1/17 1:36 PM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+// Open the "New component" window
+proc "new_comp" {
+	try -times 100 -delay 200 -command {
+		get-menu "Configuration/Components/New" | check_enabled_and_click
+	} 
+	get-window "New Component"
+}
+
+// Open the "Edit component" window
+proc "edit_comp_window" {
+	try -times 100 -delay 200 -command {
+		get-menu "Configuration/Components/Edit" | check_enabled_and_click
+	} 
+	get-window "Edit Component"
+}
+
+// Opens a specific component for editing
+proc "edit_comp" [val component_name] {
+	try -times 100 -delay 200 -command {
+		with[edit_comp_window] {
+			get-table | select_in_table $component_name
+			get-button OK | check_button_enabled_and_click
+		}
+	}-catch {
+		cancel_dialog
+	}
+	get-window "Edit Component"
+}
+	
+// Set a description name for a component (in the new OR edit component window)
+proc "set_comp_description" [val description] [val window -input true ] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-editbox -after [get-label "Description:"] | set-text $description
+	   	}
+	}
+}
+
+// Save a component (using the "save" dialog on an edited component)
+proc "save_comp" {
+	try -times 100 -delay 200 -command {
+		with [get-window "Edit Component"] {
+			get-button Save| check_button_enabled_and_click
+		}
+		assert_wait_for_dialog_closed
+	}
+}
+
+// Save a new component, naming it in the process (using the "save as" dialog on a new OR edited component)
+proc "save_and_name_comp" [val name]  [val window -input true ] {
+	try -times 100 -delay 200 -command {
+		with $window {
+	    	get-button "Save as ..." | check_enabled_and_click
+	    }
+	    with [get-window "Save Component As"] {
+			try -times 20 -delay 200 -command {	
+	        	get-editbox -after [get-label "Name:"] | set-text $name
+	        	get-editbox -after [get-label "Description:"] | set-text $name
+	        	get-button OK | check_button_enabled_and_click
+	    	} -catch {
+	    		cancel_dialog
+	    	}
+	    }
+	    assert_wait_for_dialog_closed
+	}
+}
+
+// Delete a component
+proc "delete_comp" [val name] {
+	get-menu "Configuration/Components/Delete" | check_enabled_and_click
+	try -delay 500 -command {
+		with [get-window "Delete Components"] {
+			    get-table | select_in_table $name
+			    get-button OK | check_button_enabled_and_click
+		} 
+	}
+}
+
+//Create a component with nothing but a description
+proc "create_empty_comp" [val component_name] {
+	with [new_comp] {
+		set_comp_description $component_name
+		save_and_name_comp $component_name
+	}
+}
+
+// Check that a component has been deleted
+proc assert_comp_deleted [val test_comp] {
+	try -times 50 -delay 200 -command {
+		get-menu "Configuration/Components/Delete" | click
+		with [get-window "Delete Components" | get-table] {
+			let [val item_count [get-property -raw true -name itemCount]] {
+				loop [val index [int 0]] {
+					if [$index | lt $item_count] {
+						get-window "Delete Components" | get-table | get-property -raw true -name [concat "getItems().TableItem[" $index "].getText()"] | eq $test_comp | verify-false
+						recur [$index | plus 1]
+					}
+				}
+			}
+		}
+	}
+}
+
+// Verify that the component contains a block with a particular name 
+proc verify_comp_has_block [val comp] [val block] {
+	with [edit_comp $comp] {
+		get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+		get-table | get-item $block | get-property "values['Name']" 
+    		| equals $block | verify-true
+		get-button Cancel | check_enabled_and_click
+	}
+}
+
+// Change name of block in component
+proc rename_component_block [val old_name] [val new_name] {
+	try -times 100 -delay 200 -command {
+		with [get-window "Edit Component"] {
+			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+			get-table | get-item $old_name | click
+			get-button "Edit Block" | click
+			change_block_name $new_name
+			get-button Save | click
+		}
+    }
+	assert_wait_for_dialog_closed
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

@@ -5,8 +5,8 @@ Element-Name: CleanIBEXServer
 Element-Type: context
 Element-Version: 2.0
 Id: _nbUl0C4eEea6L74Op-Ffbg
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 7/4/16 2:18 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 7/24/17 3:43 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -18,22 +18,35 @@ Run a python script to clear up stateful information created by the GUI.
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
+log_message "Starting clean Ibex Server"
 
-/**
-Add prefix for configurations, synoptics etc which need to be deleted
-*/
-proc "test_prefix"[val text] {
-  concat "rcptt_" $text 
+log_message "Cleaning and restarting services"
+exec-process "c:\\Instrument\\Apps\\Python\\python" -args "C:\\Instrument\\CleanIBEXServerFiles\\cleanIBEXServer\\cleanIBEXServer.py" -ignoreExitCode false | log -severity "error"
+log_message "Done Cleaning and restarting services, checking setup"
+
+// Ensure you are on the local instrument
+try -times 100 -delay 200 -command {
+	get-menu "IBEX/Switch Instrument" | click
 }
 
-log "Running clean Ibex Server ... " -severity "error"
-exec-process "c:\\Instrument\\Apps\\Python\\python" -args "C:\\Instrument\\CleanIBEXServerFiles\\cleanIBEXServer\\cleanIBEXServer.py" -ignoreExitCode false | log -severity "error"
-log ".. finished"
+with [get-window "Instrument Selector"] {
+    let [val localhost [get-group Instrument | get-property -name "getChildren().Control[4].getChildren().Control[0].getChildren().Control[0].getItems().TableItem[0].getText()" -raw]] {
+    	get-group Instrument | get-editbox -after [get-label "Instrument:"] | set-text $localhost
+    }
+    get-button OK | click
+}
+
+// wait for setver to be ready, just saves on retry messages in log
+wait 60000
 
 try -times 400 -delay 200 -command {
   assert_instrument_is_setup
   get-menu "Configuration/Edit Current Configuration..." | is-disabled | verify-false
   get-label [concat "Current configuration: rcptt_blank"]
 }
+
+log_message "Instrument is now setup"
+
+log_message "Finished clean Ibex Server"
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

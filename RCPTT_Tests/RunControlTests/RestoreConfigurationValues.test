@@ -1,0 +1,48 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: RestoreConfigurationValues
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Bnx5wFD1Eee3T8gi7qgLJg
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 7/24/17 9:29 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+let [val config [test_prefix "config_0"]] [val block "test"] {
+	create_simple_config_and_load $config $block "PV1"
+	
+	set_and_enable_run_control $block "10" "20"
+	
+	
+	// restore old values
+	get-menu "Run-Control/View Run-Control Settings" | click
+	with [get-window "Run-Control Settings"] {
+	    get-table | select $block
+	    with [get-group "Block Settings"] {
+	        get-button "Restore Configuration Values" | click
+	    	// Send changes can take time to initialize
+	    	try -times 100 -delay 1800 -command {
+	    		get-button "Apply Changes" | click
+	    	}
+	    }
+	    get-button Close | click
+	}
+	
+	// check they have been restored
+	get-menu "Run-Control/View Run-Control Settings" | click
+	with [get-window "Run-Control Settings"] {
+	    get-table | select $block
+	    with [get-group "Block Settings"] {
+	        get-editbox -after [get-label "Low Limit:"] | get-property text | equals "0" | verify-true
+	        get-editbox -after [get-label "High Limit:"] | get-property text | equals "0" | verify-true
+	        get-button Enabled | get-property selected | equals false | verify-true
+	    }
+	    get-button Close | click
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

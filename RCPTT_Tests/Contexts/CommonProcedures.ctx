@@ -1,0 +1,89 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: CommonProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _mTKdkFVzEeaXbYm3HBnm7g
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/29/17 9:56 AM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+/**
+Add prefix for configurations, synoptics etc which need to be deleted
+*/
+proc "test_prefix"[val text] {
+  concat "rcptt_" $text 
+}
+
+// Helper method for clicking an item, ensuring it's enabled
+proc "check_enabled_and_click" [val item -input true ] {
+	with $item {
+		is-disabled | verify-false
+		click
+	}
+}
+
+// Helper method for clicking a button, ensuring it's enabled
+//proc "check_button_enabled_and_click" [val button -input true ] {
+//	with $button {
+//		get-property enablement | equals true | verify-true
+//		click
+//	}
+//}
+
+// Helper method for clicking a button, ensuring it's enabled
+proc "check_button_enabled_and_click" [val button -input true ] {
+	check_enabled_and_click $button
+}
+
+// Helper method for selecting something in a list
+proc "select_in_list" [val list -input true] [val select] {
+	with $list {
+		select $select
+		get-property "getSelection().String[0]" | equals $select | verify-true		    		
+	}
+}
+
+
+// Helper method for selecting something in a list
+proc "select_in_table" [val table -input true] [val select] [val column -value ""] {
+	with $table {
+		select $select -column $column
+		get-property "selection[0].path[0]" | equals $select | verify-true    		
+	}
+}
+
+// Helper method for cancelling a dialog box and raising an error
+proc "cancel_dialog" [val window -input true] {
+	with $window {
+		get-button Cancel | click
+		verify-false
+	}
+}
+
+proc "log_message" [val message] {
+    try -command {
+        get-test-case-name | log -severity info
+	} -catch {
+	}
+    echo $message | log -severity info
+}
+
+// Verify the first 3 coulmns in a table by getting the items based on the first val
+//  table - the table
+//  valX - conents of column X
+proc "verify_3_column_table" [val table] [val val1] [val val2] [val val3] {
+	with $table {
+        try -times 100 -delay 200 -command {
+        	get-item $val1 | get-property "columns[0]" | equals $val1 | verify-true
+        	get-item $val1 | get-property "columns[1]" | equals $val2 | verify-true
+        	get-item $val1 | get-property "columns[2]" | equals $val3 | verify-true
+        }	
+    }
+}
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

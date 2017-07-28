@@ -1,0 +1,73 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: AddPVValuesToAConfig
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _RgALAMdeEea9WqmIdIbeTA
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 4/6/17 1:18 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+proc "table_populated"[val table -input true] [val pv01] [val val01] {
+	with $table {
+		get-item $pv01 -column Name | get-property "values['Name']" | equals $pv01 | verify-true
+    	get-item $pv01 -column Name | get-property "values['Value']" | equals $val01 | verify-true
+	}
+}
+
+// Create variables for one config, pv address and value
+let [val config01 [test_prefix "config01"]] [val ioc01 "EUROTHRM_01"] [val pv01 "pv01"] [val val01 "val01"]{
+	// Add pv value to new config and save
+	with [new_config] {
+		with [add_ioc $ioc01] {
+			// Check button enabled state
+			get-tab-folder | get-tab-item "PV Values" | click
+		    try -times 10 -delay 100 -command {
+		    	get-button Remove | get-property enablement | equals false | verify-true
+		        get-button Add | check_button_enabled_and_click
+		    }
+	    	with [get-group "Selected PV"] {
+	        	get-editbox -after [get-label Name] | set-text $pv01
+	        	get-editbox -after [get-label Value] | set-text $val01
+	    	}
+	    	get-button OK | check_enabled_and_click
+	    }
+	    save_and_name_config $config01
+	}
+	assert_wait_for_dialog_closed
+	
+	// Check pv value is set
+	with [edit_config $config01] {
+		with [edit_ioc $ioc01] {
+			get-tab-folder | get-tab-item "PV Values" | click
+			
+    		with [get-table] {
+	    		table_populated $pv01 $val01
+	    		select_in_table $pv01 -column Name
+	    	}
+    	
+    		get-button Remove | get-property enablement | equals true | verify-true
+    	
+	    	with [get-table] {
+	    		// Ensure that not every key deletes items
+	    		select_in_table $pv01 -column Name
+	    		
+	    		type-text a
+	
+	    		table_populated $pv01 $val01
+	    		
+	    		select_in_table $pv01 -column Name
+	    		
+	    		key-type Del
+	    		
+	    		get-property itemCount | equals 0 | verify-true
+	    	}
+	    }
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
