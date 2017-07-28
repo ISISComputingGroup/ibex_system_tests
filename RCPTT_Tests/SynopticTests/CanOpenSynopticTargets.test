@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _UqzfICBrEeewH-_OS6CJKQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/29/17 4:48 PM
+Save-Time: 7/28/17 9:27 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -17,8 +17,8 @@ let [val synoptic_name [test_prefix "test_synoptic"]] [val OPI_target "EUROTHERM
 	[val group_with_OPI "CCD100"] {
 	
 	// Create a synoptic with at least one of every component type 
-	try -times 50 -delay 200 -command {
-		with [new_synoptic] {
+	with [new_synoptic] {
+		try -times 50 -delay 200 -command {
 			add_component $OPI_target
 		    add_component $DAE_target
 		    
@@ -44,9 +44,8 @@ let [val synoptic_name [test_prefix "test_synoptic"]] [val OPI_target "EUROTHERM
 		        get-item $group_with_OPI | drop 31 18 -detail move
 		        drag-end -detail move
 		    }
-		    
-		    save_and_name_synoptic $synoptic_name
-		}
+		}		    
+	    save_and_name_synoptic $synoptic_name
 	}
 	
 	// Does this wait stop intermittent test failures? Currently the next select is occasionally failing
