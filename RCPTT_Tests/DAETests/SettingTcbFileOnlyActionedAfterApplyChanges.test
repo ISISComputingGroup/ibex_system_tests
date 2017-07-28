@@ -1,0 +1,76 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: SettingTcbFileOnlyActionedAfterApplyChanges
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _lwJiAFDoEee5PKfRF9iJJw
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 7/26/17 5:02 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+proc "reset_tcb_file" {
+	// Set tcb to ""
+	with [get-view "DAE Control Program"] {
+		get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | set_combo_by_index 0
+		try -times 100 -delay 200 -command {
+			get-button "Apply Changes" | click
+		}
+	}
+	wait_for_dae_update_dialog_to_close 
+}
+
+proc "change_selected_file_and_verify_not_set" [val index] [val file_snippet] {
+	with [get-group "Time Channel Settings" | get-combo -after [get-label "Change:"]] {
+		set_combo_by_index $index
+	    // Check "Change" was set 
+		get-property selection | contains $file_snippet | verify-true
+	}
+	with [get-group "Time Channel Settings" | get-label -after [get-label "Current:"]] {
+    	// Check "Current" is unchanged (still previous TCB file)
+		get-property caption | contains $file_snippet | verify-false
+	}
+}
+
+proc "apply_change_and_verify" [val file_snippet] {
+    // Send changes can take time to initialize
+	try -times 100 -delay 200 -command {
+		get-button "Apply Changes" | click
+	}
+    wait_for_dae_update_dialog_to_close
+	// Check is set
+	get-group "Time Channel Settings" | get-label -after [get-label "Current:"] | get-property caption | contains $file_snippet | verify-true
+}
+
+assert_instrument_is_setup
+switch_to_dae_view
+
+with [get-view "DAE Control Program"] {
+	// Move to Time Channels tab
+	get-tab-folder | get-tab-item "Experiment Setup" | click
+    get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Time Channels" | click
+    
+    // Switch to "Use TCB File" and set tcb to blank
+    get-button "Use TCB File" | click
+    reset_tcb_file
+    
+    // Set "Change" to TCB file 1
+    change_selected_file_and_verify_not_set 1 "RCPTT_TCB_1.dat"
+    // Apply and check it is set
+    apply_change_and_verify "RCPTT_TCB_1.dat"
+    
+	// Set "Change" to TCB file 2 and check it is not applied
+    change_selected_file_and_verify_not_set 2 "RCPTT_TCB_2.dat"
+	// Apply the change and check it is set
+	apply_change_and_verify "RCPTT_TCB_2.dat"
+}
+
+// Make sure we leave things as we found them
+reset_tcb_file
+get-view "DAE Control Program" | get-button "Specify Parameters" | click
+assert_instrument_is_setup
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -5,17 +5,18 @@ Element-Name: InstrumentStatusProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _u7zXkB5uEeaqQYS4M76Ebw
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/13/16 4:30 PM
-
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 7/4/17 1:14 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
-proc "assert_instrument_is"[val text] {
-	get-view Dashboard | get-control Any -index 1 | get-property "getChildren().Control[0].getText()" 
-	    | contains $text | verify-true
+proc "assert_instrument_is" [val text] {
+	try -times 50 -delay 200 -command {
+	    get-view Dashboard | get-control Any -index 1 | get-property "getChildren().Control[0].getText()" 
+	        | contains $text | verify-true
+	}
 }
 
 proc "assert_instrument_is_setup" {
@@ -24,6 +25,10 @@ proc "assert_instrument_is_setup" {
 
 proc "assert_instrument_is_running" {
 	assert_instrument_is "RUNNING"
+}
+
+proc "assert_instrument_is_paused" {
+	assert_instrument_is "PAUSED"
 }
 
 proc "assert_instrument_is_unknown" {
@@ -41,17 +46,30 @@ proc "click_DAE_run_control" [val button_text] {
 
 proc "begin_run" {
     click_DAE_run_control "BEGIN RUN"	
-	try -times 50 -delay 200 -command {
-		assert_instrument_is_running
-	}
+	assert_instrument_is_running
 }
 
 proc "end_run" {
 	click_DAE_run_control "END RUN"
-	try -times 50 -delay 200 -command {
-		assert_instrument_is_setup
+	assert_instrument_is_setup
+}
+
+proc "wait_for_dialog_exists" {
+	try -command {
+		get-window -class WaitForDialog
+		bool true
+	} -catch {
+		bool false
 	}
 }
 
+proc "assert_wait_for_dialog_closed" {
+	wait 1000 //Dialog takes some time to display
 
+	try -times 100 -delay 600 -command {
+		if [wait_for_dialog_exists] {
+			bool true | verify-false
+		}
+	}
+}
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

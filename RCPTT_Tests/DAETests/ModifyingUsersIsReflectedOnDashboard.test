@@ -1,0 +1,47 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: ModifyingUsersIsReflectedOnDashboard
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _gBk3kP6UEeaP287BV4ZLxQ
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 7/5/17 2:48 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+proc "add_user" [val user_name] [val window -input true] {
+	with [$window] {
+		get-button Add | check_enabled_and_click
+	    with [get-table] {
+	    	try -times 10 -delay 100 -command {
+	    		get-item "DEFAULT_USER" | get-property caption | equals "DEFAULT_USER" | verify-true
+	        }
+	        select "DEFAULT_USER" | activate-cell-edit
+	        get-editbox | set-text $user_name
+	        apply-cell-edit -deactivate
+	    }
+    }
+}
+
+switch_to_details_view
+
+with [get-view "Experiment Details"] {
+	let [val surname01 "Oram"][val surname02 "Ampersand&"] {
+		
+		get-button Clear | check_enabled_and_click
+	    add_user [concat "Dominic " $surname01] 
+		add_user [concat "Adam " $surname02] 
+	    get-button Set -after [get-label "Experiment Team"] | check_enabled_and_click
+	    
+	    get-view Dashboard | get-label -after [get-label "Users:"] | get-property caption 
+	    | equals [concat $surname01 " and " $surname02 "&"] | verify-true //Double ampersand needed as otherwise label doesn't display ampersand
+		
+		get-button Clear | check_enabled_and_click
+	}
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

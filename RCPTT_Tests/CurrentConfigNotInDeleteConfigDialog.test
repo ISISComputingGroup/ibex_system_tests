@@ -1,0 +1,43 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CurrentConfigNotInDeleteConfigDialog
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _SutOYGuLEeaEl7GeJPNMVQ
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 3/13/17 10:45 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Not currently run in all tests suite. List verify not stable. Unable to reproduce issue.
+let [val test_config "rcptt_test_config"] {
+	
+	//create config and load it
+	create_empty_config $test_config
+	assert_wait_for_dialog_closed	
+	load_config $test_config
+	assert_wait_for_dialog_closed
+	
+	try -times 50 -delay 200 -command {
+		get-menu "Configuration/Configurations/Delete" | click
+	}
+	with [get-window "Delete Configurations" | get-table] {
+		let [val item_count [get-property -raw true -name "getItemCount()"]] {	
+			loop [val index [int 0]] {
+				if [ $index | lt $item_count] {
+		   			get-window "Delete Configurations" | get-table | get-property -raw true -name [ concat "getItems().TableItem[" $index "].getText()"  ] | eq $test_config | verify-false
+		   			recur [ $index | plus 1 ]
+				}
+			}
+		}
+	}
+}
+get-window "Delete Configurations" | get-button Cancel | click
+
+
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,62 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: MultipleSynopticsCanBeSimultaneouslyDeleted
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _ZpYe8EQiEear0fgUd5_sYQ
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 3/13/17 11:59 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Create three global configuration variables
+global [val synoptic01 [test_prefix "synoptic01"]] [val synoptic02 [test_prefix "synoptic02"]] [val synoptic03 [test_prefix "synoptic03"]]
+
+// Create three synoptics
+new_synoptic | save_and_name_synoptic $synoptic01
+new_synoptic | save_and_name_synoptic $synoptic02
+new_synoptic | save_and_name_synoptic $synoptic03
+
+// Delete the three synoptics
+try -times 10 -delay 500 -command {
+	get-menu "Synoptic/Delete" | click
+	with [get-window "Delete Synoptics"] {
+	    try -command {
+	    	with [get-table] {
+	    		select $synoptic01 $synoptic02 $synoptic03
+	    		get-property "getSelection().length" | equals 3 | verify-true
+	    	}
+	    	get-button OK | check_button_enabled_and_click
+	    } -catch {
+	    	cancel_dialog
+	    }
+	}
+}
+
+// Assert that the three previous synoptics do not appear in the edit configuration window
+// Loop through the number of synoptics in the edit synoptic list and assert that none of the names are equal to any of the previously created synoptics
+try -times 500 -delay 200 -command {
+	with [edit_synoptic | get-table] {
+		try -command {
+			let [val item_count [get-property -raw true -name "getItemCount()"]] {	
+				loop [val index [int 0]] {
+					if [ $index | lt $item_count] {
+						with [get-window "Edit Synoptic" | get-table] {
+					   		get-property -raw true -name [ concat "getItems().TableItem[" $index "].getText()" ] | eq $synoptic01 | verify-false
+					  		get-property -raw true -name [ concat "getItems().TableItem[" $index "].getText()" ] | eq $synoptic02 | verify-false
+					   		get-property -raw true -name [ concat "getItems().TableItem[" $index "].getText()" ] | eq $synoptic03 | verify-false
+					   		recur [ $index | plus 1 ]
+					   	}
+					}
+				}
+			}
+		} -catch {
+			get-window "Edit Synoptic" | cancel_dialog
+		}
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

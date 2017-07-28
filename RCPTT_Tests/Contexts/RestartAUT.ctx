@@ -1,0 +1,30 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: RestartAUT
+Element-Type: context
+Element-Version: 2.0
+Id: _uBCfIL41EeaTGY5kC118nA
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/14/17 3:11 PM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+restart-aut
+
+try -times 50 -delay 200 -command {
+    with [ get-window "Close the application?" | get-button Yes ] {
+        is-disabled | verify-false
+        click
+    }
+}
+
+wait-until-eclipse-is-ready
+
+try -times 60 -delay 1000 -command {
+    get-about-menu
+}
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

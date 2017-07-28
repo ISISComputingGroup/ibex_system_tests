@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _BgnBcB5tEeaAYI1qYj9bEg
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 5/20/16 11:35 AM
+Save-Time: 6/15/17 10:29 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -17,18 +17,50 @@ proc "switch_to_dae_view" {
 	get-label "DAE" | click
 }
 
+proc "switch_to_device_screens_view" {
+	// Switch to device screens view
+	get-label "Device Screens" | click
+}
+
+proc "switch_to_details_view" {
+	// Switch to synoptic view
+	get-label "Experiment Details" | click
+}
+
 proc "switch_to_synoptic_view" {
 	// Switch to synoptic view
 	get-label "Synoptic" | click
-}
-
-proc "switch_to_experiment_details_view" {
-	// Switch to experiment details view
-	get-label "Experiment Details" | click
 }
 
 proc "switch_to_log_plotter_view" {
 	// Switch to log plotter view
 	get-label "Log Plotter" | click
 }
+
+proc "switch_to_web_links_view" {
+	// Switch to web links view
+	get-label "Web Links" | click
+}
+	
+proc "switch_to_motors_view" {
+	// Switch to motors view
+	get-label "Motors" | click
+}
+
+proc "switch_to_scripting_view" {
+	// Switch to scripting view
+	get-label "Scripting" | click
+
+	// Wait for the scripting window to finish starting
+	try -times 100 -delay 200 -command {
+		get-view Console | get-editbox | get-property "getText()" | contains "set_instrument" | verify-true
+		get-view Console | get-editbox | get-property "getText()" | contains "THIS IS " | verify-true
+	}
+}
+
+proc "switch_to_beam_status_view" {
+	// Switch to beam status view
+	get-label "Beam Status" | click
+}
+
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
