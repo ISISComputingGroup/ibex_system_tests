@@ -1,0 +1,61 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: DAEPeriodTabDisplaysCorrectSettings
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _PG0d0JE_Eea7FIjHcktYOA
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 10/13/16 3:32 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+assert_instrument_is_setup
+switch_to_dae_view
+
+// Asserts that the periods tab in the experiment setup correctly displays the relevant options depending on period type and source
+with [get-view "DAE Control Program"] {
+	// Go to periods tab
+	get-tab-folder | get-tab-item "Experiment Setup" | click
+	get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item Periods | click
+
+	// Period type software
+	get-combo -after [get-label "Period Type:"] | select "Software: PC controlled"
+	get-group "Period Settings" | get-editbox -after [get-label "Number of software periods:"] | get-property enablement
+		| equals true | verify-true
+	verify-error {get-group "Period Settings" | get-label "Hardware period sequences:"}
+
+	// Period type hardware
+	get-combo -after [get-label "Period Type:"] | select "Hardware: DAE internal control"
+	with [get-group "Period Settings"] {
+		verify-error {get-label "Number of software periods:"}
+		get-editbox -after [get-label "Hardware period sequences:"] | get-property enablement | equals true | verify-true
+		verify-error {get-label "Frames are not used in external signal control mode"}
+		
+		// File as source
+		get-button "Read from file" | click
+		get-label "Period File:" | get-property enablement | equals true | verify-true
+		verify-error {get-table}
+
+		// Parameters as source
+		get-button "Specify Parameters" | click
+		get-table | get-property enablement | equals true | verify-true
+		verify-error {get-label "Period File:"}
+	}
+
+	// Period type hardware external
+	get-combo -after [get-label "Period Type:"] | select "Hardware: External signal control"
+	get-editbox -after [get-label "Hardware period sequences:"] | get-property enablement | equals false | verify-true
+	get-label "Frames are not used in external signal control mode" | get-property "isVisible()" | equals true
+		| verify-true
+
+	// Back to period type software
+	get-combo -after [get-label "Period Type:"] | select "Software: PC controlled"
+	get-group "Period Settings" | get-editbox -after [get-label "Number of software periods:"] | get-property enablement
+		| equals true | verify-true
+	verify-error {get-label "Hardware period sequences:"}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
