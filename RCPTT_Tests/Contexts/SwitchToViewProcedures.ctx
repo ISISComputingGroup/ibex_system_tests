@@ -62,5 +62,3 @@ proc "switch_to_beam_status_view" {
 	// Switch to beam status view
 	get-label "Beam Status" | click
 }
-
-------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
