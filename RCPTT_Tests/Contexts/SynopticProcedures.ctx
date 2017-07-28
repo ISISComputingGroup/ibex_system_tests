@@ -5,8 +5,8 @@ Element-Name: SynopticProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 10/6/16 4:42 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/14/17 4:18 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -15,17 +15,21 @@ Entry-Name: .ecl.context
 // Open the "New synoptic" window
 proc "new_synoptic" {
 	try -times 100 -delay 200 -command {
-		get-menu "Synoptic/New" | click
+		get-menu "Synoptic/New" | check_enabled_and_click
 	}
-	get-window "New Synoptic"
+	try -times 10 -delay 500 -command {
+	    get-window "New Synoptic"
+	}
 }
 
 // Open the "Edit Synoptic" window
 proc "edit_synoptic" {
 	try -times 100 -delay 200 -command {
-		get-menu "Synoptic/Edit" | click
+		get-menu "Synoptic/Edit" | check_enabled_and_click
 	}
-	get-window "Edit Synoptic"
+	try -times 10 -delay 500 -command {
+	    get-window "Edit Synoptic"
+	}
 }
 
 // Save a synoptic (using the "save" dialog" on an edited synoptic) 
@@ -41,9 +45,9 @@ proc "save_synoptic" {
 proc "save_and_name_synoptic" [val name]  [val window -input true ] {
 	try -times 100 -delay 200 -command {
 		with $window {
-	    	get-button "Save as ..." | click
+	    	get-button "Save as ..." | check_button_enabled_and_click
 	    	with [get-window "Save Synoptic As"] {
-				try {
+				try -times 20 -delay 200 -command {
 				    get-editbox -after [get-label "Name:"] | set-text $name
 				    get-button OK | check_button_enabled_and_click
 			    } -catch {
@@ -57,10 +61,10 @@ proc "save_and_name_synoptic" [val name]  [val window -input true ] {
 // Delete a synoptic
 proc "delete_synoptic" [val name] {
 	try -times 100 -delay 200 -command {
-		get-menu "Synoptic/Delete" | click
+		get-menu "Synoptic/Delete" | check_enabled_and_click
 		with [get-window "Delete Synoptics"] {
-			try {
-				get-list | select_in_list $name
+			try -times 20 -delay 200 -command {
+				get-table | select_in_table $name
 		    	get-button OK | check_button_enabled_and_click
 		    } -catch {
 		    	cancel_dialog
@@ -70,12 +74,69 @@ proc "delete_synoptic" [val name] {
 }
 
 // Add a component to a synoptic (e.g. "BEAMSTOP", "CHOPPER", "DAE", etc.)
+// if this component has a target type (e.g. choppers) use add_component_target and specify type/target
 proc "add_component" [val component_name] [val window -input true ] {
 	with $window {
-	    get-button "Add Component" | click
+	    get-button "Add Component" | check_enabled_and_click
 	    get-combo -after [get-label Type] | select $component_name
 	    get-editbox -after [get-label Name] | set-text $component_name
 	}
+}
+
+// Select a component in the tree
+proc "select_single_component" [val component_name] [val window -input true ] {
+	with $window {
+		with [get-tree] {
+			// Works for single and multiple instances of a component
+			try -command {
+				select $component_name
+			} -catch {
+				select [get-item $component_name -index 1]
+			}
+		}
+	}
+
+}
+
+// Delete a component in a synoptic
+proc "delete_component" [val component_name] [val window -input true ] {
+	with $window {
+		select_single_component $component_name
+    	delete_selected_component
+	}
+}
+
+// Deletes the selected component(s)
+proc "delete_selected_component" [val window -input true ] {
+	with $window {
+    	get-button "Delete Component" | check_enabled_and_click
+	}
+	get-window "Confirm Delete" | get-button OK | click
+}
+
+// Add a component to a synoptic that has a type/target e.g. chopper
+proc "add_component_target" [val component_name] [val target_name] [val window -input true ] {
+	with $window {
+	    get-button "Add Component" | check_enabled_and_click
+	    get-combo -after [get-label Type] | select $component_name
+		try -times 100 -delay 200 -command {
+		    with [get-window "Select Target"] {
+		        get-list | select_in_list $target_name
+		        get-button OK | check_enabled_and_click
+			}
+		}
+	    get-editbox -after [get-label Name] | set-text $component_name
+	}
+}
+
+// Add a pv detail to a component
+proc "add_pv_to_synoptic_component" [val component_name] [val pv_name] [val pv_address] [val window -input true ] {
+	with $window {
+    	select_single_component $component_name
+    	get-button "Add New PV" | check_button_enabled_and_click
+    	get-editbox -after [get-label -after [get-label "PV Details"] ] | set-text $pv_name 
+    	get-editbox -after [get-label Address] | set-text $pv_address
+    }
 }
 
 // Open a synoptic to view (in the "Synoptic" perspective)
@@ -88,6 +149,28 @@ proc "view_synoptic" [val synoptic] {
     			get-property selection | equals $synoptic | verify-true
     		}
     	}
+	}
+}
+
+// Open a group in the synoptic view and check that it has a single child
+proc "open_group_single_child" [val group_name] [val synoptic_name] [val synoptic_view -input true ] {
+	with $synoptic_view {
+		try -times 50 -delay 200 -command {
+			get-label $group_name | click
+			get-control Any -index 3 | get-property "getChildren().length" | equals 1 | verify-true
+		} -catch {
+			get-view "Synoptic navigator" | get-group "Synoptic Navigation" | get-button $synoptic_name | click // Return to top view
+		}
+	}
+}
+
+// Test that clicking on a label (with the same name as the OPI) opens an OPI with the expected caption, then close it again
+proc "test_opi_opens" [val opi_name] {
+	try -times 50 -delay 200 -command {	
+		get-view "New synoptic" | get-label $opi_name | click
+		get-tab-folder | get-property activePage | equals $opi_name | verify-true
+	} -finally {
+		get-view $opi_name | close
 	}
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

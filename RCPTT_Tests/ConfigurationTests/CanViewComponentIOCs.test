@@ -1,0 +1,54 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CanViewComponentIOCs
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _ZZsoUB-IEeeDtMdnkdf_bw
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 4/18/17 1:46 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Create variables for config, component, ioc and macro
+let [val config01 [test_prefix "config01"]] [val ioc01 "CRYVALVE_01"] [val comp01 [test_prefix "comp01"]] [val macro01 "PORT"] [val value01 "COM1"] {
+
+	// Create component with (edited) IOC
+	with [new_comp] {
+		with [add_ioc $ioc01] {
+			// Add a macro to verify later that IOC retains settings
+			add_ioc_macro $macro01 $value01
+		}
+		verify_macro $ioc01 $macro01 $value01
+		save_and_name_comp $comp01
+	}
+	assert_wait_for_dialog_closed	
+	
+	// Add component to new config
+	with [new_config] {
+		add_comp $comp01
+		with [edit_ioc $ioc01] {
+			// Tabs work
+		    get-tab-item "PV Values" | click
+		    get-tab-item "PV Sets" | click
+		    get-tab-item Macros | click
+		
+			// Assert controls disabled + macro is set
+    		get-editbox -after [get-label "Selected:"] | get-property enablement | equals false | verify-true
+    		get-table | get-item $macro01 | get-property "getData().getValue()" | equals $value01 | verify-true
+    		get-button "Cancel" | check_enabled_and_click
+		}
+		save_and_name_config $config01
+	}
+	assert_wait_for_dialog_closed
+	
+	// Confirm IOC saved
+	with [edit_config $config01] {
+		get-tab-folder | get-tab-item IOCs | click
+		get-table | select_in_table $ioc01 "Name"
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

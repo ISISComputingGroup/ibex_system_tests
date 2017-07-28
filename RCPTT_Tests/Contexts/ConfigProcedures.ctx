@@ -5,114 +5,302 @@ Element-Name: ConfigProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 10/11/16 1:42 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/16/17 11:43 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
-// Open the "New configuration" window
-proc "new_config" {
+// Open the "New Configuration" window
+proc new_config {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Configurations/New" | click
-	} 
-	get-window "New configuration"
+		get-menu "Configuration/Configurations/New" | check_enabled_and_click
+		get-window "New Configuration"
+	}
 }
 
 // Open the "Edit configuration" window
-proc "edit_config" {
-	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Configurations/Edit" | click
-	} 
+proc edit_config_window {
+	try -times 50 -delay 200 -command {
+		get-menu "Configuration/Configurations/Edit" | check_enabled_and_click
+		get-window "Edit Configuration"
+	}
+}
+
+// Opens a specific config for editing
+proc edit_config [val config_name] {
+	get-menu "Configuration/Configurations/Edit" | check_enabled_and_click
+	with [get-window "Edit Configuration"] {
+		get-table | select_in_table $config_name
+		get-button OK | check_button_enabled_and_click
+	}
 	get-window "Edit Configuration"
 }
 
 // Open the "Edit current configuration" window
-proc "edit_current_config" {
+proc edit_current_config {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Edit Current Configuration..." | click
-	} 
+		get-menu "Configuration/Edit Current Configuration..." | check_enabled_and_click
+	}
 	get-window "Edit Configuration"
 }
-	
+
 // Set a description name for a configuration (in the new OR edit configuration window)
-proc "set_config_description" [val description] [val window -input true ] {
+proc set_config_description [val description] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
 			get-editbox -after [get-label "Description:"] | set-text $description
-	   	}
+		}
 	}
 }
 
 // Save a configuration (using the "save" dialog on an edited configuration)
-proc "save_config" {
+proc save_config {
 	try -times 100 -delay 200 -command {
 		with [get-window "Edit Configuration"] {
-			get-button Save| check_button_enabled_and_click
+			get-button Save | check_button_enabled_and_click
 		}
 	}
+	assert_wait_for_dialog_closed
 }
 
 // Save a new configuration, naming it in the process (using the "save as" dialog on a new OR edited configuration)
-proc "save_and_name_config" [val name]  [val window -input true ] {
+proc save_and_name_config [val name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
-	    	get-button "Save as ..." | click
-	    }
-	    with [get-window "Save Configuration As"] {
-			try {	
-	        	get-editbox -after [get-label "Name:"] | set-text $name
-	        	get-button OK | check_button_enabled_and_click
-	    	} -catch {
-	    		cancel_dialog
-	    	}
-	    }
+			get-button "Save as ..." | check_enabled_and_click
+		}
+		with [get-window "Save Configuration As"] {
+			try -times 20 -delay 200 -command {
+				get-editbox -after [get-label "Name:"] | set-text $name
+				get-editbox -after [get-label "Description:"] | set-text $name
+				get-button OK | check_button_enabled_and_click
+			} -catch {
+				cancel_dialog
+			}
+		}
 	}
+	assert_wait_for_dialog_closed
+}
+
+// Save a configuration as a component
+proc save_current_config_as_component [val name] {
+	try -times 100 -delay 200 -command {
+		edit_current_config
+		loop {
+			with [get-window "Edit Configuration"] {
+				if [get-list -after [get-label "Selected:"] -index 1 | get-property -raw -name "getItemCount()" | gt 0] {
+					get-list -after [get-label "Selected:"] -index 1 | select [get-property -raw true -name "getItems().String[0]"]
+					get-button -after [get-label "Selected:"] -index 2 | click
+					recur
+				}
+	    	}
+	    }	
+		with [get-window "Edit Configuration"] {
+			get-button "Save as ..." | check_enabled_and_click
+		}
+		with [get-window "Save Configuration As"] {
+			try -times 20 -delay 200 -command {
+				get-editbox -after [get-label "Name:"] | set-text $name
+				get-editbox -after [get-label "Description:"] | set-text $name
+		        get-button "Save the configuration as a component" | check
+				get-button OK | check_button_enabled_and_click
+			} -catch {
+				cancel_dialog
+			}
+		}
+	}
+	assert_wait_for_dialog_closed
 }
 
 // Load a configuration
-proc "load_config" [val name] {
+proc load_config [val name] {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Configurations/Load" | click
+		get-menu "Configuration/Configurations/Load" | check_enabled_and_click
 		with [get-window "Load Configuration"] {
-			try {
-	    		get-list | select_in_list $name
-	    		get-button OK | check_button_enabled_and_click
-	    	} -catch {
-	    		cancel_dialog
-	    	}
+			try -times 20 -delay 200 -command {
+				get-table | select_in_table $name
+				get-button OK | check_button_enabled_and_click
+			} -catch {
+				cancel_dialog
+			}
+		}
+	}
+	assert_wait_for_dialog_closed
+}
+
+// Delete a configuration
+proc delete_config [val name] {
+	try -times 100 -delay 200 -command {
+		get-menu "Configuration/Configurations/Delete" | check_enabled_and_click
+		with [get-window "Delete Configurations"] {
+			try -times 20 -delay 200 -command {
+				get-table | select_in_table $name
+				get-button OK | check_button_enabled_and_click
+			} -catch {
+				cancel_dialog
+			}
+		}
+	}
+	assert_wait_for_dialog_closed
+}
+
+// Add a component to a config
+proc add_comp [val component_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Components | check_enabled_and_click
+			get-list -after [get-label "Available:"] | select $component_name
+			get-button | click
 		}
 	}
 }
 
-// Delete a configuration
-proc "delete_config" [val name] {
+// remove a component
+proc remove_comp [val component_name] [val window -input true] {
 	try -times 100 -delay 200 -command {
-		get-menu "Configuration/Configurations/Delete" | click
-		with [get-window "Delete Configurations"] {
-			try {
-			    get-list | select_in_list $name
-			    get-button OK | check_button_enabled_and_click
-			} -catch {
-				cancel_dialog
+		with $window {
+			get-tab-folder | get-tab-item Components | check_enabled_and_click
+			get-list -after [get-label "Selected:"] -index 1 | select $component_name
+			get-button -after [get-label "Selected:"] -index 2 | click
+		}
+	}
+}
+
+// Get an open IOC settings dialog
+proc get_ioc_dialog {
+	try -command {
+		get-window -class IocDialog
+	} -catch {
+		get-window -class AddIocDialog
+	}
+}
+
+// Open the IOC settings
+proc open_ioc [val window -input true] {
+	with $window {
+		try -command {
+			get-button "Edit IOC" | check_enabled_and_click
+		} -catch {
+			get-button "View IOC" | check_enabled_and_click
+		}
+	}
+}
+
+// Add an IOC
+proc add_ioc [val ioc_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
+			get-button "Add IOC" | check_enabled_and_click
+			with [get_ioc_dialog] {
+				get-table | select $ioc_name | double-click
+			}
+		}
+	}
+	get_ioc_dialog 
+}
+
+// Add an IOC without macros
+proc add_ioc_no_macros [val ioc_name] [val window -input true] [val autostart -value false] {
+	with $window {
+		add_ioc $ioc_name
+	}
+	
+	try -times 100 -delay 200 -command {
+		if $autostart {
+			with [get_ioc_dialog] {
+		 		get-button "Auto-Start" | check
+		    }
+		}
+	}
+	
+	try -times 100 -delay 200 -command {
+		with [get_ioc_dialog] {
+			get-button OK | check_enabled_and_click
+		}
+	}
+}
+
+// Select an IOC
+proc select_ioc [val ioc_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item IOCs | check_enabled_and_click
+			get-table | select $ioc_name -column Name
+		}
+	}
+}
+
+// Check that the text in the selected box of the IOC tab matches the expected value
+proc verify_selected_text [val expected] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-editbox -after [get-label "Selected:"] | get-property text | equals $expected 
+    		| verify-true
+		}
+	}
+}
+
+// Delete an IOC
+proc delete_ioc [val ioc_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			select_ioc $ioc_name
+			set-dialog-result MessageBox 32
+			get-button "Delete IOC" | click
+		}
+	}
+}
+
+// Edit an IOC
+proc edit_ioc [val ioc_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			select_ioc $ioc_name
+			open_ioc
+		}
+	}
+	get_ioc_dialog 
+}
+
+// Add IOC macro
+proc add_ioc_macro [val macro] [val macro_value] {
+	try -times 100 -delay 200 -command {
+		with [get_ioc_dialog] {
+			get-table | select $macro
+			get-editbox -after [get-label Value] | set-text $macro_value
+			get-table | get-item $macro | get-property "columns[1]" | equals $macro_value | verify-true
+			get-button OK | check_enabled_and_click
+		}
+	}
+}
+
+// Verify that the given macro is the given value
+proc verify_macro [val ioc] [val macro] [val value] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			with [edit_ioc $ioc] {
+				get-table | get-item $macro | get-property "columns[1]" | equals $value | verify-true
+				get-button Cancel | check_enabled_and_click
 			}
 		}
 	}
 }
 
 // Add a block (to a new OR edited configuration)
-proc "add_block"[val block_name] [val pv_name] [val window -input true ] {
+proc add_block [val block_name] [val pv_name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-tab-folder | get-tab-item Blocks | click
-			get-button "Add Block" | click
+			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+			get-button "Add Block" | check_enabled_and_click
 			with [get-window "Block Configuration"] {
-				try {
-				    with [get-group "Selected block"] {
-				        get-editbox -after [get-label "Name:"] | set-text $block_name
-				        get-editbox -after [get-label "PV address:"] | set-text $pv_name
-				    }
+				try -command {
+					with [get-group "Selected block"] {
+						get-editbox -after [get-label "Name:"] | set-text $block_name
+						get-editbox -after [get-label "PV address:"] | set-text $pv_name
+					}
 					get-button OK | check_button_enabled_and_click
 				} -catch {
 					cancel_dialog
@@ -123,23 +311,23 @@ proc "add_block"[val block_name] [val pv_name] [val window -input true ] {
 }
 
 // add bloack with a name just find a sensible pv for it
-proc "add_block_any_pv"[val block_name] {
-	try -times 500 -delay 200 -command {
+proc add_block_any_pv [val block_name] {
+	try -times 100 -delay 200 -command {
 		with [get-window "Edit Configuration"] {
-			get-tab-folder | get-tab-item Blocks | click
-			get-button "Add Block" | click
+			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+			get-button "Add Block" | check_enabled_and_click
 			with [get-window "Block Configuration"] {
-		    	with [get-group "Selected block"] {
-		        	with [get-editbox -after [get-label "Name:"]] {
-		            	set-text $block_name
-		        	}
-		    		get-button "Select PV" | click
+				with [get-group "Selected block"] {
+					with [get-editbox -after [get-label "Name:"]] {
+						set-text $block_name
+					}
+					get-button "Select PV" | check_enabled_and_click
 					with [get-window -class PvSelectorDialog] {
 						get-group "PV Selector" | get-table | select ".*INSTNAME"
-						get-button OK | click
+						get-button OK | check_enabled_and_click
 					}
-		    	}
-		    	get-button OK | click
+				}
+				get-button OK | check_enabled_and_click
 			}
 		}
 	}
@@ -148,39 +336,67 @@ proc "add_block_any_pv"[val block_name] {
 // Delete all blocks?
 
 // Add a group
-proc "add_group" [val window -input true ] {
+proc add_group [val name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-tab-folder | get-tab-item Groups | click
-	    	get-group Groups | get-button Add | click
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+    		with [get-group Groups] {
+				get-button Add | check_enabled_and_click
+				get-list | select "NEW_GROUP"
+			}
+			get-group "Selected group" | get-editbox -after [get-label "Name:"] | set-text $name
 		}
 	}
 }
 
-// Transfer a block to a group
-proc "add_block_to_group" [val group_name] [val block_name] [val window -input true ] {
+// Removea group
+proc remove_group [val name] [val window -input true] {
 	try -times 100 -delay 200 -command {
 		with $window {
-			get-tab-folder | get-tab-item Groups | click
-			get-group Groups | get-list | select_in_list $group_name
-			with [get-group "Selected group" | get-group Blocks] {
-				get-list | select_in_list $block_name
-				get-button | click
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+    		with [get-group Groups] {
+				get-list | select $name
+				get-button Remove | check_enabled_and_click
 			}
 		}
 	}
 }
 
-//Create a configuration with nothing but a description
-proc "create_empty_config" [val config_name] {
+// Rename a group
+proc rename_group [val old_name] [val new_name][val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+    		get-group Groups | get-list | select $old_name
+			get-group "Selected group" | get-editbox -after [get-label "Name:"] | set-text $new_name
+		}
+	}
+}
+
+// Transfer a block to a group
+proc add_block_to_group [val group_name] [val block_name] [val window -input true] {
+	try -times 100 -delay 200 -command {
+		with $window {
+			get-tab-folder | get-tab-item Groups | check_enabled_and_click
+			get-group Groups | get-list | select_in_list $group_name
+			with [get-group "Selected group" | get-group Blocks] {
+				get-list | select_in_list $block_name
+				get-button | check_enabled_and_click
+			}
+		}
+	}
+}
+
+// Create a configuration with nothing but a description
+proc create_empty_config [val config_name] {
 	with [new_config] {
 		set_config_description $config_name
 		save_and_name_config $config_name
 	}
 }
 
-//Create a configuration with one block
-proc "create_simple_config_and_load" [val config_name] [val block_name] [val pv] {
+// Create a configuration with one block
+proc create_simple_config_and_load [val config_name] [val block_name] [val pv] {
 	// In a new configuration...
 	with [new_config] {
 		// Add a block, set a description and save the configuration
@@ -188,15 +404,60 @@ proc "create_simple_config_and_load" [val config_name] [val block_name] [val pv]
 		set_config_description $config_name
 		save_and_name_config $config_name
 	}
-	
+
 	// Wait is needed to ensure that the load configuration dialog is fully updated
 	wait 10000
-	
+
 	// Load the configuration previously saved
 	load_config $config_name
-	
+
 	// Always do a short wait after changing config or the next dialog can jump the instrument updating dialog
 	wait 10000
 }
 
+proc assert_config_deleted [val test_config] {
+	try -times 50 -delay 200 -command {
+		get-menu "Configuration/Configurations/Delete" | click
+		with [get-window "Delete Configurations" | get-table] {
+			let [val item_count [get-property -raw true -name itemCount]] {
+				loop [val index [int 0]] {
+					if [$index | lt $item_count] {
+						get-window "Delete Configurations" | get-table | get-property -raw true -name [concat "getItems().TableItem[" $index "].getText()"] | eq $test_config | verify-false
+						recur [$index | plus 1]
+					}
+				}
+			}
+		}
+	}
+}
+
+// Verify that the current config matches the given name
+proc verify_current_config_name [val expected_name] {
+	// This will error if the label is incorrect
+	get-label [concat "Current configuration: " $config_name]
+}
+
+// Verify that the config contains a block with a particular name 
+proc verify_current_config_has_block [val block] {
+	with [edit_current_config] {
+		get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+		get-table | get-item $block | get-property "values['Name']" 
+    		| equals $block | verify-true
+		get-button Cancel | check_enabled_and_click
+	}
+}
+
+// Change name of block in configuration
+proc rename_config_block [val old_name] [val new_name] {
+	try -times 100 -delay 200 -command {
+		with [get-window "Edit Configuration"] {
+			get-tab-folder | get-tab-item Blocks | check_enabled_and_click
+			get-table | get-item $old_name | click
+			get-button "Edit Block" | click
+			change_block_name $new_name
+			get-button Save | click
+		}
+    }
+	assert_wait_for_dialog_closed
+}
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

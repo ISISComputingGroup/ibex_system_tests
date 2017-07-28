@@ -1,0 +1,48 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: BlocksAreFormattedCorrectly
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Vcj1YFEBEeeEZqjlkcOTbQ
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/16/17 11:43 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+proc configure_simple_ioc_in_configuration [val name] {
+	with [new_config] {
+	    set_config_description $name
+ 		add_ioc_no_macros -ioc_name "SIMPLE" -autostart true
+ 		add_blocks_to_simple_ioc
+ 		save_and_name_config $name
+ 	}
+ }
+ 
+proc add_blocks_to_simple_ioc {
+ 	add_block "LONG" "SIMPLE:LONG"
+ 	add_block "INT" "SIMPLE:VALUE1"
+ 	add_block "P3" "SIMPLE:VALUE:P3"
+ 	add_block "P5" "SIMPLE:VALUE:P5"
+ 	add_block "STRING" "SIMPLE:HELLO"
+}
+ 
+
+let [val configname [test_prefix "blocks_config03"]] {
+	configure_simple_ioc_in_configuration $configname
+	load_config $configname
+}
+
+try -times 100 -delay 200 -command {
+	with [get-view Blocks] {
+	    get-label -after [get-label "STRING:"] | get-property caption | equals "Hello!" | verify-true
+	    get-label -after [get-label "P5:"] | get-property caption | equals "1.00000" | verify-true
+	    get-label -after [get-label "P3:"] | get-property caption | equals "1.000" | verify-true
+	    get-label -after [get-label "INT:"] | get-property caption | equals 0 | verify-true
+	    get-label -after [get-label "LONG:"] | get-property caption | equals 1 | verify-true
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

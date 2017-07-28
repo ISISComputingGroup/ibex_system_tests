@@ -1,0 +1,32 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: CheckForBasicBeamStatusInformation
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _BHV84FBKEeebUsTjSlsNqg
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 6/13/17 5:12 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+switch_to_beam_status_view
+with [get-view "Beam Status Graph"] {
+
+	// Check that the MCR news has content
+    get-editbox -after [get-label News] | get-property -name "getCharCount()" -raw | gt 0 | verify-true
+    with [get-expand-bar] {
+    
+    	// Check the Beam statistics exist and are active
+        get-property enablement | equals true | verify-true
+        
+        // Check the beam current controls are present and active
+        get-item Synchrotron | get-label -after [get-label "Beam Current"] | get-property enablement | equals true | verify-true
+        get-item "Target Station 1" | get-label -after [get-label "TS1 Beam Current"] | get-property enablement | equals true | verify-true
+        get-item "Target Station 2" | get-label -after [get-label "TS2 Beam Current"] | get-property enablement | equals true | verify-true
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

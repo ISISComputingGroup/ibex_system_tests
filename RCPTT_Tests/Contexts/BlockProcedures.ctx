@@ -1,0 +1,38 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: BlockProcedures
+Element-Type: context
+Element-Version: 2.0
+Id: _xjLrUDb2EeekDKscI2cwGA
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 5/25/17 11:24 AM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+// edit a block by opening it directly from the blocks bar
+proc edit_block_host_component [val name] {
+    edit_block $name "Edit host component"
+}
+
+// edit a block by opening it directly from the blocks bar
+proc edit_block_host_configuration [val name] {
+    edit_block $name "Edit host configuration"
+}
+
+proc edit_block [val name] [val label] {
+	get-view Blocks | get-label [concat $name ":"] | get-menu $label | click
+}
+
+// edit log configuration for a block
+proc change_block_name [val new_name] {
+	with [get-window "Block Configuration"] {
+    	get-group "Selected block" | get-editbox -after [get-label "Name:"] | set-text $new_name
+    	get-button OK | click
+    }
+	assert_wait_for_dialog_closed
+}
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
