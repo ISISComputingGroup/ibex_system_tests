@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _hamJ8FDbEee8yMBD6nu81w
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 5:02 PM
+Save-Time: 7/31/17 10:25 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -29,4 +29,55 @@ proc "set_rb_number" [val view -input true][val new_rb_number] {
     }
 }
 
+// Removes any users that match the supplied regex
+proc "remove_user" [val view -input true] [val user] {
+	with $view {
+	    with [get-table] {
+	        select $user -all
+	    }
+	    get-button Remove | click
+	}
+}
+
+// Tests the given users are displayed the dashboard
+proc "test_dashboard" [val expected] {
+	//Might take some time to appear on dashboard
+	try -times 10 -delay 100 -command {
+		get-view Dashboard | get-label -after [get-label "Users:"] | get-property "getText()" | equals $expected | verify-true
+	}
+}
+
+proc "clear_and_verify" [val view_name] {
+	try -times 10 -delay 100 -command {
+		get-view $view_name | get-button Clear | click
+		get-view Dashboard | get-label "" -after [get-label "Users:"] | get-property "getText()" | equals "" | verify-true
+	}
+}
+
+// Helper proc to set a value within the table
+proc "set_table_text" [val table -input] [val new_text] {
+	with [$table] {
+		with [get-editbox] {
+            set-text $new_text
+            key-type Enter
+        }
+        apply-cell-edit -deactivate
+	}
+}
+
+// Edits a user's name in the table
+proc "edit_user" [val view -input] [val user] [val new_name] {
+	with [get-table] {
+        select $user | activate-cell-edit
+		set_table_text $new_name
+    }	
+}
+
+//Edits a users organisation in the table
+proc "edit_org" [val view -input] [val user] [val new_org] {
+	with [get-table] {
+        select $user | activate-cell-edit -column 1
+		set_table_text $new_org
+    }	
+}
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
