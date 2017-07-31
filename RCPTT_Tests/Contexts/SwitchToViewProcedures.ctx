@@ -5,8 +5,8 @@ Element-Name: SwitchToViewProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _BgnBcB5tEeaAYI1qYj9bEg
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/15/17 10:29 AM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 7/28/17 4:26 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -62,3 +62,9 @@ proc "switch_to_beam_status_view" {
 	// Switch to beam status view
 	get-label "Beam Status" | click
 }
+
+proc "switch_to_experiment_details_view" {
+	// Switch to experiment details view
+	get-label "Experiment Details" | click
+}
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
