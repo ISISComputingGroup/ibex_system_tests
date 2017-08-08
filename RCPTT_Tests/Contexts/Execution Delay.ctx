@@ -12,10 +12,8 @@ Save-Time: 6/22/17 11:21 AM
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
-// Between 3rd and 7th June, 200ms delay led to a 9/25
-// failure rate. Setting to 500ms for comparisson. The
-// average run time was ~2hr10min
-set-q7-option eclExecutionDelay 500
+// Run time with 500ms delay on 7th Aug 2017 was 5hr12min
+set-q7-option eclExecutionDelay 300
 
 // 1 s between tests. Previously 5 s. Not needed?
 // trial of 30s to see if it makes tests more consistent
