@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/27/17 8:45 AM
+Save-Time: 8/8/17 1:49 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -19,7 +19,7 @@ proc "configure_dae_for_tests" {
 	// Give the instrument a little bit of time before leaping straight into the DAE view
 	// Occasional failures on UI tests with line 18:
 	// Can't set value '.*/RCPTT_wiring128.dat' into combo. Value not found.
-	wait 5000
+	wait 10000
 	
 	// Switch to DAE View
 	get-label "DAE" | click
