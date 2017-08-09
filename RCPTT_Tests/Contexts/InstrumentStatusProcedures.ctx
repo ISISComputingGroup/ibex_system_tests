@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _u7zXkB5uEeaqQYS4M76Ebw
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/4/17 1:14 PM
+Save-Time: 8/9/17 9:18 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -64,7 +64,7 @@ proc "wait_for_dialog_exists" {
 }
 
 proc "assert_wait_for_dialog_closed" {
-	wait 1000 //Dialog takes some time to display
+	wait 3000 //Dialog takes some time to display
 
 	try -times 100 -delay 600 -command {
 		if [wait_for_dialog_exists] {
