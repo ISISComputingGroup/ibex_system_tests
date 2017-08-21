@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 8/8/17 1:49 PM
+Save-Time: 8/21/17 9:18 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -69,6 +69,10 @@ proc "configure_dae_for_tests" {
 		    }
 	   	}
 	   	get-button "Apply Changes" | click
+	   	
+	   	// Put a short wait here in case RCPTT manages to jump the gun and get onto the next line before
+	   	// the wait dialog pops up
+	   	wait 2000
 	}
 	
 	
