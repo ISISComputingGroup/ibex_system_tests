@@ -22,8 +22,8 @@ let [val config [test_prefix "config_0"]] [val block "test"] {
 	with [get-window "Run-Control Settings"] {
 	    get-table | select $block
 	    with [get-group "Block Settings"] {
-	        get-editbox -after [get-label "Low Limit:"] | get-property text | equals 0 | verify-true
-	        get-editbox -after [get-label "High Limit:"] | get-property text | equals 0 | verify-true
+	        get-editbox -after [get-label "Low Limit:"] | get-property text | equals "0.00" | verify-true
+	        get-editbox -after [get-label "High Limit:"] | get-property text | equals "0.00" | verify-true
 	        get-button Enabled | get-property selected | equals false | verify-true
 	    }
 	    get-button Close | click

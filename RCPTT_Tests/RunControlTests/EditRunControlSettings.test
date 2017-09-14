@@ -21,6 +21,6 @@ let [val config [test_prefix "config_0"]] [val block "test"]{
 	
 	set_and_enable_run_control $block "10" "20"
 	
-	verify_run_control $block "10" "20" true
+	verify_run_control $block "10.00" "20.00" true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
