@@ -19,8 +19,8 @@ proc set_and_enable_run_control [val block] [val lowlim] [val highlim] {
     with [get-window "Run-Control Settings"] {
         get-table | select $block
         with [get-group "Block Settings"] {
-            get-editbox -after [get-label "Low Limit:"] | set-text $lowlim
-            get-editbox -after [get-label "High Limit:"] | set-text $highlim
+            get-editbox -after [get-label "Low Limit:"] | set-text "$lowlim"
+            get-editbox -after [get-label "High Limit:"] | set-text "$highlim"
             get-button Enabled | check
 	    	// Send changes can take time to initialize
 	    	try -times 100 -delay 1800 -command {
@@ -37,8 +37,8 @@ proc verify_run_control [val block] [val lowlim] [val highlim] [val enable] {
     with [get-window "Run-Control Settings"] {
         get-table | select $block
         with [get-group "Block Settings"] {
-            get-editbox -after [get-label "Low Limit:"] | get-property text | equals $lowlim | verify-true
-            get-editbox -after [get-label "High Limit:"] | get-property text | equals $highlim | verify-true
+            get-editbox -after [get-label "Low Limit:"] | get-property text | equals "$lowlim" | verify-true
+            get-editbox -after [get-label "High Limit:"] | get-property text | equals "$highlim" | verify-true
             get-button Enabled | get-property selected | equals $enable | verify-true
 		}
         get-button Close | click
