@@ -5,7 +5,7 @@ Element-Type: testsuite
 Element-Version: 2.0
 Id: _rlyRgHOLEee0KuTq3r3voQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/28/17 1:55 PM
+Save-Time: 9/18/17 2:43 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -50,7 +50,7 @@ _xD3SkDLuEeaaer6ihff4wQ	// kind: 'test' name: 'CreateSynopticWithMultipleCompone
 _SutOYGuLEeaEl7GeJPNMVQ	// kind: 'test' name: 'CurrentConfigNotInDeleteConfigDialog' path: 'CurrentConfigNotInDeleteConfigDialog.test'
 _jvMZYB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreDisabledIfRunning' path: 'DAETests/DAEExperimentTabsAreDisabledIfRunning.test'
 _W1lpsB5nEeaAYI1qYj9bEg	// kind: 'test' name: 'DAEExperimentTabsAreEnabledIfNotRunning' path: 'DAETests/DAEExperimentTabsAreEnabledIfNotRunning.test'
-_PG0d0JE_Eea7FIjHcktYOA	// kind: 'test' name: 'DAEPeriodTabDisplaysCorrectSettings' path: 'DAEPeriodTabDisplaysCorrectSettings.test'
+_PG0d0JE_Eea7FIjHcktYOA	// kind: 'test' name: 'DAEPeriodTabDisplaysCorrectSettings' path: 'DAETests/DAEPeriodTabDisplaysCorrectSettings.test'
 _Iokw4FDSEeebUsTjSlsNqg	// kind: 'test' name: 'DashboardInformationAvailableOnStartup' path: 'DashboardInformationAvailableOnStartup.test'
 _6ljosCF-EeaVDbdGJtxYOQ	// kind: 'test' name: 'DefaultSynopticAppearsInEditConfig' path: 'ConfigurationTests/DefaultSynopticAppearsInEditConfig.test'
 _THj0wDSMEea17PdyItjtbg	// kind: 'test' name: 'DeletingAllBlocksDeletesAllGroups' path: 'ConfigurationTests/DeletingAllBlocksDeletesAllGroups.test'
@@ -84,5 +84,6 @@ _azp1UEbOEeeo0OfG8brAwA	// kind: 'test' name: 'WhenComponentGroupRenamedItAppear
 _mVlncEbOEeeo0OfG8brAwA	// kind: 'test' name: 'WhenComponentRemovedItsGroupsNoLongerAppearInConfigurations' path: 'GroupTests/WhenComponentRemovedItsGroupsNoLongerAppearInConfigurations.test'
 _bpiCAEzwEee1irVDJO9Pmw	// kind: 'test' name: 'WhenComponetGroupRemovedItIsRemovedFromConfig' path: 'GroupTests/WhenComponetGroupRemovedItIsRemovedFromConfig.test'
 _CAavwEbPEeeo0OfG8brAwA	// kind: 'test' name: 'WhenNewGroupsAreAddedToAComponentItAppearsInTheConfig' path: 'GroupTests/WhenNewGroupsAreAddedToAComponentItAppearsInTheConfig.test'
+_Wl6E8JlAEeepX5Tg5L0T9A	// kind: 'test' name: 'DragAndDropComponents' path: 'SynopticTests/DragAndDropComponents.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
