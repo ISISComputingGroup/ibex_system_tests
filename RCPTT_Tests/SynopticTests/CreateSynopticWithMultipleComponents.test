@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _xD3SkDLuEeaaer6ihff4wQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 3/15/17 12:03 PM
+Save-Time: 9/19/17 3:29 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -14,13 +14,13 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 // Create variables for one configuration, one synoptic and eight components
-// make CHOPPER -> BEAMSTOP for test
-let [val synoptic01 [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val chopper "CAEN"] [val chopper_target "Mk3 Chopper"] [val dae "DAE"] [val eurotherm "EUROTHERM"]
+// make CHOPPER -> analyser for test
+let [val synoptic01 [test_prefix "synoptic01"]] [val analyser "ANALYSER"] [val chopper "CAEN"] [val chopper_target "Mk3 Chopper"] [val dae "DAE"] [val eurotherm "EUROTHERM"]
 	[val kepco "KEPCO"] [val movingmonitor "MOVINGMONITOR"] [val polariser "POLARISER"] [val tdklambda "TDK_LAMBDA_GENESYS"] {
 
 	with [new_synoptic] {
 		// Add eight sample components
-		add_component $beamstop
+		add_component $analyser
 //		add_component_target $chopper $chopper_target
 		add_component $chopper
 		add_component $dae
@@ -42,7 +42,7 @@ let [val synoptic01 [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val c
 	
 		// Assert that a component's image and label exist
 		with [get-view "Synoptic navigator" | get-group "Synoptic Navigation" | get-combo] {
-		    get-property "getItems().String[0]" | equals $beamstop | verify-true
+		    get-property "getItems().String[0]" | equals $analyser | verify-true
 		    get-property "getItems().String[1]" | equals $chopper | verify-true
 		    get-property "getItems().String[2]" | equals $dae | verify-true
 		    get-property "getItems().String[3]" | equals $eurotherm | verify-true

@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _T4Y_MEeFEeeYd68Emfg7ng
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/2/17 2:18 PM
+Save-Time: 9/19/17 3:26 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -14,14 +14,14 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 // Create variables for one configuration, one synoptic and one components with a pv details with no error in and make sure it appears on the synoptic
-let [val synoptic_name [test_prefix "synoptic01"]] [val beamstop "BEAMSTOP"] [val pv_details_name "new pv"]
+let [val synoptic_name [test_prefix "synoptic01"]] [val analyser "ANALYSER"] [val pv_details_name "new pv"]
  {
 
 	with [new_synoptic] {
 		// Add eight two components
-		add_component $beamstop
+		add_component $analyser
 		
-		add_pv_to_synoptic_component $beamstop $pv_details_name "details"
+		add_pv_to_synoptic_component $analyser $pv_details_name "details"
 		
 		save_and_name_synoptic $synoptic_name
 	}
