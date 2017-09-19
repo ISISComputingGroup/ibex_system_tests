@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _B8I40FD4Eeeuct921JkjTw
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/24/17 9:28 AM
+Save-Time: 9/19/17 1:51 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -19,8 +19,8 @@ proc set_and_enable_run_control [val block] [val lowlim] [val highlim] {
     with [get-window "Run-Control Settings"] {
         get-table | select $block
         with [get-group "Block Settings"] {
-            get-editbox -after [get-label "Low Limit:"] | set-text "$lowlim"
-            get-editbox -after [get-label "High Limit:"] | set-text "$highlim"
+            get-editbox -after [get-label "Low Limit:"] | set-text $lowlim
+            get-editbox -after [get-label "High Limit:"] | set-text $highlim
             get-button Enabled | check
 	    	// Send changes can take time to initialize
 	    	try -times 100 -delay 1800 -command {
