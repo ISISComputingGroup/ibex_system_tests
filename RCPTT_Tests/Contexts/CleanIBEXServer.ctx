@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _nbUl0C4eEea6L74Op-Ffbg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/24/17 3:43 PM
+Save-Time: 10/9/17 4:35 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -20,10 +20,6 @@ Entry-Name: .ecl.context
 
 log_message "Starting clean Ibex Server"
 
-log_message "Cleaning and restarting services"
-exec-process "c:\\Instrument\\Apps\\Python\\python" -args "C:\\Instrument\\CleanIBEXServerFiles\\cleanIBEXServer\\cleanIBEXServer.py" -ignoreExitCode false | log -severity "error"
-log_message "Done Cleaning and restarting services, checking setup"
-
 // Ensure you are on the local instrument
 try -times 100 -delay 200 -command {
 	get-menu "IBEX/Switch Instrument" | click
@@ -35,18 +31,5 @@ with [get-window "Instrument Selector"] {
     }
     get-button OK | click
 }
-
-// wait for setver to be ready, just saves on retry messages in log
-wait 60000
-
-try -times 400 -delay 200 -command {
-  assert_instrument_is_setup
-  get-menu "Configuration/Edit Current Configuration..." | is-disabled | verify-false
-  get-label [concat "Current configuration: rcptt_blank"]
-}
-
-log_message "Instrument is now setup"
-
-log_message "Finished clean Ibex Server"
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
