@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _lwJiAFDoEee5PKfRF9iJJw
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 8/21/17 2:19 PM
+Save-Time: 10/10/17 5:11 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -26,10 +26,13 @@ proc "reset_tcb_file" {
 
 proc "change_selected_file_and_verify_not_set" [val index] [val file_snippet] {
 	with [get-group "Time Channel Settings" | get-combo -after [get-label "Change:"]] {
-		set_combo_by_index $index
-	    // Check "Change" was set 
-		get-property selection | contains $file_snippet | verify-true
+		try -times 50 -delay 200 -command {
+			set_combo_by_index $index
+			// Check "Change" was set 
+			get-property selection | contains $file_snippet | verify-true
+		}	    
 	}
+	wait 500;
 	with [get-group "Time Channel Settings" | get-label -after [get-label "Current:"]] {
     	// Check "Current" is unchanged (still previous TCB file)
 		get-property caption | contains $file_snippet | verify-false
@@ -49,9 +52,12 @@ proc "apply_change_and_verify" [val file_snippet] {
 assert_instrument_is_setup
 
 // Add a short wait to see if it makes issue with TCB file not appearing less likely
-wait 5000
+wait 2500
 
 switch_to_dae_view
+
+// Short wait to see if it makes issue with TCB file not appearing less likely
+wait 2500
 
 with [get-view "DAE Control Program"] {
 	// Move to Time Channels tab
@@ -60,6 +66,7 @@ with [get-view "DAE Control Program"] {
     
     // Switch to "Use TCB File" and set tcb to blank
     get-button "Use TCB File" | click
+    
     reset_tcb_file
     
     // Set "Change" to TCB file 1
