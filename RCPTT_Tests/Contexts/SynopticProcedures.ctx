@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 4:18 PM
+Save-Time: 10/18/17 5:37 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -75,11 +75,17 @@ proc "delete_synoptic" [val name] {
 
 // Add a component to a synoptic (e.g. "BEAMSTOP", "CHOPPER", "DAE", etc.)
 // if this component has a target type (e.g. choppers) use add_component_target and specify type/target
-proc "add_component" [val component_name] [val window -input true ] {
+proc "add_component" [val category] [val component_name] [val window -input true ] {
 	with $window {
 	    get-button "Add Component" | check_enabled_and_click
-	    get-combo -after [get-label Type] | select $component_name
-	    get-editbox -after [get-label Name] | set-text $component_name
+//	    get-combo -after [get-label Icon:] | select $component_name
+	    get-editbox -after [get-label "Name:"] | set-text $component_name
+	    with [get-tree -after [get-button Clear]] {
+	    	with [get-item $category]{
+	    		expand
+	    		get-item $component_name | click
+	    	}
+	    }
 	}
 }
 
