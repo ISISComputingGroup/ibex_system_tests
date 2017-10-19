@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _T4Y_MEeFEeeYd68Emfg7ng
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 10/19/17 8:57 AM
+Save-Time: 10/19/17 12:12 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -19,7 +19,7 @@ let [val synoptic_name [test_prefix "synoptic01"]] [val analyser "Analyser"] [va
 
 	with [new_synoptic] {
 		// Add eight two components
-		add_component "Monitors" $analyser
+		add_component $analyser
 		
 		add_pv_to_synoptic_component $analyser $pv_details_name "details"
 		

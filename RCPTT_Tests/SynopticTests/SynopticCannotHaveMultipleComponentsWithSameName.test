@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _lFSlQNy3EeaGu9vK5vllnA
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 10/19/17 9:50 AM
+Save-Time: 10/19/17 12:14 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -31,8 +31,8 @@ let [val duplicate1 "Eurotherm"] [val duplicate2 "Kepco"]{
 	with [new_synoptic] {
 		
 		//Test that duplicates on same level produces error
-		add_component "Temperature controllers" $duplicate1
-		add_component "Temperature controllers" $duplicate1
+		add_component $duplicate1
+		add_component $duplicate1
 
 		error_text | contains $duplicate1 | verify-true
 		save_enabled | verify-false
@@ -43,8 +43,8 @@ let [val duplicate1 "Eurotherm"] [val duplicate2 "Kepco"]{
 		save_enabled | verify-true
 		
 		//Test that 3 of a kind produces error
-		add_component "Temperature controllers" $duplicate1
-		add_component "Temperature controllers" $duplicate1
+		add_component $duplicate1
+		add_component $duplicate1
 		
 		error_text | contains $duplicate1 | verify-true
 		save_enabled | verify-false
@@ -56,8 +56,8 @@ let [val duplicate1 "Eurotherm"] [val duplicate2 "Kepco"]{
 		save_enabled | verify-false
 		
 		//Test that fixing one duplicate doesn't remove error for other
-		add_component "Power supplies" $duplicate2
-		add_component "Power supplies" $duplicate2
+		add_component $duplicate2
+		add_component $duplicate2
 		delete_component $duplicate1		
 		
 		error_text | contains $duplicate2 | verify-true
@@ -71,7 +71,7 @@ let [val duplicate1 "Eurotherm"] [val duplicate2 "Kepco"]{
 		
 		//Test that duplicates on different levels produces error
 		get-tree | select $duplicate1
-		add_component "Temperature controllers" $duplicate1
+		add_component $duplicate1
 		
 		error_text | contains $duplicate1 | verify-true
 		save_enabled | verify-false
