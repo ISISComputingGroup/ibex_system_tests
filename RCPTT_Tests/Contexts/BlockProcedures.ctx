@@ -5,8 +5,8 @@ Element-Name: BlockProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _xjLrUDb2EeekDKscI2cwGA
-Runtime-Version: 2.1.0.201606221726
-Save-Time: 5/25/17 11:24 AM
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 10/20/17 1:18 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -26,7 +26,7 @@ proc edit_block [val name] [val label] {
 	get-view Blocks | get-label [concat $name ":"] | get-menu $label | click
 }
 
-// edit log configuration for a block
+// change block name
 proc change_block_name [val new_name] {
 	with [get-window "Block Configuration"] {
     	get-group "Selected block" | get-editbox -after [get-label "Name:"] | set-text $new_name
@@ -35,4 +35,13 @@ proc change_block_name [val new_name] {
 	assert_wait_for_dialog_closed
 }
 
+// make block not visible
+proc make_block_not_visible [val name] {
+	with [get-window "Block Configuration"] {
+    	get-group "Selected block" | get-checkbox Visible | uncheck
+    	
+    	get-button OK | click
+    }
+	assert_wait_for_dialog_closed
+}
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

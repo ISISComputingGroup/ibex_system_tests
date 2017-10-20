@@ -5,8 +5,8 @@ Element-Type: testsuite
 Element-Version: 2.0
 Id: _wMLmwPZgEeWOvoTG7aXu3Q
 Manually-Ordered: true
-Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/16/17 9:50 AM
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 10/20/17 2:00 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -81,5 +81,6 @@ _VXHlcFDlEeen85wkhybD2Q	// kind: 'test' name: 'RunningMotorsAppearProperly' path
 _k_9P0EnEEeeQ0ryEI963_g	// kind: 'test' name: 'AddScreenCheckItIsSelected' path: 'Devicescreens/AddScreenCheckItIsSelected.test'
 _6mEWEFDqEeeZhKFwlNH0sA	// kind: 'test' name: 'LinksHaveCorrectlyFormattedURLs' path: 'WebLinksTests/LinksHaveCorrectlyFormattedURLs.test'
 _WER3gFETEeeZhKFwlNH0sA	// kind: 'test' name: 'LinksToRelevantInformationArePresent' path: 'WebLinksTests/LinksToRelevantInformationArePresent.test'
+_GUHXkFptEee-8Y5MtMyLSg	// kind: 'test' name: 'HideGroupWithOnlyHiddenBlocks' path: 'GroupTests/HideGroupWithOnlyHiddenBlocks.test'
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--
