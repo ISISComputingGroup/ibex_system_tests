@@ -1,0 +1,46 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: RestoreAllConfigurationValues
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _2KJ48FyyEeezsvgayPB8-Q
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 7/6/17 10:24 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+let [val config [test_prefix "config_0"]] [val block "test"] {
+	create_simple_config_and_load $config $block "PV1"
+	
+	set_and_enable_run_control $block "10" "20"
+	
+	// Reset all run control to config
+	get-menu "Run-Control/View Run-Control Settings" | click
+	with [get-window "Run-Control Settings"] {
+    	get-group "Global Settings" | get-button "Restore All  Configuration Values" | click
+    	get-window "Confirm Run-Control Restore" | get-button OK | click
+    	get-button Close | click
+	}	
+
+	// check they have been restored
+	try -times 10 -delay 200 -command {
+		get-menu "Configuration/Configurations/Delete" | click
+		get-menu "Run-Control/View Run-Control Settings" | click
+		with [get-window "Run-Control Settings"] {
+		    get-table | select $block
+		    with [get-group "Block Settings"] {
+		        get-editbox -after [get-label "Low Limit:"] | get-property text | equals "0.00" | verify-true
+		        get-editbox -after [get-label "High Limit:"] | get-property text | equals "0.00" | verify-true
+		        get-button Enabled | get-property selected | equals false | verify-true
+		    }
+		    get-button Close | click
+		}
+		get-window "Delete Configurations" | get-button Cancel | click
+	}
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

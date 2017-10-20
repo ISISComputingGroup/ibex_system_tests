@@ -13,7 +13,7 @@ Content-Type: text/ecl
 Entry-Name: .ecl.context
 
 proc "assert_instrument_is" [val text] {
-	try -times 50 -delay 200 -command {
+	try -times 100 -delay 200 -command {
 	    get-view Dashboard | get-control Any -index 1 | get-property "getChildren().Control[0].getText()" 
 	        | contains $text | verify-true
 	}
@@ -64,9 +64,10 @@ proc "wait_for_dialog_exists" {
 }
 
 proc "assert_wait_for_dialog_closed" {
-	wait 1000 //Dialog takes some time to display
+	wait 3000 //Dialog takes some time to display
 
-	try -times 150 -delay 200 -command {
+    // This should be an excessive amount of time. Lower once ticket #2526 is fixed
+	try -times 600 -delay 1000 -command {
 		if [wait_for_dialog_exists] {
 			bool true | verify-false
 		}

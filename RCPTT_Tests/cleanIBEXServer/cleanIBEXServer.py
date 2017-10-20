@@ -34,9 +34,6 @@ default_configs_path = os.path.join("C:\\", "Instrument", "Settings", "config",
 # path to ICP CONFIG ROOT
 PATH_TO_ICPCONFIGROOT = os.environ.get("ICPCONFIGROOT", default_configs_path)
 
-# path to Python directory
-PATH_TO_INST_PYTHON = os.path.join(PATH_TO_ICPCONFIGROOT, os.pardir, "Python")
-
 # path to the clean ibex script and resources
 CLEAN_IBEX_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -117,7 +114,6 @@ class SafeExErrNum(object):
     DAE_TOGGLE_ON = 23,
     RELOAD_RB_NUMBERS = 24,
     COPY_TCB = 25
-    COPY_PYTHON = 26
 
     
 class ReadLine(object):
@@ -198,18 +194,6 @@ def killproc(name):
                 break
         except psutil.AccessDenied:
             pass
-            
-def copy_instrument_python():
-    """
-    Copy the instrument Python directory from the system test
-    folder to a predefined location on the machine
-    
-    :return:
-    """
-    python_source = os.path.join(CLEAN_IBEX_DIR, "Python")
-    
-    python_dest = PATH_TO_INST_PYTHON
-    check_dir_exists(python_dest)    
 
 
 def copy_dae_tables():
@@ -266,13 +250,6 @@ def safe_set_default_config(configurations_path):
     except IOError:
         sleep(6)
         set_default_config(configurations_path)
-        
-def safe_copy_instrument_python():
-    try:
-        copy_instrument_python()
-    except IOError:
-        sleep(6)
-        copy_instrument_python()
 
 
 def safe_copy_dae_tables():
@@ -362,7 +339,6 @@ def reset_ibex_backend():
     safe_execute(safe_set_default_config, SafeExErrNum.SET_DEFAULT_CONFIG, configurations_path)
     safe_execute(safe_copy_dae_tables, SafeExErrNum.COPY_DAE)
     safe_execute(safe_copy_tcb_files, SafeExErrNum.COPY_TCB)
-    safe_execute(safe_copy_instrument_python, SafeExErrNum.COPY_PYTHON)
     safe_execute(_delete_data_del_dir, SafeExErrNum.DELETE_DATA_DEL)
     
     safe_execute(delete_dae_experiments_file, SafeExErrNum.DELETE_DATA, ErrNum.DELETE_DATA)

@@ -203,10 +203,19 @@ proc add_ioc [val ioc_name] [val window -input true] {
 }
 
 // Add an IOC without macros
-proc add_ioc_no_macros [val ioc_name] [val window -input true] {
+proc add_ioc_no_macros [val ioc_name] [val window -input true] [val autostart -value false] {
 	with $window {
 		add_ioc $ioc_name
 	}
+	
+	try -times 100 -delay 200 -command {
+		if $autostart {
+			with [get_ioc_dialog] {
+		 		get-button "Auto-Start" | check
+		    }
+		}
+	}
+	
 	try -times 100 -delay 200 -command {
 		with [get_ioc_dialog] {
 			get-button OK | check_enabled_and_click

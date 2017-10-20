@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _6MwCsFDgEeeu8sXca8PBMQ
 Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/15/17 4:00 PM
+Save-Time: 6/28/17 8:08 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -38,8 +38,8 @@ proc "check_can_access_all_tabs" {
 	    get-property activePage | equals "Spectra Plots" | verify-true
 	    
 	    // Verify Diagnostics tab selected
-		get-tab-item "Diagnostics" | click
-	    get-property activePage | equals "Diagnostics" | verify-true
+		get-tab-item "Detector Diagnostics" | click
+	    get-property activePage | equals "Detector Diagnostics" | verify-true
 	    
 	    // Verify Vetos tab selected
 		get-tab-item "Vetos" | click
@@ -52,6 +52,7 @@ proc "check_can_access_all_tabs" {
 }
 
 assert_instrument_is_setup
+configure_dae_for_tests
 switch_to_dae_view
 
 with [get-view "DAE Control Program"] {

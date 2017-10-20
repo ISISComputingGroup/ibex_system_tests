@@ -5,17 +5,97 @@ Element-Name: DAEProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 6/15/17 11:51 AM
-
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 10/10/17 4:52 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
+proc "configure_dae_for_tests" {
+
+	assert_instrument_is_setup
+	
+	// Give the instrument a little bit of time before leaping straight into the DAE view
+	// Occasional failures on UI tests with line 18:
+	// Can't set value '.*/RCPTT_wiring128.dat' into combo. Value not found.
+	wait 10000
+	
+	// Switch to DAE View
+	get-label "DAE" | click
+	
+	with [get-view "DAE Control Program"] {
+	    try -times 100 -delay 200 -command {
+	        get-tab-folder | get-tab-item "Experiment Setup" | click
+	        get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Data Acquisition" | click
+	    }
+	    
+	    // Set path for tables
+	    with [get-group Tables] {
+	    	try -times 100 -delay 200 -command {
+		        get-combo -after [get-label "Wiring Table:"] 
+		            | select ".*/RCPTT_wiring128.dat"
+		        get-combo -after [get-label "Detector Table:"] 
+		            | select ".*/RCPTT_detector128.dat"
+		        get-combo -after [get-label "Spectra Table:"] 
+		            | select ".*/RCPTT_spectra128.dat"
+	        }
+	    }
+	    // Send changes can take time to initialize
+	    try -times 100 -delay 1800 -command {
+	    	get-button "Apply Changes" | click
+	    }
+	
+		// Need to wait for instrument to be updated
+		try -times 100 -delay 1800 -command {
+	  		with [get-tab-folder -after [get-label "DAE Control Program"] -index 1] {
+	    	    get-tab-item "Time Channels" | click
+	   		}
+			
+			get-button "Specify Parameters" | click
+			
+	   		with [get-group "Time Channel Settings" | get-table] {
+	       		select "0.0" | activate-cell-edit
+	       		get-editbox | set-text 10
+	       		apply-cell-edit -deactivate
+	       		select "10.0" | activate-cell-edit -column 1
+	       		get-editbox | set-text 1000
+	       		apply-cell-edit -deactivate
+	       		select "10.0" | activate-cell-edit -column 2
+	       		get-editbox | set-text 100
+		    	apply-cell-edit -deactivate
+	       		select "10.0" | activate-cell-edit -column 3
+		    	get-combo | select "dT = C"
+		    }
+	   	}
+	   	get-button "Apply Changes" | click
+	   	
+	   	// Put a short wait here in case RCPTT manages to jump the gun and get onto the next line before
+	   	// the wait dialog pops up
+	   	wait 2000
+	}
+	
+	
+	// Wait for changes to be applied
+	try  -times 200 -delay 900 -command {
+		get-tab-folder | get-tab-item "Experiment Setup" | click
+	}
+	
+	// Put back to run summary
+	with [get-view "DAE Control Program"] {
+	    try -times 100 -delay 200 -command {
+	        get-tab-folder | get-tab-item "Run Summary" | click
+			get-tab-folder | get-property activePage | equals "Run Summary" | verify-true
+	     }
+	}
+
+}
+
 proc "clear_title" {    
-    with [get-view "DAE Control Program" | get-editbox -after [get-label "Title:"]] {
-        set-text ""
+    try -times 100 -delay 200 -command {
+        with [get-view "DAE Control Program" | get-editbox -after [get-label "Title:"]] {
+            set-text ""
+        }
     }
     get-button Set | check_button_enabled_and_click
 }
@@ -42,8 +122,9 @@ proc "wait_for_dae_update_dialog_to_close" {
 proc "set_combo_by_index" [val combo -input] [val index]{
 	with $combo {
         get-object | invoke select $index
+        wait 200;
         click
-    }
+	}
 }
 
 // get the dae run information tab at front
