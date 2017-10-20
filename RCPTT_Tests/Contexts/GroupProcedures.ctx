@@ -5,8 +5,8 @@ Element-Name: GroupProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _BAWr0EbNEeeo0OfG8brAwA
-Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/1/17 3:29 PM
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 10/20/17 12:57 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -45,5 +45,10 @@ proc "create_simple_config_tree_with_groups" [val config_name] [val comp_name] [
 proc group_at_index_has_expected_name [val index] [val expected] {
 	get-view Blocks | get-control Any -index 3 | get-property [concat "getChildren().Control[" [str $index] "].getChildren().Control[0].getText()"]
     	| equals $expected | verify-true
+}
+
+proc group_at_index_has_not_expected_name [val index] [val expected] {
+	get-view Blocks | get-control Any -index 3 | get-property [concat "getChildren().Control[" [str $index] "].getChildren().Control[0].getText()"]
+    	| equals $expected | verify-false
 }
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

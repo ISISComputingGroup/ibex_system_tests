@@ -1,0 +1,85 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: HideGroupWithOnlyHiddenBlocks
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _GUHXkFptEee-8Y5MtMyLSg
+Runtime-Version: 2.0.1.201508250612
+Save-Time: 10/20/17 1:52 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// 1. create configuration with 2 blocks in one group
+// 2. set one block's visible state to false
+// 3. verify group visible in dashboard
+
+// 1. edit current configuration
+// 2. set other block's visible state to false
+// 3. verify group invisible in dashboard
+
+// Create variables for config, blocks, PV address and group
+let [val config [test_prefix "config"]] [val block01 "block01"] [val block02 "block02"] [val block03 "block03"] [val pv "pv"] [val group "GROUP"] {
+	
+	// In a new configuration...
+	with [new_config] {
+		// Add the block
+		add_block $block01 $pv
+		add_block $block02 $pv
+		add_block $block03 $pv
+
+		// Create a group
+		add_group $group
+		
+		// Add the block to the group
+		add_block_to_group $group $block01
+		add_block_to_group $group $block02
+
+		// Don't add third block so that group "Other" is created and dashboard has something in it (fixes search later)
+
+		// Set properties of blocks in group
+		
+		get-tab-folder | get-tab-item Blocks | click
+			    
+	    get-table | select_in_table $block02
+	    
+	    get-button "Edit Block" | check_button_enabled_and_click
+	    
+	    try -times 50 -delay 100 -command {
+	    	make_block_not_visible $block02
+	    }
+	    
+	    set_config_description $config
+	    save_and_name_config $config
+	}
+
+	// Load newly created configuration
+	
+	load_config $config
+		
+	// Check group found (still visible) in dashboard
+
+	group_at_index_has_expected_name -index 0 -expected $group
+	
+	// Make other block not visible too	
+
+	with [edit_current_config] {
+		get-tab-folder | get-tab-item Blocks | click
+			    
+	    get-table | select_in_table $block01
+	    
+	    get-button "Edit Block" | check_button_enabled_and_click
+	    	    
+	    try -times 50 -delay 100 -command {
+	    	make_block_not_visible $block01
+	    }
+	    save_config	
+	}
+	
+	// Check group now not visible (as it contains only hidden blocks)
+	group_at_index_has_not_expected_name -index 0 -expected $group
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
