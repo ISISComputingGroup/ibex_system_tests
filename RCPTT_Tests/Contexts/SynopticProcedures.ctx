@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _FsR8cEm2Eeamkst2qvREOQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 10/19/17 12:20 PM
+Save-Time: 10/26/17 2:20 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -73,17 +73,13 @@ proc "delete_synoptic" [val name] {
 	}
 }
 
-// Add a component to a synoptic (e.g. "Eurotherm", "XY Beam-stop", "Cybaman", etc.)
+// Add a component to a synoptic (e.g. "BEAMSTOP", "CHOPPER", "DAE", etc.)
+// if this component has a target type (e.g. choppers) use add_component_target and specify type/target
 proc "add_component" [val component_name] [val window -input true ] {
 	with $window {
-	    get-button "Add Component" | check_enabled_and_click
-	    get-editbox -after [get-label "Name:"] | set-text $component_name
-	    with [get-tree -after [get-button Clear]] {
-	    	with [get-item "All devices"]{
-	    		expand
-	    		get-item $component_name | click
-	    	}
-	    }
+	    get-button "Add" | check_enabled_and_click
+	    get-combo -after [get-label Type] | select $component_name
+	    get-editbox -after [get-label Name] | set-text $component_name
 	}
 }
 
@@ -113,7 +109,7 @@ proc "delete_component" [val component_name] [val window -input true ] {
 // Deletes the selected component(s)
 proc "delete_selected_component" [val window -input true ] {
 	with $window {
-    	get-button "Delete Component" | check_enabled_and_click
+    	get-button "Delete" | check_enabled_and_click
 	}
 	get-window "Confirm Delete" | get-button OK | click
 }
@@ -121,7 +117,7 @@ proc "delete_selected_component" [val window -input true ] {
 // Add a component to a synoptic that has a type/target e.g. chopper
 proc "add_component_target" [val component_name] [val target_name] [val window -input true ] {
 	with $window {
-	    get-button "Add Component" | check_enabled_and_click
+	    get-button "Add" | check_enabled_and_click
 	    get-combo -after [get-label Type] | select $component_name
 		try -times 100 -delay 200 -command {
 		    with [get-window "Select Target"] {
