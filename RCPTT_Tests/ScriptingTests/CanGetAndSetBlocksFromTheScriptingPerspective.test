@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _OZJSQFDbEeebUsTjSlsNqg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 6/14/17 1:05 PM
+Save-Time: 10/27/17 3:23 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -25,7 +25,7 @@ proc verify_cget [val block] [val value] {
     type-text [concat "g.cget(\"" $block_name "\")"]
     key-type Enter
     try -times 100 -delay 200 -command {
-		get-view Console | get-editbox | get-property "getText()" | contains [concat  "OrderedDict([('name', u'" $block "'), ('value', " $value ")" ] | verify-true
+		get-view Console | get-editbox | get-property "getText()" | contains [concat  "OrderedDict([('name', u'" $block "'),\n             ('value', " $value ")" ] | verify-true
 	}
 }
 
