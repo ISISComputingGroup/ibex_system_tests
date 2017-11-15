@@ -6,30 +6,30 @@ Element-Version: 3.0
 External-Reference: 
 Id: _UqzfICBrEeewH-_OS6CJKQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 7/28/17 9:27 AM
+Save-Time: 10/26/17 2:33 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-let [val synoptic_name [test_prefix "test_synoptic"]] [val OPI_target "EUROTHERM"] [val DAE_target "DAE"] [val group "Group"] 
+let [val synoptic_name [test_prefix "test_synoptic"]] [val OPI_target "Eurotherm"] [val OPI_target_2 "Cybaman"] [val group "Group"] 
 	[val group_with_OPI "CCD100"] {
 	
 	// Create a synoptic with at least one of every component type 
 	with [new_synoptic] {
-		try -times 50 -delay 200 -command {
+		try -times 5 -delay 200 -command {
 			add_component $OPI_target
-		    add_component $DAE_target
+		    add_component $OPI_target_2
 		    
-		    get-button "Add Component" | click
-		    get-editbox -after [get-label Name] | set-text $group
+		    get-button "Add" | click
+		    get-editbox -after [get-label "Name:"] | set-text $group
 		    
 		    add_component $group_with_OPI
 		    
 		    with [get-tree] {
-		        select $DAE_target
-		        get-item $DAE_target | drag-start 9 9
+		        select $OPI_target_2
+		        get-item $OPI_target_2 | drag-start 9 9
 		        get-item $group | drag-enter 9 23 -detail move
 		        get-item $group | drag-over 9 17 -detail move
 		        get-item $group | drag-exit
@@ -103,9 +103,7 @@ let [val synoptic_name [test_prefix "test_synoptic"]] [val OPI_target "EUROTHERM
 	
 	// Test OPI opens
 	test_opi_opens $OPI_target
+	test_opi_opens $OPI_target_2
 	
-	// Test DAE opens
-	get-view "New synoptic" | get-label "" | click
-	get-view "DAE Control Program" | get-label "DAE Control Program" | get-property caption | equals "DAE Control Program" | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
