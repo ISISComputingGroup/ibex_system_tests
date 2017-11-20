@@ -52,25 +52,11 @@ if exist "C:\Instrument\Apps\EPICS\" (
     rd /S /Q "C:\Instrument\Apps\EPICS\"
 )
 
-REM Delete old configuration directory
-rd /S /Q "C:\Instrument\Settings\"
-if exist "C:\Instrument\Settings\" (
-    timeout /t 10 /nobreak >NUL
-    rd /S /Q "C:\Instrument\Settings\"
-)
-
-REM Delete all but old logs as these are useful for debugging
-for /D %%d in ( C:\Instrument\Var\* ) do (
-    if not "%%d" == "C:\Instrument\Var\logs" (
-        rd /S /Q %%d
-	)
-)
-
 REM Clean up the previous version of the GUI
-rd /S /Q "ibex_gui"
-if exist "ibex_gui" (
+rd /S /Q "C:\Instrument\Apps\Client"
+if exist "C:\Instrument\Apps\Client" (
     timeout /t 10 /nobreak >NUL
-    rd /S /Q "ibex_gui"
+    rd /S /Q "C:\Instrument\Apps\Client"
 )
 REM Get the latest versions via a Python script
 c:\Python27\python.exe get_latest_builds.py
