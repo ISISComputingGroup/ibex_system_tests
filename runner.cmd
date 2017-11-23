@@ -1,5 +1,5 @@
 setlocal
-SET AUT=%WORKSPACE%\ibex_gui\Client
+SET AUT=c:\Instrument\Apps\Client
 
 REM v2.1.0
 SET RUNNER=C:\Jenkins\RCPTT\rcptt.runner-2.1.0\eclipse
