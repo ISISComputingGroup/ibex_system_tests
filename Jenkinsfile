@@ -31,7 +31,9 @@ pipeline {
     }
     
     stage("Archive artificats") {
+      steps {
         archiveArtifacts allowEmptyArchive: true, artifacts: 'Results/**/*.log,Results/*.html,Results/images/*.png,Results/report.junit.xml'
+      }
     }
     
     stage("Unit Test Results") {
