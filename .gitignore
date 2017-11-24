@@ -1,5 +1,6 @@
-/.idea
-/Results/
-/ibex_gui/
-/test-results/
+**/.idea
+**/Results/
+**/ibex_gui/
+**/test-results/
 NULL
+RCPTT_Tests/cleanIBEXServer.log
