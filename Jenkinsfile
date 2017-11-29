@@ -25,8 +25,9 @@ pipeline {
     stage("Build") {
       steps {
         bat """
-            call C:/Instrument/Apps/EPICS/start_ibex_server.bat
+            start /wait cmd /c "C:/Instrument/Apps/EPICS/start_ibex_server.bat"
             runner.cmd StableTests
+            start /wait cmd /c "C:/Instrument/Apps/EPICS/stop_ibex_server.bat"
             """
       }
     }
