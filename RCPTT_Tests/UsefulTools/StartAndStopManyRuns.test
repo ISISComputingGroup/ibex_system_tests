@@ -1,0 +1,28 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: StartAndStopManyRuns
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _BRhOEM31EeetfcaUrAi48g
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 11/20/17 5:13 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+set-q7-option timeout 72000 // 20 hours
+set-q7-option testExecTimeout 72000 // 20 hours
+set-q7-option eclExecutionDelay 1
+
+
+loop [val count 0] {
+	if [$count | lt 2000] {
+		 begin_run
+		 end_run
+		 recur [$count | plus 1]
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
