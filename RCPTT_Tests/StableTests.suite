@@ -5,7 +5,7 @@ Element-Type: testsuite
 Element-Version: 2.0
 Id: _rlyRgHOLEee0KuTq3r3voQ
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 10/27/17 3:02 PM
+Save-Time: 12/18/17 4:41 PM
 
 ------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
 Content-Type: text/testcase
@@ -33,13 +33,12 @@ _qxSuABh8Eeefm6eVbSR_zg	// kind: 'test' name: 'CannotCreateDuplicateBlocksInConf
 _YyE5sBkcEeeBk98u4J3lxA	// kind: 'test' name: 'CannotInsertDuplicateIntoCurrentConfigViaComponent' path: 'ConfigurationTests/CannotInsertDuplicateIntoCurrentConfigViaComponent.test'
 _j2lBwBlEEeeK0IHDxEGBQQ	// kind: 'test' name: 'CannotLoadConfigContainingDuplicates' path: 'ConfigurationTests/CannotLoadConfigContainingDuplicates.test'
 _Waw4oAQWEeeyKY3Ocx5XAg	// kind: 'test' name: 'CanOnlyDeleteComponentWhenNotInUse' path: 'ConfigurationTests/CanOnlyDeleteComponentWhenNotInUse.test'
-_UqzfICBrEeewH-_OS6CJKQ	// kind: 'test' name: 'CanOpenSynopticTargets' path: 'SynopticTests/CanOpenSynopticTargets.test'
+_UqzfICBrEeewH-_OS6CJKQ	// kind: 'test' name: 'CanOpenSynopticTargets' path: 'SynopticTests/CanOpenOpisFromSynoptic.test'
 _qNn_cFDTEeen85wkhybD2Q	// kind: 'test' name: 'CanPauseEndAbortCancelResumeARun' path: 'DAETests/CanPauseEndAbortCancelResumeARun.test'
 _M5CDMFEDEee8yMBD6nu81w	// kind: 'test' name: 'CanSetRealRBNumber' path: 'ExperimentalDetails/CanSetRealRBNumber.test'
 _jLzX8FDSEee8yMBD6nu81w	// kind: 'test' name: 'CanSetUnknownRBNumber' path: 'ExperimentalDetails/CanSetUnknownRBNumber.test'
 _6MwCsFDgEeeu8sXca8PBMQ	// kind: 'test' name: 'CanSwitchBetweenTabsInSetupAndRunning' path: 'DAETests/CanSwitchBetweenTabsInSetupAndRunning.test'
 _ZZsoUB-IEeeDtMdnkdf_bw	// kind: 'test' name: 'CanViewComponentIOCs' path: 'ConfigurationTests/CanViewComponentIOCs.test'
-_T4Y_MEeFEeeYd68Emfg7ng	// kind: 'test' name: 'CheckAddPVDetailToSynopticComponent' path: 'SynopticTests/CheckAddPVDetailToSynopticComponent.test'
 _pTZKcEbQEeeV-cQwTy29-g	// kind: 'test' name: 'CheckErrorOnAddPVDetailToSynopticComponent' path: 'SynopticTests/CheckErrorOnAddPVDetailToSynopticComponent.test'
 _BHV84FBKEeebUsTjSlsNqg	// kind: 'test' name: 'CheckForBasicBeamStatusInformation' path: 'BeamStatusTests/CheckForBasicBeamStatusInformation.test'
 _5M1aQEbOEeeo0OfG8brAwA	// kind: 'test' name: 'ComponentBlocksNotInGroupsAreNotAvailableToAddToConfigGroups' path: 'GroupTests/ComponentBlocksNotInGroupsAreNotAvailableToAddToConfigGroups.test'
@@ -64,7 +63,6 @@ _cB6ckEQiEear0fgUd5_sYQ	// kind: 'test' name: 'MultipleConfigsCanBeSimultaneousl
 _ZpYe8EQiEear0fgUd5_sYQ	// kind: 'test' name: 'MultipleSynopticsCanBeSimultaneouslyDeleted' path: 'SynopticTests/MultipleSynopticsCanBeSimultaneouslyDeleted.test'
 _lrojgBX5EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameCannotBeEmpty' path: 'SynopticTests/NewSynopticNameCannotBeEmpty.test'
 _aFqJcBX6EeaDEvEegUgZuw	// kind: 'test' name: 'NewSynopticNameLengthCannotExceedMax' path: 'SynopticTests/NewSynopticNameLengthCannotExceedMax.test'
-_UPh6MFEEEeeN-J8cVhSWtw	// kind: 'test' name: 'OnlyServerDeviceScreensArePreservedOnRestart' path: 'Devicescreens/OnlyServerDeviceScreensArePreservedOnRestart.test'
 _tmc28EYTEeeju4t-OpFjaw	// kind: 'test' name: 'OrderingOfComponentGroupsInAConfigIsSaved' path: 'GroupTests/OrderingOfComponentGroupsInAConfigIsSaved.test'
 _2KJ48FyyEeezsvgayPB8-Q	// kind: 'test' name: 'RestoreAllConfigurationValues' path: 'RunControlTests/RestoreAllConfigurationValues.test'
 _Bnx5wFD1Eee3T8gi7qgLJg	// kind: 'test' name: 'RestoreConfigurationValues' path: 'RunControlTests/RestoreConfigurationValues.test'
@@ -76,7 +74,6 @@ _OxSrgFDmEeeeKpyvQQ-r8Q	// kind: 'test' name: 'SwitchByMouseSelection' path: 'Sw
 _pTu1IFD2EeeeKpyvQQ-r8Q	// kind: 'test' name: 'SwitchToKnown' path: 'SwitchInstruments/SwitchToKnown.test'
 _4rJEAFD2EeeeKpyvQQ-r8Q	// kind: 'test' name: 'SwitchToUnknown' path: 'SwitchInstruments/SwitchToUnknown.test'
 _lFSlQNy3EeaGu9vK5vllnA	// kind: 'test' name: 'SynopticCannotHaveMultipleComponentsWithSameName' path: 'SynopticTests/SynopticCannotHaveMultipleComponentsWithSameName.test'
-_mXPo4EdoEeatS9ozXm2xuQ	// kind: 'test' name: 'ToggleExperimentTitleVisibility' path: 'DAETests/ToggleExperimentTitleVisibility.test'
 _MHafIEUcEead5NXtjPDgQA	// kind: 'test' name: 'ValidateBlockLogSettings' path: 'ValidateBlockLogSettings.test'
 _ALII0FDlEee3T8gi7qgLJg	// kind: 'test' name: 'ViewRunControlSettings' path: 'RunControlTests/ViewRunControlSettings.test'
 _I072oExYEeehx9brc2-KyQ	// kind: 'test' name: 'WhenAConfigIsSavedAsAComponentThenComponentGroupsAreRemoved' path: 'GroupTests/WhenAConfigIsSavedAsAComponentThenComponentGroupsAreRemoved.test'
