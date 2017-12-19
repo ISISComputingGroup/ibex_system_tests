@@ -5,8 +5,8 @@ Element-Name: ConfigProcedures
 Element-Type: context
 Element-Version: 2.0
 Id: _oJdLMEdZEeakK_49We-6tQ
-Runtime-Version: 2.0.1.201508250612
-Save-Time: 10/20/17 1:39 PM
+Runtime-Version: 2.1.0.201606221726
+Save-Time: 12/19/17 4:14 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -265,13 +265,22 @@ proc edit_ioc [val ioc_name] [val window -input true] {
 	get_ioc_dialog 
 }
 
-// Add IOC macro
-proc add_ioc_macro [val macro] [val macro_value] {
-	try -times 100 -delay 200 -command {
+// Add IOC macro without closing dialog
+proc add_ioc_macro_without_closing [val macro] [val macro_value] {
+	try -times 10 -delay 200 -command {
 		with [get_ioc_dialog] {
 			get-table | select $macro
 			get-editbox -after [get-label Value] | set-text $macro_value
 			get-table | get-item $macro | get-property "columns[1]" | equals $macro_value | verify-true
+		}
+	}
+}
+
+// Add IOC macro
+proc add_ioc_macro [val macro] [val macro_value] {
+	try -times 10 -delay 200 -command {
+		add_ioc_macro_without_closing $macro $macro_value
+		with [get_ioc_dialog] {
 			get-button OK | check_enabled_and_click
 		}
 	}
@@ -287,6 +296,16 @@ proc verify_macro [val ioc] [val macro] [val value] [val window -input true] {
 			}
 		}
 	}
+}
+
+// Add aoutostart and recsim to an ioc
+proc add_autostart_and_recsim_to_ioc [val iocname] {
+	try -times 10 -delay 200 -command {
+		with [get_ioc_dialog] {
+			get-button "Auto-Start" | check
+    		get-combo -after [get-label "Sim. Level"] | select RECSIM
+    	}
+    }    
 }
 
 // Add a block (to a new OR edited configuration)
