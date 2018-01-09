@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: __1U1MAJGEeef-slFjNBSXg
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 10/10/17 4:52 PM
+Save-Time: 1/9/18 9:29 AM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -23,11 +23,10 @@ proc "configure_dae_for_tests" {
 	
 	// Switch to DAE View
 	get-label "DAE" | click
-	
 	with [get-view "DAE Control Program"] {
 	    try -times 100 -delay 200 -command {
 	        get-tab-folder | get-tab-item "Experiment Setup" | click
-	        get-tab-folder -after [get-label "DAE Control Program"] -index 1 | get-tab-item "Data Acquisition" | click
+	        get-tab-folder -after [get-label "DAE Control Program (simulation mode)"] -index 1 | get-tab-item "Data Acquisition" | click
 	    }
 	    
 	    // Set path for tables
@@ -48,7 +47,7 @@ proc "configure_dae_for_tests" {
 	
 		// Need to wait for instrument to be updated
 		try -times 100 -delay 1800 -command {
-	  		with [get-tab-folder -after [get-label "DAE Control Program"] -index 1] {
+	  		with [get-tab-folder -after [get-label "DAE Control Program (simulation mode)"] -index 1] {
 	    	    get-tab-item "Time Channels" | click
 	   		}
 			
