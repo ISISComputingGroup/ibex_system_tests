@@ -6,7 +6,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _lwJiAFDoEee5PKfRF9iJJw
 Runtime-Version: 2.1.0.201606221726
-Save-Time: 1/9/18 9:54 AM
+Save-Time: 2/15/18 9:55 AM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -16,7 +16,7 @@ Entry-Name: .content
 proc "reset_tcb_file" {
 	// Set tcb to ""
 	with [get-view "DAE Control Program"] {
-		get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | set_combo_by_index 0
+		get-group "Time Channel Settings" | get-combo -after [get-label "Change:"] | set_combo_by_index 2
 		try -times 100 -delay 200 -command {
 			get-button "Apply Changes" | click
 		}
@@ -41,12 +41,13 @@ proc "change_selected_file_and_verify_not_set" [val index] [val file_snippet] {
 
 proc "apply_change_and_verify" [val file_snippet] {
     // Send changes can take time to initialize
-	try -times 100 -delay 200 -command {
+	try -times 10 -delay 200 -command {
 		get-button "Apply Changes" | click
+	
+    	wait_for_dae_update_dialog_to_close
+		// Check is set
+		get-group "Time Channel Settings" | get-label -after [get-label "Current:"] | get-property caption | contains $file_snippet | verify-true
 	}
-    wait_for_dae_update_dialog_to_close
-	// Check is set
-	get-group "Time Channel Settings" | get-label -after [get-label "Current:"] | get-property caption | contains $file_snippet | verify-true
 }
 
 assert_instrument_is_setup
@@ -67,15 +68,27 @@ with [get-view "DAE Control Program"] {
     // Switch to "Use TCB File" and set tcb to blank
     get-button "Use TCB File" | click
     
+    wait 500
+    
     reset_tcb_file
     
+    wait 500
+    
     // Set "Change" to TCB file 1
-    change_selected_file_and_verify_not_set 1 "RCPTT_TCB_1.dat"
+    change_selected_file_and_verify_not_set 0 "RCPTT_TCB_1.dat"
+    
+    wait 500
+    
     // Apply and check it is set
     apply_change_and_verify "RCPTT_TCB_1.dat"
     
+    wait 500
+    
 	// Set "Change" to TCB file 2 and check it is not applied
-    change_selected_file_and_verify_not_set 2 "RCPTT_TCB_2.dat"
+    change_selected_file_and_verify_not_set 1 "RCPTT_TCB_2.dat"
+    
+    wait 500
+    
 	// Apply the change and check it is set
 	apply_change_and_verify "RCPTT_TCB_2.dat"
 }
